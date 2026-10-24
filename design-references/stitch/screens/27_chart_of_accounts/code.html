@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#f2f3ff", "primary": "#004ac6", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "surface": "#faf8ff", "surface-container-highest": "#dae2fd", "on-tertiary-fixed-variant": "#7d2d00", "surface-tint": "#0053db", "on-secondary": "#ffffff", "outline": "#737686", "on-primary": "#ffffff", "error": "#ba1a1a", "primary-container": "#2563eb", "on-tertiary-container": "#ffede6", "secondary-fixed-dim": "#b7c8e1", "outline-variant": "#c3c6d7", "on-tertiary-fixed": "#360f00", "surface-dim": "#d2d9f4", "inverse-surface": "#283044", "primary-fixed-dim": "#b4c5ff", "inverse-on-surface": "#eef0ff", "primary-fixed": "#dbe1ff", "on-primary-fixed": "#00174b", "on-secondary-container": "#54647a", "tertiary": "#943700", "secondary-container": "#d0e1fb", "tertiary-container": "#bc4800", "secondary": "#505f76", "surface-container-high": "#e2e7ff", "surface-bright": "#faf8ff", "on-error": "#ffffff", "surface-variant": "#dae2fd", "on-background": "#131b2e", "background": "#faf8ff", "surface-container": "#eaedff", "on-error-container": "#93000a", "on-surface": "#131b2e", "on-primary-container": "#eeefff", "on-secondary-fixed-variant": "#38485d", "secondary-fixed": "#d3e4fe", "tertiary-fixed-dim": "#ffb596", "inverse-primary": "#b4c5ff", "on-surface-variant": "#434655", "error-container": "#ffdad6", "on-secondary-fixed": "#0b1c30", "tertiary-fixed": "#ffdbcd", "on-primary-fixed-variant": "#003ea8" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-sm": "0.5rem", "margin-md": "1.5rem", "gutter-lg": "1.5rem", "margin-lg": "1.5rem", "space-xl": "2rem", "space-md": "1rem", "margin": "1rem", "space-lg": "1.5rem", "gutter": "1rem" }, "fontFamily": { "numeric-mono": [ "Inter" ], "title-sm": [ "Inter" ], "body-medium": [ "Inter" ], "label-uppercase": [ "Inter" ], "headline-lg": [ "Inter" ], "body-sm": [ "Inter" ], "body-default": [ "Inter" ], "headline-md": [ "Inter" ], "label-default": [ "Inter" ], "headline-xl": [ "Inter" ] }, "fontSize": { "numeric-mono": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "title-sm": [ "15px", { "lineHeight": "20px", "fontWeight": "600" } ], "body-medium": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "label-uppercase": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" } ], "headline-lg": [ "22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "18px", "fontWeight": "400" } ], "body-default": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-md": [ "18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-default": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "headline-xl": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ] } } } };</script></head><body class="bg-surface font-body-default text-body-default text-on-surface antialiased"><aside class="fixed top-0 left-0 bottom-0 w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-md flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm flex-shrink-0"><span class="material-symbols-outlined text-[20px]">hub</span></div><div class="flex flex-col overflow-hidden"><span class="font-title-sm text-title-sm text-on-surface truncate tracking-tight">Wholesale ERP</span><span class="font-label-uppercase text-label-uppercase text-on-surface-variant truncate">Distribution Suite</span></div></div><div class="px-space-md py-space-xs"><div class="h-px bg-surface-container-high w-full"></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-sm"><nav class="flex flex-col gap-0.5" data-active-classes="bg-surface-container-high text-primary font-body-medium"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[18px]">inventory_2</span><span>Products</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[18px]">warehouse</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="sales" href="#"><span class="material-symbols-outlined text-[18px]">receipt_long</span><span>Sales</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="purchases" href="#"><span class="material-symbols-outlined text-[18px]">shopping_cart</span><span>Purchases</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Customers</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Suppliers</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="payments-and-expenses" href="#"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span><span>Payments &amp; Expenses</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg transition-colors bg-surface-container-high text-primary font-body-medium" data-path="accounting" href="#"><span class="material-symbols-outlined text-[18px]">calculate</span><span>Accounting</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span>Reports</span></a></nav></div></div><div class="p-space-sm bg-surface-container-lowest"><div class="h-px bg-surface-container-high w-full mb-space-sm"></div><nav class="flex flex-col gap-0.5" data-active-classes="bg-surface-container-high text-primary font-body-medium"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-medium text-body-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span>Settings</span></a></nav><div class="flex items-center justify-between px-space-sm pt-space-xs text-on-surface-variant"><span class="font-label-uppercase text-label-uppercase tracking-wider">System Version</span><span class="font-numeric-mono text-numeric-mono text-on-surface-variant">v1.4.0</span></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low text-on-surface-variant font-label-default text-label-default"><span class="material-symbols-outlined text-[15px]">calendar_today</span><span>Thursday, Oct 24, 2024</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low text-on-surface font-label-default text-label-default"><span class="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span><span class="font-body-medium text-body-medium text-on-surface">Main Warehouse</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Kasun Perera</span><span class="font-label-default text-label-default text-on-surface-variant leading-tight">Store Manager</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 px-space-lg pb-space-xl bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Top Breadcrumb & Page Header -->
+<div class="flex flex-col gap-1 pb-space-lg">
+<!-- Breadcrumb -->
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="hover:text-on-surface cursor-pointer transition-colors">Accounting</span>
+<span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+<span class="text-on-surface font-body-medium">Chart of Accounts</span>
+</div>
+<!-- Header Content & Global Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-1">
+<div class="flex flex-col">
+<h1 class="text-headline-xl font-headline-xl text-on-surface tracking-tight">Chart of Accounts</h1>
+<p class="text-body-sm font-body-sm text-secondary">Accounts used for basic bookkeeping and financial reporting</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center justify-center gap-2 h-[38px] px-4 rounded-[10px] bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface hover:border-secondary transition-colors text-body-medium font-body-medium shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export COA</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 h-[38px] px-4 rounded-[10px] bg-primary-container text-on-primary hover:bg-primary transition-colors text-body-medium font-body-medium shadow-sm" id="btn-open-panel" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Account</span>
+<span class="px-1.5 py-0.5 text-[10px] font-label-uppercase bg-on-primary/20 text-on-primary rounded">Admin</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Stats / Account Type Metrics (5 Summary Blocks) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md mb-space-lg">
+<!-- Assets -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-uppercase font-label-uppercase text-secondary uppercase tracking-wider">Assets (1000s)</span>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-on-surface">6</span>
+<span class="text-body-sm font-body-sm text-secondary">Accounts</span>
+</div>
+<p class="text-[12px] font-body-sm text-secondary truncate mt-1">Cash, Bank, AR, Inventory</p>
+</div>
+<!-- Liabilities -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-uppercase font-label-uppercase text-secondary uppercase tracking-wider">Liabilities (2000s)</span>
+<span class="w-2 h-2 rounded-full bg-[#7c3aed]"></span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-on-surface">2</span>
+<span class="text-body-sm font-body-sm text-secondary">Accounts</span>
+</div>
+<p class="text-[12px] font-body-sm text-secondary truncate mt-1">Accounts &amp; Refund Payable</p>
+</div>
+<!-- Equity -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-uppercase font-label-uppercase text-secondary uppercase tracking-wider">Equity (3000s)</span>
+<span class="w-2 h-2 rounded-full bg-[#d97706]"></span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-on-surface">1</span>
+<span class="text-body-sm font-body-sm text-secondary">Account</span>
+</div>
+<p class="text-[12px] font-body-sm text-secondary truncate mt-1">Owner's Capital Equity</p>
+</div>
+<!-- Income -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-uppercase font-label-uppercase text-secondary uppercase tracking-wider">Income (4000s)</span>
+<span class="w-2 h-2 rounded-full bg-[#16a34a]"></span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-on-surface">2</span>
+<span class="text-body-sm font-body-sm text-secondary">Accounts</span>
+</div>
+<p class="text-[12px] font-body-sm text-secondary truncate mt-1">Sales Revenue, Returns</p>
+</div>
+<!-- Expenses -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-uppercase font-label-uppercase text-secondary uppercase tracking-wider">Expenses (5000s+)</span>
+<span class="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-on-surface">3</span>
+<span class="text-body-sm font-body-sm text-secondary">Accounts</span>
+</div>
+<p class="text-[12px] font-body-sm text-secondary truncate mt-1">COGS, Adj Loss, Opex</p>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] p-space-md shadow-sm mb-space-lg flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm flex-1 min-w-[280px]">
+<!-- Search Input -->
+<div class="relative flex-1 min-w-[240px] max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline">search</span>
+<input class="w-full h-[38px] pl-9 pr-3 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface placeholder:text-secondary text-body-default font-body-default focus:border-primary-container focus:outline-none focus:ring-1 focus:ring-primary-container" placeholder="Search by account code or name..." type="text"/>
+</div>
+<!-- Type Filter -->
+<div class="relative">
+<select class="appearance-none h-[38px] pl-3 pr-8 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface text-body-sm font-body-medium focus:border-primary-container focus:outline-none cursor-pointer">
+<option value="">Type: All Types</option>
+<option value="asset">Assets (1000 - 1999)</option>
+<option value="liability">Liabilities (2000 - 2999)</option>
+<option value="equity">Equity (3000 - 3999)</option>
+<option value="income">Income (4000 - 4999)</option>
+<option value="expense">Expenses (5000 - 6999)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+<!-- Classification Filter -->
+<div class="relative">
+<select class="appearance-none h-[38px] pl-3 pr-8 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface text-body-sm font-body-medium focus:border-primary-container focus:outline-none cursor-pointer">
+<option value="">Classification: All</option>
+<option value="system">System Accounts</option>
+<option value="custom">Custom Accounts</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Status / Count & Refresh -->
+<div class="flex items-center gap-space-sm self-end sm:self-auto">
+<span class="text-body-sm font-body-medium text-secondary">Showing <strong class="text-on-surface font-semibold">14</strong> accounts</span>
+<button class="w-8 h-8 rounded-[8px] flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" title="Refresh Table" type="button">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</div>
+<!-- Main Content Layout (Split View: Table + Add Account Drawer) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Panel: Chart of Accounts Table (approx 65% width = 8 cols) -->
+<div class="lg:col-span-8 flex flex-col">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface border-b border-outline-variant h-10">
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider w-28">Account Code</th>
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider">Account Name</th>
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider w-36">Type</th>
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider w-36">Classification</th>
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider w-24">Status</th>
+<th class="px-4 text-[11px] font-label-uppercase text-secondary uppercase tracking-wider text-right w-24">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-body-sm">
+<!-- 1000 Cash -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1000</td>
+<td class="px-4 font-body-medium text-on-surface flex items-center gap-2">
+<span>Cash</span>
+<span class="text-[11px] text-secondary font-normal">(Petty Cash Fund)</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" title="System Locked" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 1010 Commercial Bank -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1010</td>
+<td class="px-4 font-body-medium text-on-surface">Commercial Bank (A/C 8042)</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" title="System Locked" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 1100 AR -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1100</td>
+<td class="px-4 font-body-medium text-on-surface">Accounts Receivable (Control)</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 1200 Inventory -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1200</td>
+<td class="px-4 font-body-medium text-on-surface">Merchandise Inventory</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 1250 Transit -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1250</td>
+<td class="px-4 font-body-medium text-on-surface">Goods in Transit</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 1300 Refund Receivable -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">1300</td>
+<td class="px-4 font-body-medium text-on-surface">Supplier Refund Receivable</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-blue-50 text-blue-700 border border-blue-200">Asset</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 2000 AP -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">2000</td>
+<td class="px-4 font-body-medium text-on-surface">Accounts Payable (Control)</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-purple-50 text-purple-700 border border-purple-200">Liability</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 2100 Refund Payable -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">2100</td>
+<td class="px-4 font-body-medium text-on-surface">Customer Refund Payable</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-purple-50 text-purple-700 border border-purple-200">Liability</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 3000 Capital -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">3000</td>
+<td class="px-4 font-body-medium text-on-surface">Owner's Capital Equity</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-amber-50 text-amber-800 border border-amber-200">Equity</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 4000 Sales Revenue -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">4000</td>
+<td class="px-4 font-body-medium text-on-surface">Sales Revenue</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-emerald-50 text-emerald-700 border border-emerald-200">Income</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 4050 Sales Returns -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">4050</td>
+<td class="px-4 font-body-medium text-on-surface">Sales Returns &amp; Allowances</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-emerald-50 text-emerald-700 border border-emerald-200">Income (Contra)</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 5000 COGS -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">5000</td>
+<td class="px-4 font-body-medium text-on-surface">Cost of Goods Sold (COGS)</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-rose-50 text-rose-700 border border-rose-200">Expense</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 5100 Inventory Discrepancy -->
+<tr class="hover:bg-surface/80 transition-colors h-11">
+<td class="px-4 font-numeric-mono font-medium text-on-surface">5100</td>
+<td class="px-4 font-body-medium text-on-surface">Inventory Adjustment Discrepancy</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-rose-50 text-rose-700 border border-rose-200">Expense</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-secondary">
+<span class="material-symbols-outlined text-[13px] text-outline">lock</span>
+                    System
+                  </span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- 6000 Operating Expenses (Custom) -->
+<tr class="hover:bg-surface/80 transition-colors h-11 bg-surface-container-low/20">
+<td class="px-4 font-numeric-mono font-semibold text-primary">6000</td>
+<td class="px-4 font-body-medium text-on-surface">Operating Expenses</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold tracking-wide bg-rose-50 text-rose-700 border border-rose-200">Expense</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-surface text-secondary border border-outline-variant">Custom</span>
+</td>
+<td class="px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] border border-[#BBF7D0]">Active</span>
+</td>
+<td class="px-4 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-primary hover:bg-surface" title="Edit Account" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface" title="View Ledger" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination / Status Bar -->
+<div class="px-4 py-3 bg-surface border-t border-outline-variant flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span>Displaying 1–14 of 14 default chart records</span>
+<div class="flex items-center gap-2">
+<span class="text-[12px] font-numeric-mono text-secondary">Page 1 of 1</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Docked Add Account Slide-over / Form Panel (~35% width = 4 cols) -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-[10px] shadow-sm flex flex-col transition-all duration-200" id="add-account-panel">
+<!-- Panel Header -->
+<div class="p-space-md border-b border-outline-variant flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h2 class="text-headline-md font-headline-md text-on-surface">Add New Account</h2>
+<span class="px-2 py-0.5 text-[10px] font-label-uppercase bg-blue-50 text-blue-700 border border-blue-200 rounded-full">Admin Only</span>
+</div>
+<p class="text-[13px] text-secondary font-body-sm leading-snug">
+            Create a sub-account or custom ledger. System accounts cannot be duplicated.
+          </p>
+</div>
+<button class="w-7 h-7 rounded-lg text-secondary hover:bg-surface hover:text-on-surface flex items-center justify-center -mr-1 -mt-1 transition-colors" id="btn-close-panel" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Panel Form Body -->
+<form class="p-space-md flex flex-col gap-4">
+<!-- Account Code Input -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-baseline">
+<label class="text-body-sm font-body-medium text-on-surface">Account Code <span class="text-error">*</span></label>
+<span class="text-[11px] font-body-sm text-secondary">Must be 4 digits</span>
+</div>
+<div class="relative">
+<input class="w-full h-[38px] px-3 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface font-numeric-mono text-body-medium focus:border-primary-container focus:outline-none focus:ring-1 focus:ring-primary-container" maxlength="4" type="text" value="6100"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[16px] text-[#16A34A]">check_circle</span>
+</div>
+<p class="text-[11px] text-secondary">Available sequence in Expense category (6000–6999).</p>
+</div>
+<!-- Account Name Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-body-sm font-body-medium text-on-surface">Account Name <span class="text-error">*</span></label>
+<input class="w-full h-[38px] px-3 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface text-body-default focus:border-primary-container focus:outline-none focus:ring-1 focus:ring-primary-container" placeholder="e.g. Utility &amp; Electricity Expenses" type="text"/>
+</div>
+<!-- Account Type Select -->
+<div class="flex flex-col gap-1.5">
+<label class="text-body-sm font-body-medium text-on-surface">Account Type <span class="text-error">*</span></label>
+<div class="relative">
+<select class="appearance-none w-full h-[38px] pl-3 pr-8 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface text-body-sm font-body-medium focus:border-primary-container focus:outline-none">
+<option selected="" value="expense">Expense (5000 - 6999)</option>
+<option value="asset">Asset (1000 - 1999)</option>
+<option value="liability">Liability (2000 - 2999)</option>
+<option value="equity">Equity (3000 - 3999)</option>
+<option value="income">Income (4000 - 4999)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Ledger Base Currency (Read-Only) -->
+<div class="flex flex-col gap-1.5">
+<label class="text-body-sm font-body-medium text-on-surface">Reporting Currency</label>
+<div class="flex items-center justify-between h-[38px] px-3 rounded-[10px] bg-surface border border-outline-variant text-secondary">
+<span class="text-body-sm font-body-medium text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+              Sri Lankan Rupee (LKR)
+            </span>
+<span class="text-label-uppercase font-numeric-mono bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">LKR (Rs.)</span>
+</div>
+</div>
+<!-- Description / Memo -->
+<div class="flex flex-col gap-1.5">
+<label class="text-body-sm font-body-medium text-on-surface">Description / Purpose <span class="text-secondary font-normal">(Optional)</span></label>
+<textarea class="w-full p-2.5 rounded-[10px] bg-surface-container-lowest border border-outline-variant text-on-surface text-body-sm focus:border-primary-container focus:outline-none focus:ring-1 focus:ring-primary-container resize-none" placeholder="Brief note on transactions mapped to this account..." rows="3"></textarea>
+</div>
+<!-- Active Status Checkbox -->
+<div class="flex items-center gap-2.5 pt-1">
+<input checked="" class="w-4 h-4 rounded text-primary-container border-outline-variant focus:ring-primary-container cursor-pointer" id="status_active" type="checkbox"/>
+<label class="text-body-sm font-body-medium text-on-surface cursor-pointer select-none" for="status_active">
+            Active account <span class="text-secondary font-normal text-[12px] block sm:inline">(available in journal postings)</span>
+</label>
+</div>
+<!-- System Governance & Safeguard Notice -->
+<div class="mt-2 p-3 bg-amber-50/70 border border-amber-200/80 rounded-[8px] flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-amber-700 flex-shrink-0 mt-0.5">verified_user</span>
+<div class="flex flex-col">
+<span class="text-[12px] font-semibold text-amber-900 leading-tight">System Safeguard</span>
+<p class="text-[11px] text-amber-800 font-body-sm mt-0.5 leading-normal">
+              Once transactions are posted to this account, the Account Type cannot be altered and the account cannot be deleted to preserve journal integrity.
+            </p>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="pt-3 border-t border-outline-variant flex items-center justify-end gap-2.5">
+<button class="h-[38px] px-4 rounded-[10px] bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface hover:border-secondary transition-colors text-body-medium font-body-medium" id="btn-cancel-panel" type="button">
+            Cancel
+          </button>
+<button class="h-[38px] px-4 rounded-[10px] bg-primary-container text-on-primary hover:bg-primary transition-colors text-body-medium font-body-medium shadow-sm inline-flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Save Account</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Bottom Accounting Governance Policy Notice -->
+<div class="mt-space-lg p-space-md bg-surface-container-lowest border border-outline-variant rounded-[10px] shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-50 text-primary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-body-medium font-body-medium text-on-surface leading-tight">Accounting Governance Policy</h3>
+<p class="text-[13px] font-body-sm text-secondary mt-1 leading-relaxed">
+        The Chart of Accounts enforces double-entry bookkeeping integrity. System control accounts (AR, AP, Inventory, Cash, Bank) are automatically maintained by sales, purchases, and payments modules. Direct manual ledger modifications require supervisor authorization.
+      </p>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const btnClose = document.getElementById('btn-close-panel');
+    const btnCancel = document.getElementById('btn-cancel-panel');
+    const btnOpen = document.getElementById('btn-open-panel');
+    const panel = document.getElementById('add-account-panel');
+
+    function hidePanel() {
+      if (panel) {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function showPanel() {
+      if (panel) {
+        panel.classList.remove('hidden');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    if (btnClose) btnClose.addEventListener('click', hidePanel);
+    if (btnCancel) btnCancel.addEventListener('click', hidePanel);
+    if (btnOpen) btnOpen.addEventListener('click', showPanel);
+  })();
+</script></main></div></body></html>

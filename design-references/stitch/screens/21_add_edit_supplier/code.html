@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary": "#505f76", "surface-container": "#eaedff", "on-tertiary-container": "#ffede6", "surface-container-highest": "#dae2fd", "outline-variant": "#c3c6d7", "on-secondary-fixed-variant": "#38485d", "tertiary": "#943700", "error-container": "#ffdad6", "primary": "#004ac6", "surface-container-lowest": "#ffffff", "on-surface-variant": "#434655", "on-primary-fixed-variant": "#003ea8", "surface-dim": "#d2d9f4", "on-primary-fixed": "#00174b", "surface-variant": "#dae2fd", "secondary-fixed": "#d3e4fe", "on-tertiary-fixed": "#360f00", "on-secondary-container": "#54647a", "on-primary-container": "#eeefff", "surface": "#faf8ff", "surface-tint": "#0053db", "background": "#faf8ff", "on-error-container": "#93000a", "error": "#ba1a1a", "secondary-container": "#d0e1fb", "primary-fixed": "#dbe1ff", "surface-bright": "#faf8ff", "primary-container": "#2563eb", "surface-container-high": "#e2e7ff", "on-secondary-fixed": "#0b1c30", "surface-container-low": "#f2f3ff", "on-tertiary-fixed-variant": "#7d2d00", "secondary-fixed-dim": "#b7c8e1", "tertiary-fixed": "#ffdbcd", "outline": "#737686", "inverse-primary": "#b4c5ff", "tertiary-fixed-dim": "#ffb596", "on-primary": "#ffffff", "on-surface": "#131b2e", "on-tertiary": "#ffffff", "on-error": "#ffffff", "inverse-surface": "#283044", "inverse-on-surface": "#eef0ff", "on-background": "#131b2e", "primary-fixed-dim": "#b4c5ff", "on-secondary": "#ffffff", "tertiary-container": "#bc4800" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-md": "1.5rem", "gutter-lg": "1.5rem", "space-sm": "0.5rem", "margin-lg": "1.5rem", "margin": "1rem", "space-md": "1rem", "gutter": "1rem", "space-xl": "2rem", "space-xs": "0.25rem", "space-lg": "1.5rem" }, "fontFamily": { "body-medium": ["Inter"], "headline-lg": ["Inter"], "body-default": ["Inter"], "label-uppercase": ["Inter"], "body-sm": ["Inter"], "label-default": ["Inter"], "title-sm": ["Inter"], "headline-md": ["Inter"], "numeric-mono": ["Inter"], "headline-xl": ["Inter"] }, "fontSize": { "body-medium": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-default": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "label-uppercase": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-default": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "title-sm": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "numeric-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[20px]">inventory_2</span></div><div><span class="font-title-sm text-title-sm text-on-surface leading-none block">Apex Wholesale</span><span class="font-label-uppercase text-label-uppercase text-on-surface-variant block mt-space-xs">ERP System</span></div></div><nav class="flex flex-col gap-space-xs px-space-md py-space-sm" data-active-classes="bg-surface-container-low text-primary-container font-title-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">package_2</span><span>Products</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">warehouse</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="sales" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span>Sales</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="purchases" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span>Purchases</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customers</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-low text-primary-container font-title-sm" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Suppliers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="payments-and-expenses" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Payments & Expenses</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="accounting" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span>Accounting</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports</span></a></nav></div><div class="p-space-md flex flex-col gap-space-xs"><nav class="flex flex-col" data-active-classes="bg-surface-container-low text-primary-container font-title-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></div><span class="font-label-uppercase text-label-uppercase text-outline tracking-wider">v1.4.0</span></a></nav></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant font-body-medium text-body-medium"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span>Thursday, Oct 24, 2024</span></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-full"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-label-default text-label-default text-on-surface font-medium">Main Warehouse</span></div></div><div class="flex items-center gap-space-md"><div class="text-right"><span class="font-title-sm text-title-sm text-on-surface block leading-tight">Kasun Perera</span><span class="font-body-sm text-body-sm text-on-surface-variant block leading-none">Store Manager</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-16 bg-background"><div class="max-w-7xl mx-auto p-space-lg"><div class="flex flex-col w-full">
+<!-- Mode Switcher Prototype Controller -->
+<div class="mb-space-lg bg-surface-container-low p-space-xs rounded-xl flex items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest text-primary font-title-sm text-title-sm shadow-sm transition-all" id="btn-mode-add" onclick="switchFormMode('add')">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Add Supplier (New)</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-all font-body-medium text-body-medium" id="btn-mode-edit" onclick="switchFormMode('edit')">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Edit Supplier (Global Distributors / SUP-0001)</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm pr-space-sm">
+<span class="font-label-uppercase text-label-uppercase text-outline tracking-wider">Prototype Simulator</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+</div>
+</div>
+<!-- Breadcrumb Navigation & Action Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-xs text-secondary font-body-sm text-body-sm mb-space-xs">
+<a class="hover:text-primary-container transition-colors flex items-center gap-0.5" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Back to Suppliers</span>
+</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-body-medium text-body-medium" id="breadcrumb-current">Add Supplier</span>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-xl text-headline-xl text-on-surface" id="page-title">Add Supplier</h1>
+<span class="px-space-xs py-0.5 rounded-md bg-secondary-container text-on-secondary-fixed-variant font-label-uppercase text-label-uppercase" id="page-mode-badge">
+          MODE: CREATE SUPPLIER
+        </span>
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container-high text-secondary font-label-uppercase text-label-uppercase">
+          AP Protocol v2.4
+        </span>
+</div>
+<p class="font-body-default text-body-default text-secondary mt-space-xs" id="page-subtitle">
+        Create a supplier contact and initial ledger profile for procurement operations.
+      </p>
+</div>
+<!-- Quick Meta Status Indicator -->
+<div class="hidden lg:flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<div class="flex items-center gap-space-xs text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">verified_user</span>
+<span>GL-2100 Linked</span>
+</div>
+<div class="w-px h-4 bg-surface-container-highest"></div>
+<div class="flex items-center gap-space-xs text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">warehouse</span>
+<span>Main Warehouse Sync</span>
+</div>
+</div>
+</div>
+<!-- Primary Centered Form Card -->
+<div class="w-full max-w-4xl mx-auto">
+<form class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg md:p-space-xl flex flex-col gap-space-xl" id="supplierForm" onsubmit="event.preventDefault(); handleFormSubmit();">
+<!-- Section 1: Supplier Information -->
+<div class="flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">domain</span>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Supplier Information</h2>
+<span class="font-label-uppercase text-label-uppercase text-outline">Step 01 / 02 · Corporate Entity</span>
+</div>
+</div>
+<span class="text-secondary font-label-uppercase text-label-uppercase">Entity Record</span>
+</div>
+<!-- Inputs Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Supplier Name (Full width on md for emphasis) -->
+<div class="md:col-span-2 flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center gap-1" for="supplier_name">
+              Supplier Name <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full h-10 px-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-default font-body-default outline-none focus:bg-surface-container-low transition-all" id="supplier_name" name="supplier_name" placeholder="e.g., Global Distributors Pvt Ltd / Lanka Agri Supplies" required="" type="text"/>
+</div>
+<div class="flex items-center justify-between text-secondary font-body-sm text-body-sm">
+<span>Official business trading entity for billing, POs, and GRNs.</span>
+<span class="text-outline font-label-default text-label-default flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                Auto-validates duplicate names
+              </span>
+</div>
+</div>
+<!-- Supplier Code (Readonly) -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="supplier_code">
+<span>Supplier Code</span>
+<span class="font-label-default text-label-default text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">lock</span> Read-only
+              </span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-10 pl-space-md pr-9 rounded-lg bg-surface-container-low text-on-surface-variant font-numeric-mono text-numeric-mono cursor-not-allowed select-none outline-none" id="supplier_code" name="supplier_code" readonly="" type="text" value="SUP-0008"/>
+<span class="material-symbols-outlined text-outline absolute right-3 text-[18px]">lock</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              System-assigned sequential Accounts Payable vendor code.
+            </p>
+</div>
+<!-- Phone Number -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface" for="supplier_phone">
+              Phone Number
+            </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-outline absolute left-3 text-[18px]">call</span>
+<input class="w-full h-10 pl-9 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-default font-body-default outline-none focus:bg-surface-container-low transition-all" id="supplier_phone" name="supplier_phone" placeholder="011 234 5678 / 077 345 6789" type="text"/>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Primary Sri Lankan landline or direct contact dispatch line.
+            </p>
+</div>
+<!-- Email Address -->
+<div class="md:col-span-2 flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface" for="supplier_email">
+              Email Address (Accounts & PO Dispatch)
+            </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-outline absolute left-3 text-[18px]">mail</span>
+<input class="w-full h-10 pl-9 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-default font-body-default outline-none focus:bg-surface-container-low transition-all" id="supplier_email" name="supplier_email" placeholder="orders@globaldistributors.lk" type="email"/>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Direct recipient for automated Purchase Orders, payment remittances & debit notes.
+            </p>
+</div>
+<!-- Business / Billing Address -->
+<div class="md:col-span-2 flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface" for="supplier_address">
+              Business / Billing Address
+            </label>
+<textarea class="w-full p-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-default font-body-default outline-none focus:bg-surface-container-low transition-all resize-y" id="supplier_address" name="supplier_address" placeholder="Enter street address, industrial park, city, and postal district" rows="3"></textarea>
+<p class="font-body-sm text-body-sm text-secondary">
+              Physical warehouse or corporate address for dispatch validation & VAT tax invoices.
+            </p>
+</div>
+</div>
+</div>
+<!-- Section 2: Account Information & Initial Migration Balance -->
+<div class="flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Account Information</h2>
+<span class="font-label-uppercase text-label-uppercase text-outline">Step 02 / 02 · Ledger & Status Controls</span>
+</div>
+</div>
+<span class="text-secondary font-label-uppercase text-label-uppercase">Fiscal Governance</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md items-start">
+<!-- Supplier Operational Status -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface">
+              Supplier Operational Status
+            </label>
+<div class="inline-flex p-1 bg-surface-container-low rounded-xl w-full">
+<button class="flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-on-surface bg-surface-container-lowest shadow-sm flex items-center justify-center gap-1.5 transition-all" id="status-btn-active" onclick="setStatus('active')" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>Active</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</button>
+<button class="flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-secondary hover:text-on-surface flex items-center justify-center gap-1.5 transition-all" id="status-btn-inactive" onclick="setStatus('inactive')" type="button">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span>
+<span>Inactive</span>
+</button>
+</div>
+<input id="supplier_status" name="supplier_status" type="hidden" value="active"/>
+<p class="font-body-sm text-body-sm text-secondary">
+              Inactive suppliers cannot be selected on new POs or Bills, but historical invoices, GRNs, and ledger balances are preserved.
+            </p>
+</div>
+<!-- Base Currency Profile -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between">
+<span>Operating Currency Profile</span>
+<span class="font-label-default text-label-default text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">lock</span> Locked
+              </span>
+</label>
+<div class="h-10 px-space-md rounded-lg bg-surface-container-low flex items-center justify-between text-on-surface font-body-medium text-body-medium">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-uppercase text-label-uppercase bg-surface-container px-2 py-0.5 rounded text-primary font-bold">LKR</span>
+<span>Sri Lankan Rupee (Rs.) · Default Base</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              All inventory valuations and Accounts Payable postings settle in primary domestic ledger currency.
+            </p>
+</div>
+</div>
+<!-- Sub-Card: Migration Opening Balance Setup -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-md mt-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary">history_edu</span>
+<span class="font-title-sm text-title-sm text-on-surface">Opening Balance (Initial Setup Only)</span>
+</div>
+<span class="px-space-xs py-0.5 rounded-md bg-surface-container text-primary font-label-uppercase text-label-uppercase" id="audit-pill">
+              MIGRATION AUDIT
+            </span>
+</div>
+<!-- Informational Notice Box -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex items-start gap-space-sm" id="opening-balance-notice">
+<span class="material-symbols-outlined text-[20px] text-secondary mt-0.5">info</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-body-medium text-body-medium text-on-surface">Initial Balance Cutoff Governance</span>
+<p class="font-body-sm text-body-sm text-secondary">
+                Opening payable balances can only be entered by authorized administrators during initial accounting migration. Subsequent payables are calculated automatically from approved Purchase Bills, payments, and return debits.
+              </p>
+</div>
+</div>
+<!-- Lock Notification Box for Edit Mode (Hidden in Add mode) -->
+<div class="hidden bg-surface-container-highest/60 p-space-md rounded-lg flex items-start gap-space-sm" id="locked-balance-banner">
+<span class="material-symbols-outlined text-[20px] text-tertiary mt-0.5">lock_clock</span>
+<div>
+<span class="font-body-medium text-body-medium text-on-surface">Opening Balance Locked to Audit Trail</span>
+<p class="font-body-sm text-body-sm text-secondary">
+                Posted opening balances are permanently locked against direct field modifications. Changes require an authorized journal debit/credit note through the Accounts Payable journal correction workflow.
+              </p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Opening Payable Amount -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="opening_balance_amount">
+<span>Opening Payable Balance (LKR)</span>
+<span class="hidden font-label-default text-label-default text-outline flex items-center gap-0.5" id="balance-lock-tag">
+<span class="material-symbols-outlined text-[13px]">lock</span> Read-only
+                </span>
+</label>
+<div class="relative flex items-center">
+<span class="font-body-medium text-body-medium text-secondary absolute left-3 select-none">Rs.</span>
+<input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface font-numeric-mono text-numeric-mono text-right outline-none focus:bg-surface-container-lowest transition-all" id="opening_balance_amount" name="opening_balance_amount" type="text" value="0.00"/>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+                Use only when migrating an existing supplier's unpaid balance into the ERP Accounts Payable ledger.
+              </p>
+</div>
+<!-- Opening Balance Date -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="opening_balance_date">
+<span>Opening Balance Date (As-of Date)</span>
+<span class="hidden font-label-default text-label-default text-outline flex items-center gap-0.5" id="date-lock-tag">
+<span class="material-symbols-outlined text-[13px]">lock</span> Read-only
+                </span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-outline absolute left-3 text-[18px]">calendar_today</span>
+<input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface font-numeric-mono text-numeric-mono outline-none focus:bg-surface-container-lowest transition-all" id="opening_balance_date" name="opening_balance_date" type="date" value="2024-10-24"/>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+                Effective accounting cutoff date for initial ledger carry-forward.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action Bar -->
+<div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-space-md pt-space-lg">
+<div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm">
+<span class="text-error font-bold">*</span>
+<span>Fields marked with an asterisk are required for vendor compliance.</span>
+</div>
+<div class="flex items-center gap-space-sm justify-end">
+<button class="h-10 px-space-lg rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-body-medium text-body-medium shadow-sm transition-all flex items-center justify-center" onclick="handleCancel()" type="button">
+            Cancel
+          </button>
+<button class="h-10 px-space-lg rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-medium text-body-medium shadow-sm transition-all flex items-center gap-space-xs" id="btn-save" type="submit">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span id="save-button-text">Save Supplier</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Bottom System Governance Callout -->
+<div class="w-full max-w-4xl mx-auto mt-space-lg">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex-shrink-0 flex items-center justify-center text-primary mt-0.5">
+<span class="material-symbols-outlined text-[20px]">security</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-title-sm text-title-sm text-on-surface">Accounts Payable (AP) Ledger Integrity Policy</span>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+          Direct manual balance overrides are strictly prohibited. Supplier payables synchronize automatically with the General Ledger Trade Payables control account (<span class="font-numeric-mono text-numeric-mono font-medium text-on-surface">GL-2100</span>). Deactivating a supplier never purges audit transactions or historical purchasing registers.
+        </p>
+</div>
+</div>
+</div>
+<!-- Micro-interaction Toast Alert -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<div class="bg-surface-container-lowest shadow-lg rounded-xl p-space-md flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600" id="toast-icon-wrapper">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight" id="toast-title">Supplier Saved</span>
+<span class="font-body-sm text-body-sm text-secondary leading-none mt-0.5" id="toast-desc">Vendor profile has been updated successfully.</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let currentMode = 'add';
+
+  function setStatus(status) {
+    const activeBtn = document.getElementById('status-btn-active');
+    const inactiveBtn = document.getElementById('status-btn-inactive');
+    const statusInput = document.getElementById('supplier_status');
+    statusInput.value = status;
+
+    if (status === 'active') {
+      activeBtn.className = "flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-on-surface bg-surface-container-lowest shadow-sm flex items-center justify-center gap-1.5 transition-all";
+      activeBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span><span>Active</span><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>';
+      
+      inactiveBtn.className = "flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-secondary hover:text-on-surface flex items-center justify-center gap-1.5 transition-all";
+      inactiveBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">pause_circle</span><span>Inactive</span>';
+    } else {
+      inactiveBtn.className = "flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-on-surface bg-surface-container-lowest shadow-sm flex items-center justify-center gap-1.5 transition-all";
+      inactiveBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-amber-600">pause_circle</span><span>Inactive</span><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>';
+      
+      activeBtn.className = "flex-1 py-space-xs px-space-md rounded-lg font-body-medium text-body-medium text-secondary hover:text-on-surface flex items-center justify-center gap-1.5 transition-all";
+      activeBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span><span>Active</span>';
+    }
+  }
+
+  function switchFormMode(mode) {
+    currentMode = mode;
+    const btnAdd = document.getElementById('btn-mode-add');
+    const btnEdit = document.getElementById('btn-mode-edit');
+
+    const breadcrumb = document.getElementById('breadcrumb-current');
+    const title = document.getElementById('page-title');
+    const badge = document.getElementById('page-mode-badge');
+    const subtitle = document.getElementById('page-subtitle');
+    const saveBtnText = document.getElementById('save-button-text');
+
+    const fieldName = document.getElementById('supplier_name');
+    const fieldCode = document.getElementById('supplier_code');
+    const fieldPhone = document.getElementById('supplier_phone');
+    const fieldEmail = document.getElementById('supplier_email');
+    const fieldAddress = document.getElementById('supplier_address');
+    
+    const openingAmt = document.getElementById('opening_balance_amount');
+    const openingDate = document.getElementById('opening_balance_date');
+    const lockNotice = document.getElementById('locked-balance-banner');
+    const balanceLockTag = document.getElementById('balance-lock-tag');
+    const dateLockTag = document.getElementById('date-lock-tag');
+    const auditPill = document.getElementById('audit-pill');
+
+    if (mode === 'add') {
+      // Toggle button states
+      btnAdd.className = "flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest text-primary font-title-sm text-title-sm shadow-sm transition-all";
+      btnEdit.className = "flex items-center gap-space-xs px-space-md py-space-xs rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-all font-body-medium text-body-medium";
+
+      // Typography and Headers
+      breadcrumb.innerText = "Add Supplier";
+      title.innerText = "Add Supplier";
+      badge.innerText = "MODE: CREATE SUPPLIER";
+      badge.className = "px-space-xs py-0.5 rounded-md bg-secondary-container text-on-secondary-fixed-variant font-label-uppercase text-label-uppercase";
+      subtitle.innerText = "Create a supplier contact and initial ledger profile for procurement operations.";
+      saveBtnText.innerText = "Save Supplier";
+
+      // Form values reset
+      fieldName.value = "";
+      fieldCode.value = "SUP-0008";
+      fieldPhone.value = "";
+      fieldEmail.value = "";
+      fieldAddress.value = "";
+      setStatus('active');
+
+      // Opening balance unlock
+      openingAmt.value = "0.00";
+      openingAmt.removeAttribute('readonly');
+      openingAmt.className = "w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface font-numeric-mono text-numeric-mono text-right outline-none focus:bg-surface-container-lowest transition-all";
+      
+      openingDate.value = "2024-10-24";
+      openingDate.removeAttribute('readonly');
+      openingDate.className = "w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface font-numeric-mono text-numeric-mono outline-none focus:bg-surface-container-lowest transition-all";
+
+      lockNotice.classList.add('hidden');
+      balanceLockTag.classList.add('hidden');
+      dateLockTag.classList.add('hidden');
+      auditPill.innerText = "MIGRATION AUDIT";
+      auditPill.className = "px-space-xs py-0.5 rounded-md bg-surface-container text-primary font-label-uppercase text-label-uppercase";
+
+    } else {
+      // Toggle button states
+      btnEdit.className = "flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest text-primary font-title-sm text-title-sm shadow-sm transition-all";
+      btnAdd.className = "flex items-center gap-space-xs px-space-md py-space-xs rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-all font-body-medium text-body-medium";
+
+      // Typography and Headers
+      breadcrumb.innerText = "Edit Supplier · SUP-0001";
+      title.innerText = "Edit Supplier: Global Distributors";
+      badge.innerText = "MODE: EDITING VENDOR (SUP-0001)";
+      badge.className = "px-space-xs py-0.5 rounded-md bg-surface-container text-primary font-label-uppercase text-label-uppercase";
+      subtitle.innerText = "Update vendor trading parameters, logistics contacts, and billing address.";
+      saveBtnText.innerText = "Save Changes";
+
+      // Form values prefilled
+      fieldName.value = "Global Distributors Pvt Ltd";
+      fieldCode.value = "SUP-0001";
+      fieldPhone.value = "011 234 5678";
+      fieldEmail.value = "orders@globaldistributors.lk";
+      fieldAddress.value = "142 Kelani Valley Road, Peliyagoda, Western Province, 11830";
+      setStatus('active');
+
+      // Opening balance lock
+      openingAmt.value = "485,000.00";
+      openingAmt.setAttribute('readonly', 'true');
+      openingAmt.className = "w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low text-on-surface-variant font-numeric-mono text-numeric-mono text-right outline-none cursor-not-allowed select-none";
+
+      openingDate.value = "2024-01-01";
+      openingDate.setAttribute('readonly', 'true');
+      openingDate.className = "w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low text-on-surface-variant font-numeric-mono text-numeric-mono outline-none cursor-not-allowed select-none";
+
+      lockNotice.classList.remove('hidden');
+      balanceLockTag.classList.remove('hidden');
+      dateLockTag.classList.remove('hidden');
+      auditPill.innerText = "POSTED & VERIFIED";
+      auditPill.className = "px-space-xs py-0.5 rounded-md bg-surface-container-highest text-secondary font-label-uppercase text-label-uppercase";
+    }
+  }
+
+  function handleFormSubmit() {
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+
+    if (currentMode === 'add') {
+      toastTitle.innerText = "Supplier Created";
+      toastDesc.innerText = "Supplier SUP-0008 registered into AP ledger successfully.";
+    } else {
+      toastTitle.innerText = "Changes Saved";
+      toastDesc.innerText = "Global Distributors (SUP-0001) contact data synchronized.";
+    }
+
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3200);
+  }
+
+  function handleCancel() {
+    if (confirm('Discard changes and return to Suppliers catalog?')) {
+      switchFormMode('add');
+    }
+  }
+</script></div></main></div></body></html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-tint":"#0053db","surface-container-low":"#f2f3ff","on-tertiary-fixed-variant":"#7d2d00","tertiary-fixed":"#ffdbcd","on-secondary-fixed-variant":"#38485d","secondary":"#505f76","on-tertiary-container":"#ffede6","on-primary-fixed-variant":"#003ea8","surface-bright":"#faf8ff","on-secondary-container":"#54647a","inverse-primary":"#b4c5ff","primary-container":"#2563eb","tertiary-container":"#bc4800","inverse-surface":"#283044","outline":"#737686","on-error":"#ffffff","on-secondary":"#ffffff","surface":"#faf8ff","tertiary-fixed-dim":"#ffb596","on-secondary-fixed":"#0b1c30","on-primary-container":"#eeefff","surface-container-lowest":"#ffffff","secondary-fixed-dim":"#b7c8e1","primary-fixed-dim":"#b4c5ff","on-tertiary-fixed":"#360f00","error-container":"#ffdad6","on-error-container":"#93000a","surface-container":"#eaedff","primary-fixed":"#dbe1ff","secondary-container":"#d0e1fb","error":"#ba1a1a","primary":"#004ac6","surface-container-high":"#e2e7ff","on-tertiary":"#ffffff","outline-variant":"#c3c6d7","surface-variant":"#dae2fd","on-surface":"#131b2e","inverse-on-surface":"#eef0ff","tertiary":"#943700","surface-dim":"#d2d9f4","secondary-fixed":"#d3e4fe","on-primary":"#ffffff","on-surface-variant":"#434655","surface-container-highest":"#dae2fd","on-primary-fixed":"#00174b","on-background":"#131b2e","background":"#faf8ff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-xs":"0.25rem","space-xl":"2rem",margin:"1rem",gutter:"1rem","space-sm":"0.5rem","margin-md":"1.5rem","space-md":"1rem","margin-lg":"1.5rem","gutter-lg":"1.5rem"},fontFamily:{"numeric-mono":["Inter"],"label-uppercase":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"body-sm":["Inter"],"body-medium":["Inter"],"label-default":["Inter"],"headline-xl":["Inter"],"body-default":["Inter"],"title-sm":["Inter"]},fontSize:{"numeric-mono":["14px",{lineHeight:"20px",fontWeight:"500"}],"label-uppercase":["11px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"headline-lg":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-md":["18px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"label-default":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-xl":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"title-sm":["15px",{lineHeight:"20px",fontWeight:"600"}]}}}};</script></head><body class="bg-[#F8FAFC] text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-lowest border-r border-[#E2E8F0] z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-[#E2E8F0]"><img alt="Wholesale ERP Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UO4n0krM0n2CGUNYmokL4BX_8wnTdkYndUHeQ7ZurZyM6uwOADtA6KCJXsVOi3VuVwTIvnuP10amcvvHxmctEb-7mqgHQgiyE3UrdyVEHPhdJT9cYh32p0DU_uzhi8vSaQbFqrV7GeR8NK7bhoB7xZywoJSSLKBbVPVvK9bfT7F1ue81hae-R03_wZE29JHH92uMCcId_nSUKu5V6kpKOJTf-kA4GPQxwFlqzbVsCSw2-N_596mvHWMmgD"/><div class="flex flex-col min-w-0"><span class="font-title-sm text-title-sm text-on-surface font-semibold truncate leading-tight">Wholesale ERP</span><span class="font-label-default text-label-default text-on-surface-variant truncate">Distribution Suite</span></div></div><nav class="px-3 py-4 flex flex-col gap-1" data-active-classes="bg-[#EFF6FF] text-primary-container font-medium rounded-lg"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="">Products</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">warehouse</span><span class="">Inventory</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="sales" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span class="">Sales</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="purchases" href="#"><span class="material-symbols-outlined text-[20px]">shopping_cart</span><span class="">Purchases</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="">Customers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="">Suppliers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="payments-and-expenses" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="">Payments &amp; Expenses</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="accounting" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span class="">Accounting</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span class="">Reports</span></a></nav></div><div class="p-3 border-t border-[#E2E8F0] flex flex-col gap-1"><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">settings</span><span class="">Settings</span></div><span class="font-label-default text-label-default text-outline">v1.4.0</span></a></div></aside><div class="pl-[240px]"><header class="fixed top-0 left-[240px] right-0 h-16 bg-surface-container-lowest border-b border-[#E2E8F0] z-40 flex items-center justify-between px-8"><div class="flex items-center gap-space-sm"><div class="font-body-sm text-body-sm text-on-surface-variant">Thursday, Oct 24, 2024</div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 bg-[#F1F5F9] text-[#475569] px-2.5 py-1 rounded-full border border-[#E2E8F0]"><span class="material-symbols-outlined text-[16px]">domain</span><span class="font-label-default text-label-default font-medium">Main Warehouse</span><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-0.5"></span></div><div class="h-6 w-px bg-[#E2E8F0]"></div><div class="flex items-center gap-3"><img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-[#E2E8F0]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW1bHYAra1ps0f1F8-kOWJ8zDLSos8VNR5aHhSwBFYOw8AYTuJjv22eT9fKiqTaxUj6Mrh1LCU6Ok7yIOV12M8bnNEgqWVf3VJtc5tnVE3wk0TEQBeZhuibFB5XI0n4izehFKIhsaGmiMnckB0J_CiwEbZVSwrBKQIVHiWZM8VgNCAQ9mvSiP5mBJaHxD2BhYuFLojsoH2PvZTHbSGX8BBO47oFPvdi4V75DAv46Ihm9Is_H3qFC2QJw"/><div class="hidden sm:flex flex-col text-left leading-tight"><span class="font-body-medium text-body-medium text-on-surface font-semibold">Kasun Perera</span><span class="font-label-default text-label-default text-on-surface-variant">Store Manager</span></div></div></div></header><main class="w-full pt-16 bg-[#F8FAFC] min-h-screen"><div class="flex flex-col w-full">
+<script>
+    (function updateActiveSidebar() {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        link.classList.remove('bg-[#EFF6FF]', 'text-primary-container', 'font-medium', 'rounded-lg', 'border-r-2', 'border-[#2563EB]');
+        link.classList.add('text-on-surface-variant');
+        if (link.getAttribute('data-path') === 'products') {
+          link.classList.remove('text-on-surface-variant');
+          link.classList.add('bg-[#EFF6FF]', 'text-primary-container', 'font-semibold', 'rounded-lg', 'border-r-2', 'border-[#2563EB]');
+        }
+      });
+    })();
+  </script>
+<div class="p-6 md:p-8 flex flex-col gap-6 max-w-[1600px] w-full mx-auto">
+<!-- 1. Page Title & Action Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg text-[#0F172A] tracking-tight">Products</h1>
+<p class="font-body-sm text-body-sm text-[#64748B] mt-0.5">Manage your wholesale products, pricing, and catalog inventories</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 bg-surface-container-lowest border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#0F172A] font-body-medium text-body-medium rounded-xl shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#64748B]">file_download</span>
+<span>Export</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white font-body-medium text-body-medium rounded-xl shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Product</span>
+</button>
+</div>
+</div>
+<!-- 2. Product Summary KPI Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Card 1: Total Products -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase">Total Products</span>
+<span class="font-headline-xl text-headline-xl text-[#0F172A] mt-1 tabular-nums">248</span>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="font-body-sm text-body-sm text-[#64748B]">All registered catalog items</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-[#F1F5F9] text-[#2563EB] flex items-center justify-center shrink-0 border border-[#E2E8F0]">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+</div>
+</div>
+<!-- Card 2: Active Products -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase">Active Products</span>
+<span class="font-headline-xl text-headline-xl text-[#0F172A] mt-1 tabular-nums">235</span>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A]">94.7%</span>
+<span class="font-body-sm text-body-sm text-[#64748B]">Available for sales &amp; orders</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-[#DCFCE7]/60 text-[#16A34A] flex items-center justify-center shrink-0 border border-[#BBF7D0]">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+</div>
+</div>
+<!-- Card 3: Low Stock Products -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase">Low Stock Products</span>
+<span class="font-headline-xl text-headline-xl text-[#D97706] mt-1 tabular-nums">8</span>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#FEF3C7] text-[#D97706]">Attention</span>
+<span class="font-body-sm text-body-sm text-[#64748B]">At or below reorder level</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shrink-0 border border-[#FDE68A]">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+</div>
+</div>
+<!-- 3. Search and Filters Toolbar -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-3 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+<div class="flex flex-1 items-center gap-2">
+<!-- Search field -->
+<div class="relative flex-1 min-w-[240px]">
+<span class="material-symbols-outlined text-[18px] text-[#64748B] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-container-lowest border border-[#E2E8F0] rounded-lg text-body-medium font-body-medium text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors" placeholder="Search by product name, SKU, or barcode..." type="text"/>
+</div>
+<!-- Category Filter -->
+<div class="relative min-w-[170px] hidden sm:block">
+<select class="w-full appearance-none pl-3 pr-8 py-2 bg-surface-container-lowest border border-[#E2E8F0] rounded-lg text-body-medium font-body-medium text-[#0F172A] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] cursor-pointer">
+<option value="">Category: All Categories</option>
+<option value="groceries">Groceries</option>
+<option value="grains">Grains &amp; Staples</option>
+<option value="oil">Cooking Oil</option>
+<option value="dairy">Dairy</option>
+<option value="beverages">Beverages</option>
+<option value="cleaning">Cleaning &amp; Household</option>
+<option value="confectionery">Confectionery</option>
+</select>
+<span class="material-symbols-outlined text-[18px] text-[#64748B] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+<!-- Stock Status Filter -->
+<div class="relative min-w-[160px] hidden md:block">
+<select class="w-full appearance-none pl-3 pr-8 py-2 bg-surface-container-lowest border border-[#E2E8F0] rounded-lg text-body-medium font-body-medium text-[#0F172A] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] cursor-pointer">
+<option value="">Stock: All Statuses</option>
+<option value="in_stock">In Stock</option>
+<option value="low_stock">Low Stock</option>
+<option value="out_of_stock">Out of Stock</option>
+</select>
+<span class="material-symbols-outlined text-[18px] text-[#64748B] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Counter and Quick Actions -->
+<div class="flex items-center justify-between md:justify-end gap-3 border-t md:border-t-0 pt-2 md:pt-0 border-[#E2E8F0]">
+<span class="font-body-sm text-body-sm text-[#64748B] whitespace-nowrap">Showing <span class="font-medium text-[#0F172A]">8</span> of <span class="font-medium text-[#0F172A]">248</span></span>
+<div class="flex items-center gap-1 border-l border-[#E2E8F0] pl-3">
+<button class="p-1.5 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded-lg transition-colors" title="Refresh catalog">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+<button class="p-1.5 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded-lg transition-colors" title="Table density / settings">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4. Products Data Table -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F8FAFC] border-b border-[#E2E8F0] h-10">
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-left w-12">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 focus:ring-offset-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-left">Product Name</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-left">SKU</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-left">Category</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-center">Unit</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-right">Purchase Price (Rs.)</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-right">Selling Price (Rs.)</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-right">Current Stock</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-center">Status</th>
+<th class="px-4 py-2 font-label-uppercase text-label-uppercase text-[#64748B] tracking-wider uppercase text-right w-24">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#E2E8F0]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">White Rice 5kg</span>
+<span class="font-label-default text-[11px] text-[#64748B]">Araliya Keeri Samba 5kg</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">RIC-WHT-005</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Grains &amp; Staples</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">bag</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">1,280.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">1,450.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">140 bags</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]">
+                  In Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Sugar 1kg</span>
+<span class="font-label-default text-[11px] text-[#64748B]">White Crystal Sugar 1kg</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">SGR-WHT-001</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Groceries</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">pack</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">240.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">275.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">320 packs</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]">
+                  In Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Sunflower Oil 1L</span>
+<span class="font-label-default text-[11px] text-[#64748B]">Fortune Pure Sunflower Oil</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">OIL-SNF-001</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Cooking Oil</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">bottle</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">820.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">940.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">45 bottles</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]">
+                  In Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Milk Powder 400g</span>
+<span class="font-label-default text-[11px] text-[#64748B]">Anchor Full Cream Milk Powder</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">MLK-400</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Dairy</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">pack</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">980.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">1,080.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#D97706] font-semibold text-right tabular-nums">12 packs</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+                  Low Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Prima Special Wheat Flour 1kg</span>
+<span class="font-label-default text-[11px] text-[#64748B]">All Purpose White Flour</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">FLR-001</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Grains &amp; Staples</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">pack</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">195.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">230.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#D97706] font-semibold text-right tabular-nums">18 packs</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+                  Low Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Laundry Detergent 1kg</span>
+<span class="font-label-default text-[11px] text-[#64748B]">Sunlight Washing Powder</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">DET-SUN-001</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Cleaning &amp; Household</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">pack</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">410.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">480.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">85 packs</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]">
+                  In Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Dilmah Premium Ceylon Tea 500g</span>
+<span class="font-label-default text-[11px] text-[#64748B]">BOPF Fine Leaf Tea</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">TEA-200</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Beverages</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">box</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">780.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">890.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#D97706] font-semibold text-right tabular-nums">15 boxes</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+                  Low Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-[48px] group">
+<td class="px-4 py-2 text-left">
+<input class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-0 cursor-pointer w-4 h-4" type="checkbox"/>
+</td>
+<td class="px-4 py-2">
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-[#0F172A] font-medium group-hover:text-[#2563EB] transition-colors">Munchee Super Cream Cracker 500g</span>
+<span class="font-label-default text-[11px] text-[#64748B]">Crispy Standard Crackers</span>
+</div>
+</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#475569]">BKT-500</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#0F172A]">Confectionery</td>
+<td class="px-4 py-2 font-body-sm text-body-sm text-[#64748B] text-center">pack</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] text-right tabular-nums">360.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#0F172A] font-semibold text-right tabular-nums">420.00</td>
+<td class="px-4 py-2 font-numeric-mono text-numeric-mono text-[#DC2626] font-semibold text-right tabular-nums">0 packs</td>
+<td class="px-4 py-2 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626] border border-[#FECACA]">
+                  Out of Stock
+                </span>
+</td>
+<td class="px-4 py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F1F5F9] rounded transition-colors" title="Edit Product">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Bottom Pagination Bar -->
+<div class="bg-surface-container-lowest border-t border-[#E2E8F0] px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="font-body-sm text-body-sm text-[#64748B]">
+          Showing <span class="font-medium text-[#0F172A]">1</span> to <span class="font-medium text-[#0F172A]">8</span> of <span class="font-medium text-[#0F172A]">248</span> products
+        </div>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] text-body-sm font-body-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors disabled:opacity-50 disabled:pointer-events-none" disabled="">
+            Previous
+          </button>
+<button class="w-8 h-8 rounded-lg bg-[#2563EB] text-white text-body-sm font-body-sm font-medium flex items-center justify-center transition-colors">
+            1
+          </button>
+<button class="w-8 h-8 rounded-lg border border-[#E2E8F0] text-[#0F172A] text-body-sm font-body-sm font-medium flex items-center justify-center hover:bg-[#F8FAFC] transition-colors">
+            2
+          </button>
+<button class="w-8 h-8 rounded-lg border border-[#E2E8F0] text-[#0F172A] text-body-sm font-body-sm font-medium flex items-center justify-center hover:bg-[#F8FAFC] transition-colors">
+            3
+          </button>
+<span class="px-1 text-[#64748B] text-body-sm">...</span>
+<button class="w-8 h-8 rounded-lg border border-[#E2E8F0] text-[#0F172A] text-body-sm font-body-sm font-medium flex items-center justify-center hover:bg-[#F8FAFC] transition-colors">
+            31
+          </button>
+<button class="px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] text-body-sm font-body-sm text-[#0F172A] hover:bg-[#F8FAFC] transition-colors">
+            Next
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div>
+</body></html>

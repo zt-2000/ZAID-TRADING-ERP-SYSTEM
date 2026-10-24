@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-fixed-variant":"#003ea8","on-surface-variant":"#434655","error":"#ba1a1a","on-surface":"#131b2e","surface-container-low":"#f2f3ff","inverse-on-surface":"#eef0ff","tertiary-container":"#bc4800","surface-container-high":"#e2e7ff","outline-variant":"#c3c6d7","on-tertiary-fixed":"#360f00","on-tertiary":"#ffffff","tertiary-fixed-dim":"#ffb596","secondary":"#505f76","error-container":"#ffdad6","on-secondary-fixed-variant":"#38485d","surface":"#faf8ff","on-primary":"#ffffff","on-error-container":"#93000a","surface-tint":"#0053db","inverse-primary":"#b4c5ff","surface-dim":"#d2d9f4","tertiary-fixed":"#ffdbcd","secondary-fixed-dim":"#b7c8e1","inverse-surface":"#283044","on-error":"#ffffff","surface-variant":"#dae2fd","on-secondary-container":"#54647a","on-background":"#131b2e","tertiary":"#943700","on-tertiary-container":"#ffede6","on-tertiary-fixed-variant":"#7d2d00","background":"#faf8ff","primary":"#004ac6","surface-container-highest":"#dae2fd","surface-container-lowest":"#ffffff","on-secondary-fixed":"#0b1c30","surface-bright":"#faf8ff","outline":"#737686","primary-fixed":"#dbe1ff","surface-container":"#eaedff","secondary-fixed":"#d3e4fe","primary-container":"#2563eb","on-primary-fixed":"#00174b","on-secondary":"#ffffff","primary-fixed-dim":"#b4c5ff","secondary-container":"#d0e1fb","on-primary-container":"#eeefff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter-lg":"1.5rem","margin-md":"1.5rem","space-md":"1rem","space-sm":"0.5rem","space-lg":"1.5rem","margin-lg":"1.5rem","space-xl":"2rem","gutter":"1rem","space-xs":"0.25rem","margin":"1rem"},fontFamily:{"body-default":["Inter"],"headline-md":["Inter"],"body-sm":["Inter"],"label-uppercase":["Inter"],"headline-xl":["Inter"],"headline-lg":["Inter"],"title-sm":["Inter"],"numeric-mono":["Inter"],"body-medium":["Inter"],"label-default":["Inter"]},fontSize:{"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-md":["18px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"label-uppercase":["11px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"headline-xl":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-lg":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"title-sm":["15px",{lineHeight:"20px",fontWeight:"600"}],"numeric-mono":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"label-default":["12px",{lineHeight:"16px",fontWeight:"500"}]}}}}</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md">W</div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-none">DistriFlow ERP</span><span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase mt-1">Distribution Suite</span></div></div><nav class="flex-1 overflow-y-auto px-space-sm py-space-xs space-y-1" data-active-classes="bg-surface-container-low text-primary font-body-medium"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-default text-body-default">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-body-default text-body-default">Products</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">warehouse</span><span class="font-body-default text-body-default">Inventory</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="sales" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span class="font-body-default text-body-default">Sales</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-low text-primary font-body-medium" data-path="purchases" href="#"><span class="material-symbols-outlined text-[20px]">shopping_cart</span><span class="font-body-default text-body-default">Purchases</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-body-default text-body-default">Customers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-body-default text-body-default">Suppliers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="payments-expenses" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-default text-body-default">Payments & Expenses</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="accounting" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-body-default text-body-default">Accounting</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span class="font-body-default text-body-default">Reports</span></a></nav></div><div class="p-space-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-default text-body-default">Settings</span></div><span class="font-label-uppercase text-label-uppercase text-secondary bg-surface-container-high px-space-xs py-0.5 rounded">v1.4.0</span></a></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="font-body-sm text-body-sm">Thursday, Oct 24, 2024</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low rounded-full"><span class="w-2 h-2 rounded-full bg-[#16A34A]"></span><span class="font-body-sm text-body-sm text-on-surface font-medium">Main Warehouse</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><div class="text-right"><div class="font-title-sm text-title-sm text-on-surface leading-tight">Kasun Perera</div><div class="font-body-sm text-body-sm text-on-surface-variant leading-none">Store Manager</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background px-space-lg py-space-lg"><div class="flex flex-col w-full pb-28">
+<!-- Top Context / Breadcrumb Header -->
+<section class="flex flex-col gap-4 mb-6">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-secondary font-body-sm text-body-sm">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Purchases
+        </a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary font-numeric-mono text-numeric-mono transition-colors" href="#">PUR-0006</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-body-medium text-body-medium">Receive Stock</span>
+</nav>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg text-secondary">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+<span class="font-numeric-mono text-label-uppercase tracking-wider">#GRN-2024-0008</span>
+<span class="text-[10px] font-label-default bg-surface-container-lowest px-1.5 py-0.5 rounded text-secondary-container">AUTO-ASSIGN ON CONFIRMATION</span>
+</div>
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm" href="#">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><line x1="19" x2="5" y1="12" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Purchase
+        </a>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Receive Stock</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-default font-label-default bg-[#FEF3C7] text-[#B45309]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#D97706] animate-pulse"></span>
+            Pending Receipt
+          </span>
+</div>
+<p class="text-secondary font-body-default text-body-default mt-1">Confirm received products, verify physical batch counts, and atomically update warehouse on-hand ledger.</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-2 h-9 px-3.5 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container transition-all font-body-medium text-body-medium shadow-sm" onclick="openPrintManifest()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect height="8" width="12" x="6" y="14"></rect></svg>
+          Print Goods Manifest
+        </button>
+</div>
+</div>
+</section>
+<!-- Section 1: Purchase Information Card -->
+<section class="bg-surface-container-lowest rounded-xl p-5 mb-6 shadow-sm">
+<div class="flex items-center justify-between pb-3.5 mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Purchase Order Information</h2>
+<p class="font-body-sm text-body-sm text-secondary">Verified commercial source data for this shipment</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-label-default font-label-default bg-surface-container text-secondary">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        PO Locked for Inward Receipt
+      </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Purchase Order Number</span>
+<div class="flex items-baseline gap-2 mt-1.5">
+<span class="font-numeric-mono text-headline-md text-on-surface font-semibold">PUR-0006</span>
+<span class="font-body-sm text-body-sm text-secondary">Standard Bulk PO</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Supplier Entity</span>
+<div class="flex items-center gap-2 mt-1.5">
+<div class="w-6 h-6 rounded-md bg-surface-container-highest flex items-center justify-center text-secondary font-label-default">GD</div>
+<span class="font-body-medium text-body-medium text-on-surface">Global Distributors</span>
+<span class="font-numeric-mono text-body-sm text-secondary">(SUP-0012)</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Purchase Order Date</span>
+<div class="flex items-center gap-2 mt-1.5">
+<svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+<span class="font-body-medium text-body-medium text-on-surface">22 Oct 2026</span>
+<span class="font-body-sm text-body-sm text-secondary">(2 days ago)</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Supplier Invoice / Delivery DO</span>
+<div class="flex items-center gap-2 mt-1.5">
+<svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect></svg>
+<span class="font-numeric-mono text-body-medium text-on-surface font-semibold">SUP-1045</span>
+<span class="text-[11px] font-body-sm text-secondary bg-surface-container px-1.5 py-0.2 rounded">Waybill Verified</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Receiving Warehouse</span>
+<div class="flex items-center gap-2 mt-1.5">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-3"></path><path d="M9 9v.01"></path><path d="M9 12v.01"></path><path d="M9 15v.01"></path><path d="M9 18v.01"></path></svg>
+<span class="font-body-medium text-body-medium text-on-surface">Main Warehouse</span>
+<span class="text-secondary font-body-sm text-body-sm">(Inward Dock A)</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-3.5 flex flex-col justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider uppercase">Receiving Status</span>
+<div class="flex items-center gap-2 mt-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-default font-label-default bg-[#FEF3C7] text-[#B45309]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#D97706]"></span>
+            Pending Inward Verification
+          </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Products to Receive Card -->
+<section class="bg-surface-container-lowest rounded-xl p-5 mb-6 shadow-sm">
+<div class="flex flex-wrap items-center justify-between pb-3.5 mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Products to Receive</h2>
+<p class="font-body-sm text-body-sm text-secondary">Verify physical item lines and ensure unit package counts are sealed</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-secondary">Receipt Mode:</span>
+<span class="inline-flex items-center gap-1 font-body-medium text-body-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-md">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Full Receipt (100%)
+        </span>
+</div>
+</div>
+<!-- Informational Helper Banner -->
+<div class="mb-4 bg-surface-container-low rounded-lg p-3.5 flex items-start gap-3">
+<svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="16" y2="12"></line><line x1="12" x2="12.01" y1="8" y2="8"></line></svg>
+<div class="text-secondary font-body-default text-body-default">
+        Confirm that all products and quantities match the supplier delivery note before receiving stock. Full purchase receipt mode is active. Variances must be rejected at dock level prior to GRN issuance.
+      </div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto rounded-lg">
+<table class="w-full text-left font-body-default text-body-default">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-uppercase text-label-uppercase tracking-wider">
+<th class="py-2.5 px-4 w-12 text-center">#</th>
+<th class="py-2.5 px-4">Product Details</th>
+<th class="py-2.5 px-4">SKU / Code</th>
+<th class="py-2.5 px-4 text-right">Ordered Qty</th>
+<th class="py-2.5 px-4 text-right">Receiving Qty</th>
+<th class="py-2.5 px-4 text-center">Unit</th>
+<th class="py-2.5 px-4 text-center">Verification Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/60">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-4 font-numeric-mono text-center text-secondary">1</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0 font-body-medium">
+                  WR
+                </div>
+<div>
+<div class="font-body-medium text-body-medium text-on-surface">White Rice 5kg</div>
+<div class="font-body-sm text-body-sm text-secondary">Grain & Staples • A-Grade Polished</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-numeric-mono text-body-sm text-secondary bg-surface-container px-2 py-0.5 rounded font-mono">RIC-WHT-005</span>
+</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium text-secondary">20</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium">
+<span class="inline-flex items-center justify-end font-semibold text-primary px-2.5 py-1 bg-primary/5 rounded-md">20</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container text-secondary text-body-sm font-body-sm">Bags</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-label-default font-label-default bg-[#DCFCE7] text-[#15803D]">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Ready
+              </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-4 font-numeric-mono text-center text-secondary">2</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0 font-body-medium">
+                  SG
+                </div>
+<div>
+<div class="font-body-medium text-body-medium text-on-surface">Sugar 1kg</div>
+<div class="font-body-sm text-body-sm text-secondary">Confectionery Essentials • Refined Granulated</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-numeric-mono text-body-sm text-secondary bg-surface-container px-2 py-0.5 rounded font-mono">SGR-WHT-001</span>
+</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium text-secondary">50</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium">
+<span class="inline-flex items-center justify-end font-semibold text-primary px-2.5 py-1 bg-primary/5 rounded-md">50</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container text-secondary text-body-sm font-body-sm">Packs</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-label-default font-label-default bg-[#DCFCE7] text-[#15803D]">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Ready
+              </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-4 font-numeric-mono text-center text-secondary">3</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0 font-body-medium">
+                  SO
+                </div>
+<div>
+<div class="font-body-medium text-body-medium text-on-surface">Sunflower Oil 1L</div>
+<div class="font-body-sm text-body-sm text-secondary">Edible Oils • Pure Cold-Pressed PET</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-numeric-mono text-body-sm text-secondary bg-surface-container px-2 py-0.5 rounded font-mono">OIL-SNF-001</span>
+</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium text-secondary">30</td>
+<td class="py-3 px-4 text-right font-numeric-mono text-body-medium">
+<span class="inline-flex items-center justify-end font-semibold text-primary px-2.5 py-1 bg-primary/5 rounded-md">30</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container text-secondary text-body-sm font-body-sm">Bottles</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-label-default font-label-default bg-[#DCFCE7] text-[#15803D]">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Ready
+              </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Summary Footer -->
+<div class="mt-4 pt-3 flex flex-wrap items-center justify-between gap-3 text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A34A]"></span>
+<span><strong class="text-on-surface font-semibold">3 Product Lines</strong> loaded</span>
+<span>•</span>
+<span><strong class="text-on-surface font-semibold">100 Total Units</strong> physically verified</span>
+<span>•</span>
+<span class="text-[#15803D] font-medium">100% Match to Supplier Delivery Note</span>
+</div>
+<div class="text-secondary font-numeric-mono">
+        Total Weight: <span class="text-on-surface font-semibold">180 kg approx.</span>
+</div>
+</div>
+</section>
+<!-- Section 3: Two-Column Lower Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+<!-- Left Column: Receiving Details Form Card (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3.5 mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Receiving Details</h2>
+<p class="font-body-sm text-body-sm text-secondary">Gate entry logging and audit sign-off fields</p>
+</div>
+</div>
+<span class="font-label-uppercase text-label-uppercase text-secondary bg-surface-container px-2 py-0.5 rounded">Form Step 2/2</span>
+</div>
+<form class="space-y-4" id="receivingForm" onsubmit="event.preventDefault(); openConfirmModal();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Date Received -->
+<div>
+<label class="block font-label-default text-label-default text-on-surface mb-1" for="dateReceived">
+                Date Received <span class="text-[#DC2626]">*</span>
+</label>
+<div class="relative">
+<input class="w-full h-10 px-3 bg-surface-container-lowest text-on-surface rounded-lg font-body-default text-body-default focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" id="dateReceived" required="" type="date" value="2024-10-24"/>
+</div>
+<p class="text-[11px] text-secondary mt-1">Recorded timestamp: Oct 24, 2024 (Dock Log)</p>
+</div>
+<!-- Delivery Reference -->
+<div>
+<label class="block font-label-default text-label-default text-on-surface mb-1" for="deliveryRef">
+                Delivery Reference / Gate Pass <span class="text-[#DC2626]">*</span>
+</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest text-on-surface rounded-lg font-body-default text-body-default focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" id="deliveryRef" placeholder="Enter supplier delivery note number / gate pass" required="" type="text" value="DEL-1025"/>
+<p class="text-[11px] text-secondary mt-1">Matched to Inward Gate Entry Slip #GE-8841</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Receiving Officer -->
+<div>
+<label class="block font-label-default text-label-default text-on-surface mb-1">Receiving Officer (Logged In)</label>
+<div class="h-10 px-3 bg-surface-container-low rounded-lg flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">KP</div>
+<span class="font-body-medium text-body-medium">Kasun Perera</span>
+<span class="text-secondary text-body-sm">(Store Manager)</span>
+</div>
+<span class="inline-flex items-center text-[#15803D] text-[11px] font-medium bg-[#DCFCE7] px-1.5 py-0.5 rounded">
+<svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Verified
+                </span>
+</div>
+</div>
+<!-- Receiving Warehouse -->
+<div>
+<label class="block font-label-default text-label-default text-on-surface mb-1">Destination Warehouse</label>
+<div class="h-10 px-3 bg-surface-container-low rounded-lg flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-3"></path></svg>
+<span class="font-body-medium text-body-medium">Main Warehouse</span>
+</div>
+<span class="font-label-default text-secondary bg-surface-container-highest px-2 py-0.5 rounded">Dock Bay A-04</span>
+</div>
+</div>
+</div>
+<!-- Notes / Inspection Remarks -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-label-default text-label-default text-on-surface" for="inspectionRemarks">Notes / Physical Inspection Remarks</label>
+<span class="text-secondary text-[11px]">Optional dock observations</span>
+</div>
+<textarea class="w-full p-3 bg-surface-container-lowest text-on-surface rounded-lg font-body-default text-body-default focus:outline-none focus:ring-1 focus:ring-primary shadow-sm resize-none" id="inspectionRemarks" rows="3">Goods inspected at Dock A by warehouse receiver. Outer packaging intact, seals verified, zero transit damage observed.</textarea>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low p-2.5 rounded-lg text-secondary text-body-sm">
+<svg class="w-4 h-4 text-primary flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+<span>Quality assurance clearance stamped by inbound dock inspector. Batch barcodes scan verified.</span>
+</div>
+</form>
+</div>
+</div>
+<!-- Right Column: Receiving Summary & Inventory Impact (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Card 1: Receiving Summary -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3 mb-3">
+<h3 class="font-title-sm text-title-sm text-on-surface flex items-center gap-2">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect><line x1="8" x2="8.01" y1="11" y2="11"></line><line x1="8" x2="8.01" y1="16" y2="16"></line><line x1="12" x2="16" y1="11" y2="11"></line><line x1="12" x2="16" y1="16" y2="16"></line></svg>
+            Receiving Summary
+          </h3>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-label-default font-label-default bg-[#DCFCE7] text-[#15803D]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>
+            Ready to Receive
+          </span>
+</div>
+<div class="space-y-2.5 font-body-sm text-body-sm">
+<div class="flex items-center justify-between py-1.5">
+<span class="text-secondary">Purchase Order Number</span>
+<span class="font-numeric-mono font-medium text-on-surface">PUR-0006</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-secondary">Total Product Lines</span>
+<span class="font-medium text-on-surface">3 Lines</span>
+</div>
+<div class="flex items-start justify-between py-1.5">
+<span class="text-secondary">Physical Unit Count</span>
+<div class="text-right">
+<span class="font-numeric-mono font-semibold text-on-surface">100 Units</span>
+<div class="text-[11px] text-secondary font-numeric-mono">20 Bags • 50 Packs • 30 Bottles</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-secondary">Target Facility</span>
+<span class="font-medium text-on-surface">Main Warehouse</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-secondary">Dock Bay Verification</span>
+<span class="text-[#15803D] font-medium flex items-center gap-1">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Passed & Unloaded
+            </span>
+</div>
+<div class="flex items-center justify-between py-1.5 pt-2">
+<span class="text-secondary">Projected Ledger Status</span>
+<span class="font-medium text-primary">In-Stock Active</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Inventory Update / Impact -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm">
+<div class="flex items-center gap-2.5 mb-3">
+<div class="w-7 h-7 rounded-md bg-[#DCFCE7] flex items-center justify-center text-[#15803D]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2v20"></path><path d="m17 7-5-5-5 5"></path></svg>
+</div>
+<div>
+<h3 class="font-title-sm text-title-sm text-on-surface">Inventory Update Preview</h3>
+<p class="text-[12px] text-secondary">Atomic increment upon GRN authorization</p>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-3">
+          Confirming this receipt will directly add the listed product quantities into <strong class="text-on-surface">Main Warehouse</strong> available balance.
+        </p>
+<!-- Product Breakdown Increment Chips -->
+<div class="space-y-2 mb-4">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A34A]"></span>
+<span class="font-body-medium text-body-medium text-on-surface">White Rice 5kg</span>
+</div>
+<span class="font-numeric-mono font-medium px-2 py-0.5 rounded bg-[#DCFCE7] text-[#15803D] text-body-sm">+20 Bags</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A34A]"></span>
+<span class="font-body-medium text-body-medium text-on-surface">Sugar 1kg</span>
+</div>
+<span class="font-numeric-mono font-medium px-2 py-0.5 rounded bg-[#DCFCE7] text-[#15803D] text-body-sm">+50 Packs</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A34A]"></span>
+<span class="font-body-medium text-body-medium text-on-surface">Sunflower Oil 1L</span>
+</div>
+<span class="font-numeric-mono font-medium px-2 py-0.5 rounded bg-[#DCFCE7] text-[#15803D] text-body-sm">+30 Bottles</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-high text-[11px] text-secondary flex items-start gap-2">
+<svg class="w-4 h-4 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="16" y2="12"></line><line x1="12" x2="12.01" y1="8" y2="8"></line></svg>
+<span>Stock ledger will be atomically incremented upon Goods Received Note (GRN) posting. Cost basis and FIFO queues re-calculate in real time.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Action Controls Bar -->
+<aside aria-label="Action Toolbar" class="fixed bottom-0 left-64 right-0 bg-surface-container-lowest/95 backdrop-blur-md shadow-lg py-3 px-6 z-40">
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+</div>
+<p class="font-body-sm text-body-sm text-secondary max-w-xl">
+<strong class="text-on-surface font-medium">Atomic Warehouse Protocol:</strong> Stock receipt will increment on-hand inventory immediately and generate an immutable Goods Received Note (GRN). This action cannot be undone.
+        </p>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+<button class="h-10 px-4 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors font-body-medium text-body-medium" onclick="cancelReceipt()" type="button">
+          Cancel
+        </button>
+<button class="h-10 px-5 rounded-lg bg-primary text-white hover:bg-[#1D4ED8] active:bg-[#1E40AF] transition-all font-body-medium text-body-medium shadow-sm flex items-center gap-2" onclick="openConfirmModal()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Confirm Stock Receipt
+        </button>
+</div>
+</div>
+</aside>
+<!-- Confirmation Modal Dialog Component -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[2px] transition-opacity" id="confirmModal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl w-full max-w-md p-6 relative">
+<button class="absolute top-4 right-4 text-secondary hover:text-on-surface p-1 rounded-lg hover:bg-surface-container" onclick="closeConfirmModal()" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+</button>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Confirm Stock Receipt?</h3>
+<p class="font-body-sm text-body-sm text-secondary">Goods Received Note Authorization</p>
+</div>
+</div>
+<p class="font-body-default text-body-default text-secondary mb-4">
+        This will add the received products to <strong class="text-on-surface">Main Warehouse</strong> inventory. Please confirm that the delivery quantities are correct according to the physical count.
+      </p>
+<!-- Modal Summary Pill -->
+<div class="bg-surface-container-low rounded-lg p-3.5 mb-5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg>
+<span class="font-body-medium text-body-medium text-on-surface">3 Product Lines (100 Units)</span>
+</div>
+<span class="font-label-default text-primary font-medium flex items-center gap-1">
+          → Main Warehouse
+        </span>
+</div>
+<div class="flex items-center justify-end gap-3">
+<button class="h-9 px-4 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors font-body-medium text-body-medium" onclick="closeConfirmModal()" type="button">
+          Go Back
+        </button>
+<button class="h-9 px-4 rounded-lg bg-primary text-white hover:bg-[#1D4ED8] transition-colors font-body-medium text-body-medium shadow-sm flex items-center gap-1.5" onclick="executeStockReceipt()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Confirm Receipt
+        </button>
+</div>
+</div>
+</div>
+<!-- Success Notification Toast (Simulated Interaction) -->
+<div class="hidden fixed bottom-24 right-6 z-50 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 animate-bounce" id="toastSuccess">
+<div class="w-6 h-6 rounded-full bg-[#16A34A] flex items-center justify-center text-white text-xs">✓</div>
+<div>
+<div class="font-title-sm text-title-sm text-white">Stock Received Successfully!</div>
+<div class="font-body-sm text-body-sm text-slate-300">GRN-2024-0008 created • Ledger incremented</div>
+</div>
+</div>
+</div>
+<script>
+  function openConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  function closeConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  function executeStockReceipt() {
+    closeConfirmModal();
+    const toast = document.getElementById('toastSuccess');
+    if (toast) {
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+  }
+
+  function cancelReceipt() {
+    if (confirm('Discard stock inward process and return to purchase summary?')) {
+      window.history.back();
+    }
+  }
+
+  function openPrintManifest() {
+    window.print();
+  }
+</script></main></div></body></html>

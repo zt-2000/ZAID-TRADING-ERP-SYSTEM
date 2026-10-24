@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-low":"#f2f3ff","secondary-fixed":"#d3e4fe","inverse-primary":"#b4c5ff","surface-container":"#eaedff","inverse-on-surface":"#eef0ff","tertiary":"#943700","secondary":"#505f76","background":"#faf8ff","secondary-container":"#d0e1fb","on-tertiary-fixed-variant":"#7d2d00","primary-container":"#2563eb","on-secondary":"#ffffff","surface-variant":"#dae2fd","outline":"#737686","tertiary-fixed-dim":"#ffb596","tertiary-container":"#bc4800","on-background":"#131b2e","on-surface-variant":"#434655","on-error":"#ffffff","surface-dim":"#d2d9f4","primary-fixed":"#dbe1ff","on-primary":"#ffffff","primary-fixed-dim":"#b4c5ff","surface-tint":"#0053db","on-secondary-fixed-variant":"#38485d","error":"#ba1a1a","secondary-fixed-dim":"#b7c8e1","inverse-surface":"#283044","error-container":"#ffdad6","on-tertiary-fixed":"#360f00","surface-container-high":"#e2e7ff","on-error-container":"#93000a","surface-container-lowest":"#ffffff","on-primary-fixed":"#00174b","surface-bright":"#faf8ff","primary":"#004ac6","outline-variant":"#c3c6d7","on-primary-container":"#eeefff","tertiary-fixed":"#ffdbcd","on-secondary-fixed":"#0b1c30","on-tertiary-container":"#ffede6","on-secondary-container":"#54647a","on-surface":"#131b2e","on-tertiary":"#ffffff","surface-container-highest":"#dae2fd","surface":"#faf8ff","on-primary-fixed-variant":"#003ea8"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-sm":"0.5rem","margin-md":"1.5rem","space-xs":"0.25rem","space-xl":"2rem","space-md":"1rem",margin:"1rem","margin-lg":"1.5rem",gutter:"1rem","gutter-lg":"1.5rem","space-lg":"1.5rem"},fontFamily:{"title-sm":["Inter"],"label-default":["Inter"],"numeric-mono":["Inter"],"body-medium":["Inter"],"body-sm":["Inter"],"body-default":["Inter"],"headline-md":["Inter"],"headline-xl":["Inter"],"label-uppercase":["Inter"],"headline-lg":["Inter"]},fontSize:{"title-sm":["15px",{lineHeight:"20px",fontWeight:"600"}],"label-default":["12px",{lineHeight:"16px",fontWeight:"500"}],"numeric-mono":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-md":["18px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-xl":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-uppercase":["11px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"headline-lg":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}]}}}};</script></head><body class="bg-[#F8FAFC] text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-lowest border-r border-[#E2E8F0] z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-[#E2E8F0]"><img alt="Wholesale ERP Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UO4n0krM0n2CGUNYmokL4BX_8wnTdkYndUHeQ7ZurZyM6uwOADtA6KCJXsVOi3VuVwTIvnuP10amcvvHxmctEb-7mqgHQgiyE3UrdyVEHPhdJT9cYh32p0DU_uzhi8vSaQbFqrV7GeR8NK7bhoB7xZywoJSSLKBbVPVvK9bfT7F1ue81hae-R03_wZE29JHH92uMCcId_nSUKu5V6kpKOJTf-kA4GPQxwFlqzbVsCSw2-N_596mvHWMmgD"/><div class="flex flex-col min-w-0"><span class="font-title-sm text-title-sm text-on-surface font-semibold truncate leading-tight">Wholesale ERP</span><span class="font-label-default text-label-default text-on-surface-variant truncate">Distribution Suite</span></div></div><nav class="px-3 py-4 flex flex-col gap-1" data-active-classes="bg-[#EFF6FF] text-primary-container font-medium rounded-lg"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Products</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#EFF6FF] text-primary-container font-medium hover:bg-surface-container-low transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px] text-primary-container">warehouse</span><span>Inventory</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="sales" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span>Sales</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="purchases" href="#"><span class="material-symbols-outlined text-[20px]">shopping_cart</span><span>Purchases</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span>Customers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Suppliers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="payments-and-expenses" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments &amp; Expenses</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="accounting" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span>Accounting</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span>Reports</span></a></nav></div><div class="p-3 border-t border-[#E2E8F0] flex flex-col gap-1"><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant font-body-medium text-body-medium hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></div><span class="font-label-default text-label-default text-outline">v1.4.0</span></a></div></aside><div class="pl-[240px]"><header class="fixed top-0 left-[240px] right-0 h-16 bg-surface-container-lowest border-b border-[#E2E8F0] z-40 flex items-center justify-between px-8"><div class="flex items-center gap-space-sm"><div class="font-body-sm text-body-sm text-on-surface-variant">Thursday, Oct 24, 2024</div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 bg-[#F1F5F9] text-[#475569] px-2.5 py-1 rounded-full border border-[#E2E8F0]"><span class="material-symbols-outlined text-[16px]">domain</span><span class="font-label-default text-label-default font-medium">Main Warehouse</span><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-0.5"></span></div><div class="h-6 w-px bg-[#E2E8F0]"></div><div class="flex items-center gap-3"><img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-[#E2E8F0]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW1bHYAra1ps0f1F8-kOWJ8zDLSos8VNR5aHhSwBFYOw8AYTuJjv22eT9fKiqTaxUj6Mrh1LCU6Ok7yIOV12M8bnNEgqWVf3VJtc5tnVE3wk0TEQBeZhuibFB5XI0n4izehFKIhsaGmiMnckB0J_CiwEbZVSwrBKQIVHiWZM8VgNCAQ9mvSiP5mBJaHxD2BhYuFLojsoH2PvZTHbSGX8BBO47oFPvdi4V75DAv46Ihm9Is_H3qFC2QJw"/><div class="hidden sm:flex flex-col text-left leading-tight"><span class="font-body-medium text-body-medium text-on-surface font-semibold">Kasun Perera</span><span class="font-label-default text-label-default text-on-surface-variant">Store Manager</span></div></div></div></header><main class="w-full pt-16 bg-[#F8FAFC] min-h-screen"><div class="flex flex-col w-full">
+<div class="px-space-lg py-space-lg flex flex-col gap-space-lg max-w-[1600px] mx-auto w-full">
+<!-- Breadcrumb & Top Page Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<nav class="flex items-center gap-1.5 font-label-default text-label-default text-on-surface-variant">
+<span>Accounting &amp; Inventory</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Inventory</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Stock History</span>
+</nav>
+<div class="flex items-baseline gap-3">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Stock Movement History</h1>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Audit every warehouse stock change</span>
+</div>
+</div>
+<div class="flex items-center gap-2.5">
+<button class="inline-flex items-center gap-2 h-[38px] px-4 bg-surface-container-lowest text-on-surface rounded-lg font-body-medium text-body-medium shadow-sm hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">print</span>
+<span>Print History</span>
+</button>
+<button class="inline-flex items-center gap-2 h-[38px] px-4 bg-surface-container-lowest text-on-surface rounded-lg font-body-medium text-body-medium shadow-sm hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+<!-- Filter & Scope Bar -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex flex-col gap-3">
+<!-- Top Line: Warehouse context notice -->
+<div class="flex flex-wrap items-center justify-between gap-2 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">warehouse</span>
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider">Warehouse Context:</span>
+<span class="font-label-default text-label-default font-semibold text-on-surface bg-surface-container-low px-2 py-0.5 rounded">Main Warehouse (Read-only single location)</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-default text-label-default">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span>Audited Real-time Journal</span>
+</div>
+</div>
+<!-- Main Controls Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
+<!-- Product Selector -->
+<div class="lg:col-span-4 flex flex-col gap-1">
+<label class="font-label-default text-label-default text-secondary">Target Product / SKU</label>
+<div class="relative">
+<select class="w-full h-[38px] pl-3 pr-8 bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary">
+<option selected="" value="SGR-WHT-001">Sugar 1kg (SGR-WHT-001) — Groceries</option>
+<option value="ALL">All Tracked Products (Consolidated)</option>
+<option value="FLR-WHT-005">Wheat Flour 5kg (FLR-WHT-005) — Staples</option>
+<option value="OIL-PLM-020">Palm Oil 20L Canister (OIL-PLM-020) — Bulk Oils</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-2.5 text-[20px] text-secondary">expand_more</span>
+</div>
+</div>
+<!-- Movement Type Filter -->
+<div class="lg:col-span-2 flex flex-col gap-1">
+<label class="font-label-default text-label-default text-secondary">Movement Type</label>
+<div class="relative">
+<select class="w-full h-[38px] pl-3 pr-8 bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary">
+<option selected="">All Movement Types</option>
+<option>Purchase Receipt</option>
+<option>Sale</option>
+<option>Sales Return</option>
+<option>Purchase Return</option>
+<option>Stock Adjustment</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-2.5 text-[20px] text-secondary">expand_more</span>
+</div>
+</div>
+<!-- Date Range: From / To -->
+<div class="lg:col-span-3 flex items-center gap-2">
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-default text-label-default text-secondary">From Date</label>
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="Oct 01, 2024"/>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-default text-label-default text-secondary">To Date</label>
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="Oct 24, 2024"/>
+</div>
+</div>
+<!-- Search Input -->
+<div class="lg:col-span-2 flex flex-col gap-1">
+<label class="font-label-default text-label-default text-secondary">Search Reference</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-[18px] text-secondary">search</span>
+<input class="w-full h-[38px] pl-8 pr-3 bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg placeholder-secondary focus:outline-none focus:ring-1 focus:ring-primary" placeholder="INV-, PO-, ADJ-..." type="text"/>
+</div>
+</div>
+<!-- Actions: Apply / Reset -->
+<div class="lg:col-span-1 flex items-center gap-1.5 h-[38px]">
+<button class="flex-1 h-full bg-primary-container text-on-primary rounded-lg font-body-medium text-body-medium hover:bg-primary transition-colors flex items-center justify-center" type="button">
+            Apply
+          </button>
+<button class="h-full px-2 bg-surface-container-low text-secondary rounded-lg hover:text-on-surface transition-colors flex items-center justify-center" title="Reset Filters" type="button">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Metric Summary Cards (Sugar 1kg context) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Opening Quantity -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider">Opening Quantity</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">history</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface tabular-nums">120</span>
+<span class="font-body-medium text-body-medium text-secondary">Packs</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-default text-label-default text-secondary">
+<span class="material-symbols-outlined text-[14px]">event</span>
+<span>B/F balance as of Oct 01, 2024</span>
+</div>
+</div>
+<!-- Stock In (+ Inflows) -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider">Total Stock In</span>
+<span class="inline-flex items-center gap-1 font-label-default text-label-default font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+<span>Inflows</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-emerald-700 tabular-nums">+105</span>
+<span class="font-body-medium text-body-medium text-secondary">Packs</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-default text-label-default text-secondary">
+<span>Receipts (+100) &amp; Returns (+5)</span>
+</div>
+</div>
+<!-- Stock Out (- Outflows) -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider">Total Stock Out</span>
+<span class="inline-flex items-center gap-1 font-label-default text-label-default font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">north_east</span>
+<span>Outflows</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-rose-700 tabular-nums">-217</span>
+<span class="font-body-medium text-body-medium text-secondary">Packs</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-default text-label-default text-secondary">
+<span>Sales (-200), Adj (-7), Ret (-10)</span>
+</div>
+</div>
+<!-- Closing Quantity (Current Real-time) -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-secondary tracking-wider">Closing Quantity</span>
+<span class="inline-flex items-center gap-1 font-label-default text-label-default font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Low Stock Alert</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface tabular-nums">8</span>
+<span class="font-body-medium text-body-medium text-secondary">Packs</span>
+<span class="ml-auto font-label-default text-label-default text-amber-700 font-semibold">(Min: 15)</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-default text-label-default text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span>Reconciled with live stock balance</span>
+</div>
+</div>
+</div>
+<!-- Audit Ledger Table Card -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden flex flex-col">
+<!-- Table Header Bar -->
+<div class="px-space-md py-3 flex flex-wrap items-center justify-between gap-3 bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-primary">receipt_long</span>
+<h2 class="font-title-sm text-title-sm text-on-surface">Stock Movement Ledger — Sugar 1kg (SGR-WHT-001)</h2>
+<span class="hidden sm:inline-block h-3.5 w-px bg-surface-container-high"></span>
+<span class="font-label-default text-label-default text-secondary">Standard 1.0kg White Granulated Packets</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 font-label-default text-label-default text-primary-container bg-surface-container-low px-2 py-1 rounded font-medium">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>Immutable Stock Ledger</span>
+</span>
+<span class="inline-flex items-center gap-1 font-label-default text-label-default text-secondary bg-surface-container px-2 py-1 rounded">
+<span>9 movements in Oct 2024</span>
+</span>
+</div>
+</div>
+<!-- Dense Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low h-10 font-label-uppercase text-label-uppercase text-secondary tracking-wider">
+<th class="px-4 text-left">Date &amp; Time</th>
+<th class="px-4 text-left">Reference #</th>
+<th class="px-4 text-left">Source Document</th>
+<th class="px-4 text-left">Movement Type</th>
+<th class="px-4 text-right">Stock In</th>
+<th class="px-4 text-right">Stock Out</th>
+<th class="px-4 text-right">Running Balance</th>
+<th class="px-4 text-left">Performed By</th>
+<th class="px-4 text-center">Audit</th>
+</tr>
+</thead>
+<tbody class="font-body-default text-body-default text-on-surface divide-y divide-surface-container-low">
+<!-- Row 1: Opening Balance -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 01, 2024 08:00 AM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-on-surface whitespace-nowrap">B/F-OCT-2024</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>AUD-2024-Q3</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-secondary bg-surface-container">
+                  Opening Balance
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">120 Packs</td>
+<td class="px-4 font-body-sm text-secondary whitespace-nowrap">Audit Protocol</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="View Audit Hash" type="button">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Purchase Receipt -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 04, 2024 10:15 AM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">PO-2024-0338</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>GRN-2024-0192</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50">
+                  Purchase Receipt
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-emerald-700 whitespace-nowrap">+100 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">220 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera (Store Manager)</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Sale Wholesale -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 08, 2024 02:40 PM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">INV-2024-0820</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>SO-2024-0411</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-blue-700 bg-blue-50">
+                  Sale (Wholesale)
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-50 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">170 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Sale Bulk Delivery -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 12, 2024 11:30 AM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">INV-2024-0842</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>SO-2024-0435</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-blue-700 bg-blue-50">
+                  Sale (Bulk Delivery)
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-40 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">130 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Sales Return -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 16, 2024 03:15 PM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">RET-2024-0012</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>CN-2024-0045</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-emerald-800 bg-emerald-100/70">
+                  Sales Return (Customer)
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-emerald-700 whitespace-nowrap">+5 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">135 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 6: Sale Retailer Order -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 18, 2024 09:20 AM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">INV-2024-0865</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>SO-2024-0460</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-blue-700 bg-blue-50">
+                  Sale (Retailer Order)
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-60 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">75 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 7: Purchase Return -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 20, 2024 04:50 PM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">PRT-2024-0008</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>DN-2024-0021</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-amber-700 bg-amber-50">
+                  Purchase Return
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-10 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">65 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 8: Stock Adjustment -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 22, 2024 01:10 PM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">ADJ-2024-0089</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>PHY-2024-0014</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-purple-700 bg-purple-50">
+                  Stock Adjustment
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-7 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-semibold text-on-surface whitespace-nowrap">58 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Audit Reason: Spillage in Aisle 04" type="button">
+<span class="material-symbols-outlined text-[16px] text-purple-600">info</span>
+</button>
+</td>
+</tr>
+<!-- Row 9: Sale Supermarket Supply -->
+<tr class="h-11 hover:bg-surface-container-low/60 transition-colors bg-amber-50/20">
+<td class="px-4 font-numeric-mono text-body-sm text-secondary whitespace-nowrap">Oct 24, 2024 11:42 AM</td>
+<td class="px-4 font-numeric-mono text-body-sm font-semibold text-primary-container whitespace-nowrap">
+<a class="hover:underline" href="#">INV-2024-0891</a>
+</td>
+<td class="px-4 font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1 text-secondary hover:text-primary cursor-pointer">
+<span>SO-2024-0498</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</span>
+</td>
+<td class="px-4 whitespace-nowrap">
+<span class="inline-flex items-center h-[22px] px-2 rounded font-label-default text-[11px] font-semibold uppercase tracking-wider text-blue-700 bg-blue-50">
+                  Sale (Supermarket)
+                </span>
+</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm text-secondary">—</td>
+<td class="px-4 text-right font-numeric-mono text-body-sm font-semibold text-rose-700 whitespace-nowrap">-50 Packs</td>
+<td class="px-4 text-right font-numeric-mono text-body-medium font-bold text-amber-700 whitespace-nowrap">8 Packs</td>
+<td class="px-4 font-body-sm text-on-surface whitespace-nowrap">Kasun Perera</td>
+<td class="px-4 text-center">
+<button class="w-7 h-7 inline-flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Verified Entry" type="button">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination and Ledger Summary Footer -->
+<div class="px-space-md py-3 bg-surface-container-low/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-secondary">Showing</span>
+<span class="font-body-medium text-body-medium font-semibold text-on-surface">9 movements</span>
+<span class="font-body-sm text-body-sm text-secondary">for Sugar 1kg in selected period</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="h-8 px-2.5 rounded bg-surface-container-lowest text-secondary opacity-50 cursor-not-allowed font-body-sm text-body-sm flex items-center gap-1" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span>Previous</span>
+</button>
+<span class="px-3 py-1 bg-primary text-on-primary rounded font-label-default text-label-default font-semibold">1</span>
+<button class="h-8 px-2.5 rounded bg-surface-container-lowest text-secondary opacity-50 cursor-not-allowed font-body-sm text-body-sm flex items-center gap-1" disabled="" type="button">
+<span>Next</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- System Governance Notice Banner -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-50 text-primary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<h3 class="font-body-medium text-body-medium font-semibold text-on-surface">System Governance &amp; Immutability Notice</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+          Inventory movements are immutable and automatically reconciled upon finalizing Purchase Receipts, Sales Invoices, Returns, and approved Stock Adjustments. Running quantity balances strictly carry forward from physical audits and historical journal records. Manual deletions or direct quantity overwrites are systematically prohibited under ISO-9001 inventory compliance protocols.
+        </p>
+</div>
+</div>
+</div>
+</div></main></div>
+</body></html>

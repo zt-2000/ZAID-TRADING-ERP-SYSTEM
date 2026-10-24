@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wholesale ERP — Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#2563EB',
+              hover: '#1D4ED8',
+              50: '#EFF6FF',
+              100: '#DBEAFE',
+            },
+            surface: {
+              bg: '#F8FAFC',
+              card: '#FFFFFF',
+              border: '#E2E8F0',
+            },
+            content: {
+              title: '#0F172A',
+              muted: '#64748B',
+            },
+            status: {
+              success: '#16A34A',
+              warning: '#D97706',
+              danger: '#DC2626',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-6 md:p-8 bg-[#F8FAFC]">
+
+  <!-- Top Simple Brand Utility Bar (Minimal) -->
+  <header class="w-full max-w-7xl mx-auto flex items-center justify-between py-2">
+    <div class="flex items-center gap-2">
+      <!-- Minimalist Logo Mark matching ERP system -->
+      <div class="w-8 h-8 rounded-lg bg-[#2563EB] flex items-center justify-center text-white shadow-sm">
+        <i data-lucide="layers" class="w-5 h-5"></i>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm font-bold tracking-tight text-[#0F172A] leading-tight">Wholesale ERP</span>
+        <span class="text-[11px] text-[#64748B] font-medium leading-none">Distribution Suite</span>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2 text-xs text-[#64748B]">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200/80 font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        Main Warehouse
+      </span>
+      <span class="hidden sm:inline text-slate-400">|</span>
+      <span class="hidden sm:inline text-[11px] font-mono text-slate-500">v1.4.0</span>
+    </div>
+  </header>
+
+  <!-- Center Card Area -->
+  <main class="w-full flex-1 flex items-center justify-center py-8">
+    <div class="w-full max-w-[420px]">
+      
+      <!-- Card Container -->
+      <div class="bg-white rounded-xl border border-[#E2E8F0] shadow-sm p-7 sm:p-8">
+        
+        <!-- Brand Header within Card -->
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 text-[#2563EB] border border-blue-100 mb-3.5">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h1 class="text-xl font-bold text-[#0F172A] tracking-tight">Wholesale ERP</h1>
+          <p class="text-sm text-[#64748B] mt-1">Sign in to your workspace</p>
+        </div>
+
+        <!-- Generic Error Banner (Hidden by default, shown for invalid credentials demonstration) -->
+        <div id="errorAlert" class="hidden mb-5 p-3 rounded-lg bg-red-50 border border-red-200 flex items-start gap-2.5 text-xs text-red-800">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5"></i>
+          <div>
+            <span class="font-semibold text-red-900">Invalid login credentials.</span>
+            <p class="mt-0.5 text-red-700">Please check your email and password and try again. For security, account existence is not disclosed.</p>
+          </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-4" onsubmit="event.preventDefault(); handleLoginSubmit();">
+          
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-[#0F172A] mb-1.5">
+              Email Address <span class="text-[#DC2626]">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#64748B]">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </span>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                value="kasun.perera@wholesale-erp.lk"
+                placeholder="name@company.com" 
+                class="w-full pl-9 pr-3 py-2 text-sm text-[#0F172A] bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-colors placeholder:text-slate-400"
+              />
+            </div>
+            <p id="emailError" class="hidden text-xs text-[#DC2626] mt-1">Please enter a valid business email address.</p>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                Password <span class="text-[#DC2626]">*</span>
+              </label>
+              <!-- Small Forgot Password Link (informational only) -->
+              <a href="javascript:void(0)" onclick="alert('Password reset instructions must be requested from your ERP System Administrator.');" class="text-xs text-[#2563EB] hover:text-[#1D4ED8] font-medium hover:underline focus:outline-none">
+                Forgot password?
+              </a>
+            </div>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#64748B]">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </span>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                value="••••••••••••"
+                placeholder="Enter your password" 
+                class="w-full pl-9 pr-10 py-2 text-sm text-[#0F172A] bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-colors placeholder:text-slate-400"
+              />
+              <button 
+                type="button" 
+                id="togglePassword" 
+                onclick="togglePasswordVisibility()" 
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#64748B] hover:text-[#0F172A] focus:outline-none"
+                aria-label="Toggle password visibility"
+              >
+                <i id="passwordEyeIcon" data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <p id="passwordError" class="hidden text-xs text-[#DC2626] mt-1">Password must not be empty.</p>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input 
+                type="checkbox" 
+                id="rememberMe" 
+                name="rememberMe" 
+                checked
+                class="w-4 h-4 rounded text-[#2563EB] border-[#E2E8F0] focus:ring-[#2563EB]/30 focus:ring-offset-0 cursor-pointer"
+              />
+              <span class="text-xs text-[#64748B] font-medium">Remember this workstation</span>
+            </label>
+            <span class="text-[11px] text-slate-400">30-day session</span>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2">
+            <button 
+              type="submit" 
+              id="submitBtn" 
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-semibold transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              <span id="btnText">Sign In</span>
+              <i id="btnIcon" data-lucide="arrow-right" class="w-4 h-4"></i>
+              <!-- Loading Spinner (hidden by default) -->
+              <svg id="loadingSpinner" class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Divider with Security Note -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-[#E2E8F0]"></div>
+          </div>
+          <div class="relative flex justify-center text-xs">
+            <span class="px-2.5 bg-white text-[#64748B] font-medium">Enterprise Security</span>
+          </div>
+        </div>
+
+        <!-- Controlled Access Notice (No public register) -->
+        <div class="rounded-lg bg-slate-50 border border-slate-200/80 p-3 text-center">
+          <p class="text-xs text-[#64748B] leading-relaxed">
+            <span class="font-medium text-[#0F172A]">Access is provided by your administrator.</span><br>
+            Public registration is disabled. Contact your warehouse store manager or system administrator for account provisioning.
+          </p>
+        </div>
+
+        <!-- Quick Demo Switcher helper to inspect states (inline helper) -->
+        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <span>State simulator:</span>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="simulateState('idle')" class="text-slate-600 hover:text-blue-600 font-medium">Default</button>
+            <span>•</span>
+            <button type="button" onclick="simulateState('loading')" class="text-slate-600 hover:text-blue-600 font-medium">Loading</button>
+            <span>•</span>
+            <button type="button" onclick="simulateState('error')" class="text-slate-600 hover:text-red-600 font-medium">Error</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Trust & Security Badges below card -->
+      <div class="mt-6 flex flex-col items-center justify-center gap-2 text-center text-xs text-[#64748B]">
+        <div class="flex items-center gap-4">
+          <span class="inline-flex items-center gap-1.5">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+            TLS Encrypted Session
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-slate-400"></i>
+            Row-Level Security (RLS)
+          </span>
+        </div>
+        <p class="text-[11px] text-slate-400">
+          Authorized personnel only. All access attempts and transaction logs are audited.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="w-full max-w-7xl mx-auto py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-[#64748B] border-t border-slate-200/60 mt-auto">
+    <div class="flex items-center gap-2">
+      <span>&copy; 2024 Wholesale ERP Distribution Suite.</span>
+      <span class="hidden sm:inline">&bull;</span>
+      <span class="hidden sm:inline">Operating Node: Main Warehouse</span>
+    </div>
+    <div class="flex items-center gap-4 mt-2 sm:mt-0">
+      <span class="text-slate-400 text-[11px]">Server Time: Asia/Colombo</span>
+      <span class="inline-flex items-center gap-1 text-emerald-600 font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        Systems Nominal
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Toggle Password Visibility
+    let isPasswordVisible = false;
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('passwordEyeIcon');
+      isPasswordVisible = !isPasswordVisible;
+      
+      if (isPasswordVisible) {
+        passwordInput.type = 'text';
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    // State Simulation / Handler
+    function simulateState(state) {
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const errorAlert = document.getElementById('errorAlert');
+
+      if (state === 'loading') {
+        submitBtn.disabled = true;
+        btnText.textContent = 'Authenticating...';
+        btnIcon.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+        errorAlert.classList.add('hidden');
+      } else if (state === 'error') {
+        submitBtn.disabled = false;
+        btnText.textContent = 'Sign In';
+        btnIcon.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+        errorAlert.classList.remove('hidden');
+      } else { // idle
+        submitBtn.disabled = false;
+        btnText.textContent = 'Sign In';
+        btnIcon.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+        errorAlert.classList.add('hidden');
+      }
+    }
+
+    function handleLoginSubmit() {
+      simulateState('loading');
+      setTimeout(() => {
+        simulateState('idle');
+        alert('Authentication successful. In production, Supabase Auth will establish the session token and redirect to the ERP Dashboard.');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

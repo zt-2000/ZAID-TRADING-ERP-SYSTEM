@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"surface-container-highest":"#dae2fd","on-background":"#131b2e","on-tertiary-fixed-variant":"#7d2d00","on-secondary-container":"#54647a","on-error":"#ffffff","tertiary-fixed":"#ffdbcd","on-tertiary":"#ffffff","surface-container-lowest":"#ffffff","surface-container":"#eaedff","on-surface":"#131b2e","tertiary":"#943700","primary-fixed":"#dbe1ff","surface-container-high":"#e2e7ff","surface-container-low":"#f2f3ff","background":"#faf8ff","surface-bright":"#faf8ff","outline-variant":"#c3c6d7","secondary-container":"#d0e1fb","surface-dim":"#d2d9f4","on-primary-fixed":"#00174b","error":"#ba1a1a","inverse-surface":"#283044","on-tertiary-container":"#ffede6","on-secondary":"#ffffff","surface-tint":"#0053db","secondary-fixed-dim":"#b7c8e1","primary":"#004ac6","surface":"#faf8ff","on-secondary-fixed":"#0b1c30","primary-fixed-dim":"#b4c5ff","outline":"#737686","on-primary-container":"#eeefff","on-secondary-fixed-variant":"#38485d","surface-variant":"#dae2fd","on-surface-variant":"#434655","tertiary-fixed-dim":"#ffb596","on-tertiary-fixed":"#360f00","on-error-container":"#93000a","inverse-primary":"#b4c5ff","on-primary":"#ffffff","secondary-fixed":"#d3e4fe","on-primary-fixed-variant":"#003ea8","primary-container":"#2563eb","tertiary-container":"#bc4800","secondary":"#505f76","inverse-on-surface":"#eef0ff","error-container":"#ffdad6"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-lg":"1.5rem","margin-lg":"1.5rem","gutter":"1rem","space-xs":"0.25rem","margin":"1rem","space-sm":"0.5rem","space-lg":"1.5rem","margin-md":"1.5rem","space-md":"1rem","space-xl":"2rem"},"fontFamily":{"numeric-mono":["Inter"],"headline-xl":["Inter"],"headline-md":["Inter"],"body-default":["Inter"],"body-sm":["Inter"],"label-default":["Inter"],"label-uppercase":["Inter"],"title-sm":["Inter"],"headline-lg":["Inter"],"body-medium":["Inter"]},"fontSize":{"numeric-mono":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-default":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"label-default":["12px",{"lineHeight":"16px","fontWeight":"500"}],"label-uppercase":["11px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"title-sm":["15px",{"lineHeight":"20px","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","fontWeight":"500"}]}}}};</script></head><body class="bg-[#F8FAFC] font-body-default text-on-surface min-h-screen"><aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest border-r border-[#E2E8F0] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center border-b border-[#E2E8F0] gap-space-sm"><div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[20px]">warehouse</span></div><div class="flex flex-col min-w-0"><span class="font-title-sm text-title-sm text-on-surface truncate tracking-tight">Wholesale ERP</span><span class="font-label-uppercase text-label-uppercase text-on-surface-variant text-[10px] tracking-wider truncate">MAIN WAREHOUSE</span></div></div><nav class="flex flex-col gap-1 p-3 overflow-y-auto" data-active-classes="bg-primary-container text-on-primary font-body-medium rounded-lg shadow-sm"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Products</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">package_2</span><span>Inventory</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="sales" href="#"><span class="material-symbols-outlined text-[20px]">shopping_cart</span><span>Sales</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="purchases" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Purchases</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">domain</span><span>Suppliers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="payments-and-expenses" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span>Payments &amp; Expenses</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="accounting" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span>Accounting</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-default text-body-default" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-3 border-t border-[#E2E8F0] m-2"><div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]"><span class="w-2 h-2 rounded-full bg-primary-container shrink-0"></span><span class="font-label-default text-label-default text-on-surface-variant truncate">Single Warehouse Mode</span></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest border-b border-[#E2E8F0] z-40 px-space-lg flex items-center justify-between shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]"><div class="flex items-center gap-3"><div class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant"><span>Wholesale ERP</span><span class="text-[#94A3B8]">/</span><span class="font-body-medium text-body-medium text-on-surface">Main Warehouse</span></div><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-[#BBF7D0] bg-[#DCFCE7] text-[#16A34A] font-label-uppercase text-[11px] font-semibold tracking-wider uppercase"><span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>Active Node</span></div><div class="flex items-center gap-6"><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm border-r border-[#E2E8F0] pr-6"><span class="material-symbols-outlined text-[18px] text-[#64748B]">calendar_today</span><span class="font-numeric-mono text-numeric-mono text-on-surface-variant">Today, Oct 24, 2024</span></div><div class="flex items-center gap-3"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-none">Kasun Perera</span><span class="font-label-default text-label-default text-on-surface-variant mt-1 leading-none">Store Manager</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 min-h-screen bg-[#F8FAFC]"><div class="flex flex-col w-full">
+<!-- Interactive Script for Navigation Active State Sync & View Controls -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const accountingNav = document.querySelector('aside nav a[data-path="accounting"]');
+      if (accountingNav) {
+        accountingNav.className = "flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-container text-on-primary font-body-medium shadow-sm transition-colors";
+      }
+    });
+
+    function setPreset(dateStr, label) {
+      const input = document.getElementById('as-of-date');
+      if (input) input.value = dateStr;
+      
+      const buttons = document.querySelectorAll('.date-preset-btn');
+      buttons.forEach(btn => {
+        if (btn.innerText.includes(label)) {
+          btn.classList.add('bg-surface-container', 'text-primary-container', 'font-body-medium');
+          btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+        } else {
+          btn.classList.remove('bg-surface-container', 'text-primary-container', 'font-body-medium');
+          btn.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+        }
+      });
+    }
+
+    function toggleSection(sectionId, iconId) {
+      const el = document.getElementById(sectionId);
+      const icon = document.getElementById(iconId);
+      if (el) {
+        if (el.classList.contains('hidden')) {
+          el.classList.remove('hidden');
+          if (icon) icon.innerText = 'expand_more';
+        } else {
+          el.classList.add('hidden');
+          if (icon) icon.innerText = 'chevron_right';
+        }
+      }
+    }
+  </script>
+<!-- Main Container -->
+<div class="p-space-lg flex flex-col gap-space-lg max-w-[1440px] mx-auto w-full">
+<!-- Header Block & Page Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<span class="hover:text-on-surface transition-colors cursor-pointer">Accounting</span>
+<span class="text-outline-variant">/</span>
+<span class="font-body-medium text-body-medium text-on-surface">Balance Sheet</span>
+</div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Balance Sheet</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-default text-label-default">
+<span class="material-symbols-outlined text-[14px]">account_balance</span>
+            Statement of Financial Position
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Financial position as of a selected date • Double-entry verified perpetual inventory ledger
+        </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="h-[38px] px-4 rounded-[10px] bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container hover:border-outline-variant text-on-surface font-body-medium text-body-medium flex items-center gap-2 transition-colors shadow-sm" onclick="window.print()">
+<span class="material-symbols-outlined text-[18px] text-secondary">print</span>
+<span>Print Statement</span>
+</button>
+<button class="h-[38px] px-4 rounded-[10px] bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container hover:border-outline-variant text-on-surface font-body-medium text-body-medium flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+<!-- Filter & Date Selection Bar -->
+<div class="bg-surface-container-lowest rounded-[10px] border border-outline-variant/30 p-space-md shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2">
+<label class="font-label-uppercase text-label-uppercase text-on-surface-variant whitespace-nowrap" for="as-of-date">As of Date:</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[18px] pointer-events-none">calendar_today</span>
+<input class="h-[38px] pl-9 pr-3 rounded-[10px] border border-outline-variant/40 bg-surface-container-lowest text-on-surface font-numeric-mono text-numeric-mono focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-[140px]" id="as-of-date" type="text" value="24/10/2024"/>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-1.5 p-1 bg-surface-container-low rounded-[10px]">
+<button class="date-preset-btn px-3 py-1.5 rounded-[8px] bg-surface-container-lowest text-primary-container font-body-medium text-body-sm shadow-xs transition-colors" onclick="setPreset('24/10/2024', 'Today')">
+            Today (Oct 24, 2024)
+          </button>
+<button class="date-preset-btn px-3 py-1.5 rounded-[8px] bg-transparent text-on-surface-variant hover:text-on-surface font-body-default text-body-sm transition-colors" onclick="setPreset('30/09/2024', 'End of Last Month')">
+            End of Last Month (Sep 30)
+          </button>
+<button class="date-preset-btn px-3 py-1.5 rounded-[8px] bg-transparent text-on-surface-variant hover:text-on-surface font-body-default text-body-sm transition-colors" onclick="setPreset('30/09/2024', 'End of Q3')">
+            End of Q3
+          </button>
+<button class="date-preset-btn px-3 py-1.5 rounded-[8px] bg-transparent text-on-surface-variant hover:text-on-surface font-body-default text-body-sm transition-colors" onclick="setPreset('31/12/2023', 'Financial Year End')">
+            Financial Year End
+          </button>
+</div>
+<button class="h-[38px] px-4 rounded-[10px] bg-primary-container hover:bg-primary text-on-primary font-body-medium text-body-medium transition-colors shadow-sm">
+          Apply
+        </button>
+</div>
+<!-- Reporting Status & Currency Indicator -->
+<div class="flex flex-wrap items-center gap-space-md border-t xl:border-t-0 pt-3 xl:pt-0 border-outline-variant/20">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-[#DCFCE7] border border-[#BBF7D0] text-[#16A34A] font-label-default text-label-default">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Posted Double-Entry Ledger Basis • Reconciled</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">payments</span>
+<span>Currency: <strong class="text-on-surface font-body-medium">LKR (Rs.)</strong></span>
+</div>
+</div>
+</div>
+<!-- Financial KPI / Balance Check Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Assets -->
+<div class="bg-surface-container-lowest p-space-md rounded-[10px] border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-on-surface-variant">TOTAL ASSETS</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="font-headline-xl text-headline-xl text-on-surface font-numeric-mono tracking-tight">
+            Rs. 1,640,000
+          </div>
+<p class="font-label-default text-label-default text-on-surface-variant mt-1">
+            Current &amp; Operational Assets
+          </p>
+</div>
+</div>
+<!-- Card 2: Liabilities -->
+<div class="bg-surface-container-lowest p-space-md rounded-[10px] border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-on-surface-variant">TOTAL LIABILITIES</span>
+<span class="w-7 h-7 rounded-lg bg-[#FEE2E2] flex items-center justify-center text-[#DC2626]">
+<span class="material-symbols-outlined text-[18px]">credit_card_off</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="font-headline-xl text-headline-xl text-on-surface font-numeric-mono tracking-tight">
+            Rs. 415,000
+          </div>
+<p class="font-label-default text-label-default text-on-surface-variant mt-1">
+            Current Accounts &amp; Refund Payables
+          </p>
+</div>
+</div>
+<!-- Card 3: Equity -->
+<div class="bg-surface-container-lowest p-space-md rounded-[10px] border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-on-surface-variant">TOTAL EQUITY</span>
+<span class="w-7 h-7 rounded-lg bg-secondary-container/60 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">pie_chart</span>
+</span>
+</div>
+<div class="mt-3">
+<div class="font-headline-xl text-headline-xl text-on-surface font-numeric-mono tracking-tight">
+            Rs. 1,225,000
+          </div>
+<p class="font-label-default text-label-default text-on-surface-variant mt-1">
+            Capital + Net Profit (Rs. 325,000)
+          </p>
+</div>
+</div>
+<!-- Card 4: Equation Check -->
+<div class="bg-surface-container-lowest p-space-md rounded-[10px] border border-outline-variant/30 shadow-sm flex flex-col justify-between bg-gradient-to-br from-surface-container-lowest to-[#F0FDF4]/30">
+<div class="flex items-center justify-between">
+<span class="font-label-uppercase text-label-uppercase text-on-surface-variant">BALANCE EQUATION</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-[4px] bg-[#DCFCE7] text-[#16A34A] font-label-uppercase text-[10px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span> Balanced
+          </span>
+</div>
+<div class="mt-3">
+<div class="font-title-sm text-title-sm text-on-surface font-numeric-mono flex items-center gap-1.5">
+<span>Rs. 1,640,000</span>
+<span class="text-secondary">=</span>
+<span>Rs. 1,640,000</span>
+</div>
+<div class="flex items-center justify-between mt-1.5">
+<span class="font-label-default text-label-default text-on-surface-variant">Assets = Liab. + Equity</span>
+<span class="font-label-default text-label-default text-[#16A34A] font-semibold">Variance: Rs. 0.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Accounting Balance Sheet Statement -->
+<div class="bg-surface-container-lowest rounded-[10px] border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+<!-- Table Top Meta Header -->
+<div class="px-space-lg py-space-md border-b border-outline-variant/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-surface-container-low/40">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Statement of Financial Position</span>
+<span class="text-outline-variant font-body-sm">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Wholesale ERP Distribution Suite</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant font-label-default text-label-default">
+<span>Basis: Accrual Accounting</span>
+<span>Period Ended: Oct 24, 2024</span>
+</div>
+</div>
+<!-- Statement Structure Table -->
+<div class="overflow-x-auto">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/30 h-10 text-on-surface-variant font-label-uppercase text-label-uppercase">
+<th class="px-6 w-[120px] text-left">Code</th>
+<th class="px-4 text-left">Account Classification &amp; Description</th>
+<th class="px-4 w-[160px] text-left">Sub-Ledger Ref</th>
+<th class="px-6 w-[200px] text-right">Account Balance (Rs.)</th>
+<th class="px-6 w-[220px] text-right">Total Amount (Rs.)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/15 font-body-default text-body-default">
+<!-- SECTION 1: ASSETS -->
+<tr class="bg-surface-container/30">
+<td class="px-6 py-2.5" colspan="5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleSection('assets-group', 'assets-icon')">
+<span class="material-symbols-outlined text-[18px] text-primary" id="assets-icon">expand_more</span>
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider font-bold">1. ASSETS</span>
+</div>
+<span class="font-label-default text-label-default text-on-surface-variant">Debit Balances (DR)</span>
+</div>
+</td>
+</tr>
+<!-- Assets Group Container -->
+</tbody><tbody class="divide-y divide-outline-variant/15" id="assets-group">
+<!-- Sub-header: Current Assets -->
+<tr class="bg-surface-container-low/20">
+<td class="px-6 py-2 font-label-uppercase text-label-uppercase text-secondary" colspan="5">
+<span class="pl-4 font-semibold text-on-surface">Current Assets</span>
+</td>
+</tr>
+<!-- Asset Item 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1000</td>
+<td class="px-4 pl-10 text-on-surface">Cash in Hand <span class="text-on-surface-variant text-body-sm">(Petty Cash Imprest Fund)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">LED-PC-01</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">142,500.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Asset Item 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1010</td>
+<td class="px-4 pl-10 text-on-surface">Commercial Bank <span class="text-on-surface-variant text-body-sm">(Operating Current A/C #8042)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">BNK-CBC-8042</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">425,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Asset Item 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1100</td>
+<td class="px-4 pl-10 text-on-surface">Accounts Receivable <span class="text-on-surface-variant text-body-sm">(Customer Ledger Control A/C)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">CTRL-AR-MAIN</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">210,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Asset Item 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1200</td>
+<td class="px-4 pl-10 text-on-surface">Merchandise Inventory <span class="text-on-surface-variant text-body-sm">(Perpetual Closing Valuation - FIFO)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">INV-WH01-VAL</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">775,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Asset Item 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1250</td>
+<td class="px-4 pl-10 text-on-surface">Goods in Transit <span class="text-on-surface-variant text-body-sm">(Inward Clearing from Suppliers)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">GIT-CLR-092</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">52,500.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Asset Item 6 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">1300</td>
+<td class="px-4 pl-10 text-on-surface">Supplier Refund Receivable <span class="text-on-surface-variant text-body-sm">(Credit Notes Due)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">REC-VND-RFD</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">35,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Subtotal Current Assets -->
+<tr class="bg-surface-container-low/30 font-body-medium">
+<td class="px-6 py-2.5"></td>
+<td class="px-4 font-body-medium text-body-medium text-on-surface pl-8" colspan="2">
+                  Subtotal: Current Assets
+                </td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface border-t border-outline-variant/30">
+                  1,640,000.00
+                </td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">
+                  1,640,000.00
+                </td>
+</tr>
+<!-- TOTAL ASSETS (Double underline accounting convention) -->
+<tr class="bg-surface-container/20">
+<td class="px-6 py-3"></td>
+<td class="px-4 font-title-sm text-title-sm text-on-surface font-bold uppercase tracking-wide" colspan="3">
+                  TOTAL ASSETS
+                </td>
+<td class="px-6 py-3 text-right">
+<div class="inline-block border-t border-on-surface font-headline-md text-headline-md text-on-surface font-numeric-mono font-bold pt-0.5">
+<span class="border-b-[3px] border-double border-on-surface pb-0.5">Rs. 1,640,000.00</span>
+</div>
+</td>
+</tr>
+</tbody>
+<!-- SECTION 2: LIABILITIES -->
+<tbody><tr class="bg-surface-container/30">
+<td class="px-6 py-2.5" colspan="5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleSection('liab-group', 'liab-icon')">
+<span class="material-symbols-outlined text-[18px] text-primary" id="liab-icon">expand_more</span>
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider font-bold">2. LIABILITIES</span>
+</div>
+<span class="font-label-default text-label-default text-on-surface-variant">Credit Balances (CR)</span>
+</div>
+</td>
+</tr>
+<!-- Liabilities Group Container -->
+</tbody><tbody class="divide-y divide-outline-variant/15" id="liab-group">
+<!-- Sub-header: Current Liabilities -->
+<tr class="bg-surface-container-low/20">
+<td class="px-6 py-2 font-label-uppercase text-label-uppercase text-secondary" colspan="5">
+<span class="pl-4 font-semibold text-on-surface">Current Liabilities</span>
+</td>
+</tr>
+<!-- Liability Item 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">2000</td>
+<td class="px-4 pl-10 text-on-surface">Accounts Payable <span class="text-on-surface-variant text-body-sm">(Supplier Ledger Control A/C)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">CTRL-AP-MAIN</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">385,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Liability Item 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">2100</td>
+<td class="px-4 pl-10 text-on-surface">Customer Refund Payable <span class="text-on-surface-variant text-body-sm">(Sales Overpayment &amp; Returns Provision)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">PAY-CUST-RET</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">30,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- TOTAL LIABILITIES -->
+<tr class="bg-surface-container-low/30">
+<td class="px-6 py-2.5"></td>
+<td class="px-4 font-title-sm text-title-sm text-on-surface font-semibold uppercase" colspan="3">
+                  TOTAL LIABILITIES
+                </td>
+<td class="px-6 py-2.5 text-right">
+<div class="inline-block border-t border-outline text-on-surface font-title-sm text-title-sm font-numeric-mono font-semibold pt-0.5">
+                    Rs. 415,000.00
+                  </div>
+</td>
+</tr>
+</tbody>
+<!-- SECTION 3: EQUITY & RESERVES -->
+<tbody><tr class="bg-surface-container/30">
+<td class="px-6 py-2.5" colspan="5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleSection('equity-group', 'equity-icon')">
+<span class="material-symbols-outlined text-[18px] text-primary" id="equity-icon">expand_more</span>
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider font-bold">3. EQUITY &amp; RESERVES</span>
+</div>
+<span class="font-label-default text-label-default text-on-surface-variant">Capital &amp; Retained Earnings</span>
+</div>
+</td>
+</tr>
+<!-- Equity Group Container -->
+</tbody><tbody class="divide-y divide-outline-variant/15" id="equity-group">
+<!-- Equity Item 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11">
+<td class="px-6 font-numeric-mono text-numeric-mono text-secondary">3000</td>
+<td class="px-4 pl-10 text-on-surface">Owner's Capital Equity <span class="text-on-surface-variant text-body-sm">(Paid-in Initial Contribution)</span></td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">CAP-INIT-01</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">900,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- Equity Item 2 (P&L Transfer) -->
+<tr class="hover:bg-surface-container-low/50 transition-colors h-11 bg-primary/5">
+<td class="px-6 font-numeric-mono text-numeric-mono text-primary font-semibold">3900</td>
+<td class="px-4 pl-10 text-on-surface font-body-medium">
+                  Current Period Net Profit 
+                  <span class="text-primary font-body-sm font-normal">(Transfer from P&amp;L Statement as of Oct 24)</span>
+</td>
+<td class="px-4 font-body-sm text-body-sm text-primary">P&amp;L-OCT24-NET</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface">325,000.00</td>
+<td class="px-6 text-right font-numeric-mono text-numeric-mono text-on-surface-variant">—</td>
+</tr>
+<!-- TOTAL EQUITY -->
+<tr class="bg-surface-container-low/30">
+<td class="px-6 py-2.5"></td>
+<td class="px-4 font-title-sm text-title-sm text-on-surface font-semibold uppercase" colspan="3">
+                  TOTAL EQUITY
+                </td>
+<td class="px-6 py-2.5 text-right">
+<div class="inline-block border-t border-outline text-on-surface font-title-sm text-title-sm font-numeric-mono font-semibold pt-0.5">
+                    Rs. 1,225,000.00
+                  </div>
+</td>
+</tr>
+<!-- TOTAL LIABILITIES & EQUITY (Double underline accounting convention) -->
+<tr class="bg-surface-container/40">
+<td class="px-6 py-3.5"></td>
+<td class="px-4 py-3.5" colspan="3">
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md text-on-surface font-bold uppercase tracking-wide">
+                      TOTAL LIABILITIES &amp; EQUITY
+                    </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0] font-label-uppercase text-[11px] font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                      Matches Assets
+                    </span>
+</div>
+</td>
+<td class="px-6 py-3.5 text-right">
+<div class="inline-block border-t border-on-surface font-headline-md text-headline-md text-on-surface font-numeric-mono font-bold pt-0.5">
+<span class="border-b-[3px] border-double border-on-surface pb-0.5">Rs. 1,640,000.00</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Statement Footer Sign-off & Audit Meta -->
+<div class="px-space-lg py-space-md border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col md:flex-row md:items-center justify-between gap-4 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified_user</span>
+<span>Prepared by <strong class="text-on-surface font-body-medium">Kasun Perera</strong> (Store Manager)</span>
+<span>•</span>
+<span>Audited Double-Entry Balance Sheet</span>
+</div>
+<div class="font-numeric-mono text-numeric-mono text-secondary text-right">
+          System Verification Hash: <span class="text-on-surface">#BS-20241024-8902A</span> • 18:45:00 UTC
+        </div>
+</div>
+</div>
+<!-- Accounting Governance Notice Box -->
+<div class="bg-surface-container-low rounded-[10px] border border-outline-variant/40 p-space-md flex items-start gap-3.5 shadow-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary-container mt-0.5">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+          Accounting Integrity &amp; Balance Sheet Governance
+        </h4>
+<p class="font-body-default text-body-default text-on-surface-variant leading-relaxed">
+          All asset, liability, and equity values are strictly computed from finalized double-entry journal postings as of the selected date. System checks ensure that Assets = Liabilities + Equity at all times. Manual overrides or unposted adjustments are strictly prohibited under ERP regulatory controls.
+        </p>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

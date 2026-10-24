@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#b7c8e1","inverse-primary":"#b4c5ff","surface-bright":"#faf8ff","primary-fixed-dim":"#b4c5ff","tertiary-fixed":"#ffdbcd","on-tertiary":"#ffffff","outline-variant":"#c3c6d7","surface-dim":"#d2d9f4","on-primary-container":"#eeefff","inverse-surface":"#283044","surface":"#faf8ff","surface-container-low":"#f2f3ff","on-background":"#131b2e","error":"#ba1a1a","secondary":"#505f76","primary":"#004ac6","on-primary-fixed":"#00174b","on-tertiary-fixed":"#360f00","on-error":"#ffffff","secondary-fixed":"#d3e4fe","on-surface-variant":"#434655","surface-variant":"#dae2fd","on-tertiary-fixed-variant":"#7d2d00","on-surface":"#131b2e","on-secondary":"#ffffff","surface-container-high":"#e2e7ff","on-primary-fixed-variant":"#003ea8","surface-tint":"#0053db","tertiary":"#943700","on-error-container":"#93000a","on-secondary-fixed-variant":"#38485d","primary-fixed":"#dbe1ff","inverse-on-surface":"#eef0ff","error-container":"#ffdad6","on-secondary-fixed":"#0b1c30","primary-container":"#2563eb","on-primary":"#ffffff","on-secondary-container":"#54647a","surface-container":"#eaedff","secondary-container":"#d0e1fb","outline":"#737686","surface-container-highest":"#dae2fd","on-tertiary-container":"#ffede6","tertiary-container":"#bc4800","background":"#faf8ff","tertiary-fixed-dim":"#ffb596","surface-container-lowest":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"margin-md":"1.5rem","margin":"1rem","gutter":"1rem","space-md":"1rem","space-sm":"0.5rem","gutter-lg":"1.5rem","space-xs":"0.25rem","space-xl":"2rem","space-lg":"1.5rem","margin-lg":"1.5rem"},fontFamily:{"numeric-mono":["Inter"],"body-sm":["Inter"],"label-uppercase":["Inter"],"body-medium":["Inter"],"title-sm":["Inter"],"body-default":["Inter"],"label-default":["Inter"],"headline-xl":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"]},fontSize:{"numeric-mono":["14px",{"lineHeight":"20px","fontWeight":"500"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"label-uppercase":["11px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","fontWeight":"500"}],"title-sm":["15px",{"lineHeight":"20px","fontWeight":"600"}],"body-default":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-default":["12px",{"lineHeight":"16px","fontWeight":"500"}],"headline-xl":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-md text-headline-md">D</div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface tracking-tight">DistriFlow ERP</span><span class="font-label-uppercase text-label-uppercase text-outline">Wholesale Core</span></div></div><div class="px-space-md py-space-xs"><div class="h-px bg-surface-container-high w-full"></div></div><nav class="flex-1 px-space-md py-space-sm space-y-1 overflow-y-auto" data-active-classes="bg-surface-container-low text-primary-container font-semibold shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-products" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Products</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-inventory" href="#"><span class="material-symbols-outlined text-[20px]">warehouse</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-sales" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span>Sales</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-purchases" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span>Purchases</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg bg-surface-container-low text-primary-container font-semibold transition-colors font-body-medium text-body-medium shadow-sm" data-path="wholesale-erp-customers" href="#"><span class="material-symbols-outlined text-[20px] text-primary-container">group</span><span>Customers</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-suppliers" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Suppliers</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-payments-and-expenses" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments &amp; Expenses</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-accounting" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span>Accounting</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports</span></a></nav><div class="p-space-md bg-surface-container-lowest mt-auto"><div class="h-px bg-surface-container-high w-full mb-space-sm"></div><a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-medium text-body-medium" data-path="wholesale-erp-settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a><div class="px-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-default text-label-default"><span>System Core</span><span class="font-numeric-mono text-numeric-mono text-[11px] text-outline">v1.4.0</span></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-outline">calendar_today</span><span>Thursday, Oct 24, 2024</span></div><div class="h-4 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm bg-surface-container-low px-3 py-1.5 rounded-lg shadow-sm"><span class="w-2 h-2 rounded-full bg-[#16A34A]"></span><span class="font-body-medium text-body-medium text-on-surface">Main Warehouse</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm text-right"><div class="flex flex-col"><span class="font-body-medium text-body-medium text-on-surface">Kasun Perera</span><span class="font-label-default text-label-default text-outline">Store Manager</span></div><div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- Mode Switcher Banner (Interactive Prototype Utility) -->
+<div class="mb-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-3.5 bg-surface-container-low rounded-xl border border-surface-container-high shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-medium text-body-medium text-on-surface">Interactive Prototype Viewport</span>
+<span class="font-body-sm text-body-sm text-secondary">Switch form state to preview Create vs. Edit behaviors and ledger lock constraints.</span>
+</div>
+</div>
+<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg border border-surface-container-high shadow-sm shrink-0 self-start sm:self-auto">
+<button class="px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-1.5" id="btn-mode-add" onclick="switchFormMode('add')" type="button">
+<span class="material-symbols-outlined text-[15px]">person_add</span>
+<span>Add Customer</span>
+</button>
+<button class="px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all text-secondary hover:text-on-surface flex items-center gap-1.5" id="btn-mode-edit" onclick="switchFormMode('edit')" type="button">
+<span class="material-symbols-outlined text-[15px]">edit</span>
+<span>Edit Customer (CUS-0001)</span>
+</button>
+</div>
+</div>
+<!-- Breadcrumb & Top Navigation Bar -->
+<div class="flex flex-col gap-space-xs mb-space-lg">
+<div class="flex items-center justify-between">
+<nav aria-label="Breadcrumb" class="flex items-center gap-1.5 text-secondary font-label-default text-label-default">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>Customers</span>
+</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-body-medium text-body-medium" id="breadcrumb-current">Add Customer</span>
+</nav>
+<a class="inline-flex items-center gap-1.5 text-secondary hover:text-primary transition-colors font-body-sm text-body-sm font-medium group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+<span>Back to Customers</span>
+</a>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mt-1">
+<div>
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight" id="page-title">Add Customer</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim" id="badge-mode">
+            Mode: Create Customer
+          </span>
+</div>
+<p class="font-body-default text-body-default text-secondary mt-0.5" id="page-subtitle">
+          Enter the basic contact information and initial ledger profile for a new wholesale customer.
+        </p>
+</div>
+<div class="flex items-center gap-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest rounded-lg border border-surface-container-high text-secondary font-label-default text-label-default shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">verified_user</span>
+<span>AR Protocol v2.4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Centered Form Card -->
+<div class="w-full max-w-3xl mx-auto bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden mb-space-lg">
+<form id="customerForm" novalidate="" onsubmit="event.preventDefault(); handleSubmit();">
+<!-- Top Context Banner (Edit Mode Warning - Hidden in Add Mode) -->
+<div class="hidden bg-surface-container-low px-6 py-3 border-b border-surface-container-high items-center justify-between gap-3 text-secondary" id="edit-notice-banner">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">info</span>
+<span class="font-body-sm text-body-sm">
+            Updating record for <strong class="text-on-surface">ABC Traders (Private) Ltd</strong>. Assigned Account Manager: <span class="text-on-surface font-medium">Kasun Perera</span>.
+          </span>
+</div>
+<span class="font-numeric-mono text-numeric-mono text-[12px] bg-surface-container-lowest px-2 py-0.5 rounded border border-surface-container-high text-secondary">Created: 01/01/2024</span>
+</div>
+<!-- Section 1: Customer Information -->
+<div class="p-6 md:p-8">
+<div class="flex items-start justify-between pb-4 mb-6 border-b border-surface-container-high">
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">domain</span>
+<span>Customer Information</span>
+</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Basic identity and direct business contact details</p>
+</div>
+<span class="font-label-uppercase text-label-uppercase text-outline tracking-wider">Step 01 / 02</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+<!-- Customer Name -->
+<div class="flex flex-col gap-1.5 md:col-span-1">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="customerName">
+<span>Customer Name <span class="text-error">*</span></span>
+<span class="font-label-default text-label-default text-outline">Trading Name</span>
+</label>
+<div class="relative">
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface placeholder:text-outline text-body-default font-body-default focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="customerName" name="customerName" placeholder="e.g., Colombo Central Traders / ABC Retailers" required="" type="text"/>
+</div>
+<p class="font-label-default text-label-default text-secondary">Official registered entity name for tax and invoicing purposes</p>
+</div>
+<!-- Customer Code (Read Only) -->
+<div class="flex flex-col gap-1.5 md:col-span-1">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="customerCode">
+<span>Customer Code</span>
+<span class="font-label-default text-label-default text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">lock</span>
+<span>System Defined</span>
+</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-[38px] pl-9 pr-3 bg-surface-container-low border border-surface-container-high rounded-lg text-secondary font-numeric-mono text-numeric-mono cursor-not-allowed select-none" id="customerCode" name="customerCode" readonly="" type="text" value="CUS-0007 (Auto-generated)"/>
+<span class="material-symbols-outlined text-[16px] text-outline absolute left-3 pointer-events-none">fingerprint</span>
+</div>
+<p class="font-label-default text-label-default text-secondary">System-assigned sequential ledger code</p>
+</div>
+<!-- Phone Number -->
+<div class="flex flex-col gap-1.5 md:col-span-1">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="customerPhone">
+<span>Phone Number</span>
+<span class="font-label-default text-label-default text-outline">Primary Mobile / Tel</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-[38px] pl-9 pr-3 bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface placeholder:text-outline text-body-default font-body-default focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="customerPhone" name="customerPhone" placeholder="077 123 4567" type="tel"/>
+<span class="material-symbols-outlined text-[16px] text-outline absolute left-3 pointer-events-none">phone</span>
+</div>
+<p class="font-label-default text-label-default text-secondary">Sri Lankan mobile or landline (+94 / 07x / 011)</p>
+</div>
+<!-- Email Address -->
+<div class="flex flex-col gap-1.5 md:col-span-1">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="customerEmail">
+<span>Email Address</span>
+<span class="font-label-default text-label-default text-outline">E-Statements</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-[38px] pl-9 pr-3 bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface placeholder:text-outline text-body-default font-body-default focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="customerEmail" name="customerEmail" placeholder="procurement@abctraders.lk" type="email"/>
+<span class="material-symbols-outlined text-[16px] text-outline absolute left-3 pointer-events-none">alternate_email</span>
+</div>
+<p class="font-label-default text-label-default text-secondary">Dispatch recipient for electronic delivery notes &amp; invoices</p>
+</div>
+<!-- Business / Billing Address -->
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between" for="customerAddress">
+<span>Business / Billing Address</span>
+<span class="font-label-default text-label-default text-outline">Delivery Destination</span>
+</label>
+<div class="relative">
+<textarea class="w-full p-3 bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface placeholder:text-outline text-body-default font-body-default focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all resize-y min-h-[76px]" id="customerAddress" name="customerAddress" placeholder="Enter street address, shop/unit number, city, and postal district" rows="3"></textarea>
+</div>
+<p class="font-label-default text-label-default text-secondary">Physical delivery site used on dispatch waybills and sales credit notes</p>
+</div>
+</div>
+<!-- Section 2: Account & Status Configuration -->
+<div class="mt-8 pt-6 border-t border-surface-container-high">
+<div class="flex items-start justify-between pb-4 mb-5">
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">account_balance_wallet</span>
+<span>Account Information</span>
+</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Commercial ledger parameters and billing authorization status</p>
+</div>
+<span class="font-label-uppercase text-label-uppercase text-outline tracking-wider">Step 02 / 02</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+<!-- Customer Status Toggle -->
+<div class="flex flex-col gap-2">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between">
+<span>Customer Status</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" id="status-indicator-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>
+                  Active
+                </span>
+</label>
+<!-- Segmented Control Button -->
+<div class="grid grid-cols-2 p-1 bg-surface-container-low border border-surface-container-high rounded-lg">
+<button class="flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all bg-surface-container-lowest text-on-surface shadow-sm border border-surface-container-high" id="status-btn-active" onclick="setStatus('active')" type="button">
+<span class="material-symbols-outlined text-[15px] text-[#16A34A]">check_circle</span>
+<span>Active</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all text-secondary hover:text-on-surface" id="status-btn-inactive" onclick="setStatus('inactive')" type="button">
+<span class="material-symbols-outlined text-[15px] text-outline">block</span>
+<span>Inactive</span>
+</button>
+</div>
+<p class="font-label-default text-label-default text-secondary">
+                Inactive customers cannot be billed on new invoices but preserve complete ledger records and history.
+              </p>
+</div>
+<!-- Currency Profile -->
+<div class="flex flex-col gap-2">
+<label class="font-body-medium text-body-medium text-on-surface flex items-center justify-between">
+<span>Currency Profile</span>
+<span class="font-label-default text-label-default text-outline">Multi-Currency Disabled</span>
+</label>
+<div class="h-[38px] px-3.5 bg-surface-container-low border border-surface-container-high rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-numeric-mono text-numeric-mono text-on-surface font-semibold">LKR (Rs.)</span>
+<span class="text-outline">·</span>
+<span class="font-body-sm text-body-sm text-secondary">Default Base Currency</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+</div>
+<p class="font-label-default text-label-default text-secondary">
+                Wholesale transactions evaluate at domestic Sri Lankan Rupee valuation.
+              </p>
+</div>
+</div>
+</div>
+<!-- Section 3: Opening Balance Sub-Card (Setup vs Locked Edit Mode) -->
+<div class="mt-8">
+<div class="bg-surface-container-low border border-surface-container-high rounded-lg p-5 transition-all" id="opening-balance-card">
+<div class="flex items-start justify-between gap-3 mb-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-md bg-surface-container-lowest border border-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]">assured_workload</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface">Opening Balance (Initial Setup Only)</h3>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container-lowest border border-surface-container-high text-secondary" id="balance-lock-tag">
+<span class="material-symbols-outlined text-[12px]">security</span>
+<span>Migration Audit</span>
+</span>
+</div>
+<!-- Callout Note -->
+<div class="p-3 bg-surface-container-lowest border border-surface-container-high rounded-lg mb-4 flex items-start gap-2.5" id="balance-info-callout">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">shield</span>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+                Opening balances can only be entered by authorized users during initial accounting migration. Subsequent balances are calculated automatically from approved invoices, payments, and returns.
+              </p>
+</div>
+<!-- Edit Mode Locked Alert (Hidden by default) -->
+<div class="hidden p-3 bg-surface-container-lowest border border-surface-container-high rounded-lg mb-4 flex items-center justify-between gap-2.5" id="balance-locked-callout">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-[#D97706] shrink-0">lock</span>
+<span class="font-body-sm text-body-sm text-secondary">
+                  Opening balance posted during onboarding on <strong class="text-on-surface">01/01/2024</strong>. Value is locked and ledger-reconciled.
+                </span>
+</div>
+<span class="font-label-uppercase text-label-uppercase text-[#D97706] bg-[#FEF3C7] border border-[#FDE68A] px-2 py-0.5 rounded">Reconciled</span>
+</div>
+<!-- Form Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Balance Amount -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-medium text-body-medium text-on-surface" for="openingBalanceAmount">Opening Balance Amount (LKR)</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-secondary font-numeric-mono text-numeric-mono font-medium pointer-events-none select-none">Rs.</span>
+<input class="w-full h-[38px] pl-10 pr-3 text-right bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface font-numeric-mono text-numeric-mono focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="openingBalanceAmount" name="openingBalanceAmount" placeholder="0.00" step="0.01" type="number" value="0.00"/>
+</div>
+<p class="font-label-default text-label-default text-secondary" id="balance-field-helper">
+                  Use only when migrating an existing customer's unpaid balance into the ERP ledger.
+                </p>
+</div>
+<!-- Balance Date -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-medium text-body-medium text-on-surface" for="openingBalanceDate">Opening Balance Date</label>
+<div class="relative flex items-center">
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest border border-surface-container-high rounded-lg text-on-surface font-numeric-mono text-numeric-mono focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="openingBalanceDate" name="openingBalanceDate" type="date" value="2024-10-24"/>
+</div>
+<p class="font-label-default text-label-default text-secondary">Effective cutoff date for initial ledger carry-forward</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action Bar -->
+<div class="bg-surface-container-low px-6 py-4 border-t border-surface-container-high flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-1.5 text-secondary font-label-default text-label-default">
+<span class="text-error font-bold text-sm leading-none">*</span>
+<span>Fields marked with an asterisk are mandatory</span>
+</div>
+<div class="flex items-center justify-end gap-3">
+<button class="h-[38px] px-4 rounded-lg bg-surface-container-lowest text-on-surface border border-surface-container-high hover:bg-surface-container-low hover:border-outline-variant font-body-medium text-body-medium transition-colors shadow-sm" onclick="handleCancel()" type="button">
+            Cancel
+          </button>
+<button class="h-[38px] px-5 rounded-lg bg-primary-container text-on-primary hover:bg-[#1d4ed8] active:bg-[#1e40af] font-body-medium text-body-medium transition-colors shadow-sm flex items-center gap-2" id="btn-save-customer" type="submit">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span id="btn-save-text">Save Customer</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Operational Ledger Audit Notice -->
+<div class="w-full max-w-3xl mx-auto flex items-start gap-2.5 px-3 py-2 text-secondary font-label-default text-label-default">
+<span class="material-symbols-outlined text-[16px] text-outline shrink-0 mt-0.5">policy</span>
+<p>
+<strong class="text-on-surface font-medium">System Governance:</strong> Direct manual ledger adjustments are restricted. All customer receivables synchronize atomically with the Accounts Receivable (AR) general ledger control account (GL-1100).
+    </p>
+</div>
+</div>
+<script>
+  let currentStatus = 'active';
+  let formMode = 'add'; // 'add' or 'edit'
+
+  function setStatus(status) {
+    currentStatus = status;
+    const btnActive = document.getElementById('status-btn-active');
+    const btnInactive = document.getElementById('status-btn-inactive');
+    const indicatorBadge = document.getElementById('status-indicator-badge');
+
+    if (status === 'active') {
+      btnActive.className = "flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all bg-surface-container-lowest text-on-surface shadow-sm border border-surface-container-high";
+      btnInactive.className = "flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all text-secondary hover:text-on-surface";
+      indicatorBadge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]";
+      indicatorBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>Active';
+    } else {
+      btnInactive.className = "flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all bg-surface-container-lowest text-on-surface shadow-sm border border-surface-container-high";
+      btnActive.className = "flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-semibold tracking-wide transition-all text-secondary hover:text-on-surface";
+      indicatorBadge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container-highest text-secondary border border-surface-container-high";
+      indicatorBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>Inactive';
+    }
+  }
+
+  function switchFormMode(mode) {
+    formMode = mode;
+    const btnAdd = document.getElementById('btn-mode-add');
+    const btnEdit = document.getElementById('btn-mode-edit');
+    const pageTitle = document.getElementById('page-title');
+    const pageSubtitle = document.getElementById('page-subtitle');
+    const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+    const badgeMode = document.getElementById('badge-mode');
+    const editNotice = document.getElementById('edit-notice-banner');
+    
+    // Form Inputs
+    const inputName = document.getElementById('customerName');
+    const inputCode = document.getElementById('customerCode');
+    const inputPhone = document.getElementById('customerPhone');
+    const inputEmail = document.getElementById('customerEmail');
+    const inputAddress = document.getElementById('customerAddress');
+    const inputAmount = document.getElementById('openingBalanceAmount');
+    const inputDate = document.getElementById('openingBalanceDate');
+    const btnSaveText = document.getElementById('btn-save-text');
+
+    // Sub-card elements
+    const calloutInfo = document.getElementById('balance-info-callout');
+    const calloutLocked = document.getElementById('balance-locked-callout');
+    const balanceHelper = document.getElementById('balance-field-helper');
+
+    if (mode === 'edit') {
+      btnAdd.className = "px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all text-secondary hover:text-on-surface flex items-center gap-1.5";
+      btnEdit.className = "px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-1.5";
+
+      pageTitle.innerText = "Edit Customer: ABC Traders";
+      pageSubtitle.innerText = "Modify operational details, contact parameters, and active dispatch addresses.";
+      breadcrumbCurrent.innerText = "Edit Customer (CUS-0001)";
+      badgeMode.innerText = "Mode: Edit Customer";
+      badgeMode.className = "inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-secondary-fixed text-on-secondary-fixed border border-secondary-fixed-dim";
+
+      editNotice.classList.remove('hidden');
+      editNotice.classList.add('flex');
+
+      // Populate dummy record
+      inputName.value = "ABC Traders (Private) Ltd";
+      inputCode.value = "CUS-0001";
+      inputPhone.value = "077 452 8910";
+      inputEmail.value = "procurement@abctraders.lk";
+      inputAddress.value = "No. 48, Reclamation Road, Pettah, Colombo 11, Western Province";
+      
+      // Opening Balance Lock in Edit Mode
+      inputAmount.value = "142,500.00";
+      inputAmount.readOnly = true;
+      inputAmount.classList.add('bg-surface-container-low', 'cursor-not-allowed', 'text-secondary');
+      inputAmount.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+
+      inputDate.value = "2024-01-01";
+      inputDate.readOnly = true;
+      inputDate.classList.add('bg-surface-container-low', 'cursor-not-allowed', 'text-secondary');
+      inputDate.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+
+      calloutInfo.classList.add('hidden');
+      calloutLocked.classList.remove('hidden');
+      calloutLocked.classList.add('flex');
+      balanceHelper.innerText = "Opening balance is locked post-onboarding. To adjust, post a General Ledger Credit/Debit memo.";
+
+      btnSaveText.innerText = "Save Changes";
+      setStatus('active');
+    } else {
+      btnAdd.className = "px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-1.5";
+      btnEdit.className = "px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all text-secondary hover:text-on-surface flex items-center gap-1.5";
+
+      pageTitle.innerText = "Add Customer";
+      pageSubtitle.innerText = "Enter the basic contact information and initial ledger profile for a new wholesale customer.";
+      breadcrumbCurrent.innerText = "Add Customer";
+      badgeMode.innerText = "Mode: Create Customer";
+      badgeMode.className = "inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim";
+
+      editNotice.classList.add('hidden');
+      editNotice.classList.remove('flex');
+
+      // Reset form
+      inputName.value = "";
+      inputCode.value = "CUS-0007 (Auto-generated)";
+      inputPhone.value = "";
+      inputEmail.value = "";
+      inputAddress.value = "";
+      
+      // Unlock Opening balance
+      inputAmount.value = "0.00";
+      inputAmount.readOnly = false;
+      inputAmount.classList.remove('bg-surface-container-low', 'cursor-not-allowed', 'text-secondary');
+      inputAmount.classList.add('bg-surface-container-lowest', 'text-on-surface');
+
+      inputDate.value = "2024-10-24";
+      inputDate.readOnly = false;
+      inputDate.classList.remove('bg-surface-container-low', 'cursor-not-allowed', 'text-secondary');
+      inputDate.classList.add('bg-surface-container-lowest', 'text-on-surface');
+
+      calloutInfo.classList.remove('hidden');
+      calloutLocked.classList.add('hidden');
+      calloutLocked.classList.remove('flex');
+      balanceHelper.innerText = "Use only when migrating an existing customer's unpaid balance into the ERP ledger.";
+
+      btnSaveText.innerText = "Save Customer";
+      setStatus('active');
+    }
+  }
+
+  function handleCancel() {
+    if (confirm("Discard all unsaved customer profile changes?")) {
+      switchFormMode(formMode);
+    }
+  }
+
+  function handleSubmit() {
+    const name = document.getElementById('customerName').value.trim();
+    if (!name) {
+      alert("Validation Error: Please provide an official Customer Name.");
+      document.getElementById('customerName').focus();
+      return;
+    }
+
+    const actionText = formMode === 'add' ? 'created' : 'updated';
+    const customerCode = document.getElementById('customerCode').value;
+    alert(`Success: Customer record for "${name}" (${customerCode}) has been successfully ${actionText} in the wholesale ledger.`);
+  }
+</script></main></div></body></html>
