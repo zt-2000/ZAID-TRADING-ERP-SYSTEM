@@ -98,6 +98,13 @@ export interface SaleInvoice {
   syncStatus?: 'synced' | 'pending_sync';
 }
 
+export interface PurchaseItem {
+  productId: string;
+  productName: string;
+  quantity: number;
+  unitCost: number;
+}
+
 export interface PurchaseOrder {
   id: string;
   poNumber: string;
@@ -105,7 +112,9 @@ export interface PurchaseOrder {
   supplierName: string;
   date: string;
   totalAmount: number;
-  status: 'Received' | 'Pending' | 'Ordered';
+  paidAmount?: number;
+  status: 'Draft' | 'Ordered' | 'Received' | 'Cancelled';
+  items?: PurchaseItem[];
   syncStatus?: 'synced' | 'pending_sync';
 }
 

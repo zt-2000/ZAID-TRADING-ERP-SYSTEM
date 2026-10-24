@@ -707,6 +707,80 @@ export async function recordLiveSupplierPayment(
   }
 }
 
+export async function recordLiveCustomerPayment(
+  client: SupabaseClient,
+  customerId: string,
+  invoiceId: string | null,
+  amount: number,
+  paymentMethod: string,
+  referenceNo: string
+): Promise<void> {
+  const payMethodId = await getPaymentMethodId(
+    client,
+    paymentMethod === 'Bank' ? 'BANK_TRANSFER' : paymentMethod === 'Cheque' ? 'CHEQUE' : 'CASH'
+  );
+  const paymentNo = `PAY-CUST-${Date.now().toString().slice(-6)}`;
+
+  let targetInvoiceId = invoiceId;
+  if (!targetInvoiceId) {
+    const { data: unpaidInvoices } = await client
+      .from('sales_invoices')
+      .select('id')
+      .eq('customer_id', customerId)
+      .neq('status', 'Paid')
+      .order('created_at', { ascending: true })
+      .limit(1);
+
+    if (unpaidInvoices && unpaidInvoices.length > 0) {
+      targetInvoiceId = unpaidInvoices[0].id;
+    }
+  }
+
+  const payload: any = {
+    payment_no: paymentNo,
+    party_type: 'CUSTOMER',
+    customer_id: customerId,
+    payment_method_id: payMethodId,
+    amount,
+    notes: referenceNo ? `Ref: ${referenceNo}` : 'Customer account payment'
+  };
+
+  if (targetInvoiceId) {
+    payload.sales_invoice_id = targetInvoiceId;
+  }
+
+  const { error } = await client.from('payments').insert(payload);
+  if (error) {
+    throw new Error(`Failed to record customer payment: ${error.message}`);
+  }
+}
+
+export async function recordLiveSalesReturn(
+  client: SupabaseClient,
+  invoiceId: string,
+  productId: string,
+  quantity: number,
+  reason: string,
+  refundMethod: string
+): Promise<void> {
+  const warehouseId = await getDefaultWarehouseId(client);
+  const refNo = `RET-${Date.now().toString().slice(-6)}`;
+
+  const { error: movErr } = await client.from('inventory_movements').insert({
+    warehouse_id: warehouseId,
+    product_id: productId,
+    movement_type: 'SALE_RETURN',
+    quantity_change: quantity,
+    balance_after: 0,
+    reference_no: refNo,
+    reason: `Sales Return: ${reason} (${refundMethod})`
+  });
+
+  if (movErr) {
+    throw new Error(`Failed to record sales return movement: ${movErr.message}`);
+  }
+}
+
 export async function fetchLiveExpenses(client: SupabaseClient): Promise<ExpenseItem[]> {
   const { data, error } = await client
     .from('expenses')

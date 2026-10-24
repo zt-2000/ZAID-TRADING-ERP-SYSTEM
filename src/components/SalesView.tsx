@@ -6,16 +6,20 @@ interface SalesViewProps {
   state: ERPStoreState;
   onNavigate: (screen: ScreenId) => void;
   onRecordSale: (invoice: SaleInvoice) => void;
-  initialMode?: 'list' | 'create' | 'print';
+  onRecordCustomerPayment: (paymentData: { customerId: string; invoiceId: string; amount: number; paymentMethod: string; reference: string }) => Promise<void>;
+  onRecordSalesReturn: (returnData: { invoiceId: string; productId: string; quantity: number; reason: string; refundMethod: string }) => Promise<void>;
+  initialMode?: 'list' | 'create' | 'print' | 'payment' | 'return';
 }
 
 export const SalesView: React.FC<SalesViewProps> = ({
   state,
   onNavigate,
   onRecordSale,
+  onRecordCustomerPayment,
+  onRecordSalesReturn,
   initialMode = 'list'
 }) => {
-  const [mode, setMode] = useState<'list' | 'create' | 'print'>(initialMode);
+  const [mode, setMode] = useState<'list' | 'create' | 'print' | 'payment' | 'return'>(initialMode);
   const [selectedInvoice, setSelectedInvoice] = useState<SaleInvoice | null>(state.recentSales[0] || null);
 
   // Create form state
@@ -25,8 +29,26 @@ export const SalesView: React.FC<SalesViewProps> = ({
   const [discountPercent, setDiscountPercent] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Payment form state
+  const [paymentCustomerId, setPaymentCustomerId] = useState(state.customers[0]?.id || '');
+  const [paymentInvoiceId, setPaymentInvoiceId] = useState('');
+  const [paymentAmount, setPaymentAmount] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState<'Cash' | 'Bank' | 'Cheque'>('Cash');
+  const [paymentReference, setPaymentReference] = useState('');
+  const [isSubmittingPayment, setIsSubmittingPayment] = useState(false);
+
+  // Return form state
+  const [returnInvoiceId, setReturnInvoiceId] = useState(state.recentSales[0]?.id || '');
+  const [returnProductId, setReturnProductId] = useState(state.products[0]?.id || '');
+  const [returnQuantity, setReturnQuantity] = useState(1);
+  const [returnReason, setReturnReason] = useState('Defective Item');
+  const [returnRefundMethod, setReturnRefundMethod] = useState<'cash refund' | 'credit to customer account'>('credit to customer account');
+  const [isSubmittingReturn, setIsSubmittingReturn] = useState(false);
+
   const selectedProduct = state.products.find(p => p.id === selectedProductId) || state.products[0];
   const selectedCustomer = state.customers.find(c => c.id === selectedCustomerId) || state.customers[0];
+  const selectedCustomerForPayment = state.customers.find(c => c.id === paymentCustomerId) || state.customers[0];
+  const customerUnpaidInvoices = state.recentSales.filter(inv => inv.customerId === paymentCustomerId && inv.status !== 'Paid');
 
   const subtotal = (selectedProduct?.sellingPrice || 0) * quantity;
   const discountAmount = (subtotal * discountPercent) / 100;
@@ -64,38 +86,116 @@ export const SalesView: React.FC<SalesViewProps> = ({
     }
   };
 
+  const handleSavePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingPayment) return;
+    if (!selectedCustomerForPayment) {
+      alert('Please select a customer.');
+      return;
+    }
+    const maxBalance = selectedCustomerForPayment.outstandingBalance;
+    if (paymentAmount <= 0) {
+      alert('Payment amount must be greater than 0.');
+      return;
+    }
+    if (maxBalance > 0 && paymentAmount > maxBalance) {
+      alert(`Payment amount cannot exceed customer outstanding balance (Rs. ${maxBalance.toLocaleString()}).`);
+      return;
+    }
+
+    setIsSubmittingPayment(true);
+    try {
+      await onRecordCustomerPayment({
+        customerId: paymentCustomerId,
+        invoiceId: paymentInvoiceId,
+        amount: paymentAmount,
+        paymentMethod,
+        reference: paymentReference
+      });
+      setMode('list');
+    } finally {
+      setIsSubmittingPayment(false);
+    }
+  };
+
+  const handleSaveReturn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingReturn) return;
+    if (!returnInvoiceId || !returnProductId) {
+      alert('Please select an invoice and a product.');
+      return;
+    }
+    if (returnQuantity <= 0) {
+      alert('Return quantity must be greater than 0.');
+      return;
+    }
+
+    setIsSubmittingReturn(true);
+    try {
+      await onRecordSalesReturn({
+        invoiceId: returnInvoiceId,
+        productId: returnProductId,
+        quantity: returnQuantity,
+        reason: returnReason,
+        refundMethod: returnRefundMethod
+      });
+      setMode('list');
+    } finally {
+      setIsSubmittingReturn(false);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-[22px] font-bold text-[#0F172A] tracking-tight">Sales Management</h1>
-          <p className="text-[13px] text-[#64748B] mt-0.5">Wholesale invoices, point-of-sale billing, and receivables</p>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Wholesale invoices, point-of-sale billing, customer payments, and returns</p>
         </div>
-        <div className="flex items-center gap-3">
-          {mode !== 'list' && (
-            <button
-              onClick={() => setMode('list')}
-              className="px-3.5 py-2 bg-white border border-[#E2E8F0] hover:bg-slate-50 text-[#0F172A] text-sm font-medium rounded-xl shadow-sm cursor-pointer"
-            >
-              Back to Sales List
-            </button>
-          )}
-          {mode !== 'create' && (
-            <button
-              onClick={() => {
-                if (state.customers.length === 0 || state.products.length === 0) {
-                  alert('Please add at least one customer and product first.');
-                  return;
-                }
-                setMode('create');
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-medium rounded-xl shadow-sm cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[18px]">add</span>
-              <span>Create Invoice</span>
-            </button>
-          )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={() => setMode('list')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer ${mode === 'list' ? 'bg-blue-50 text-[#2563EB] border-blue-200' : 'bg-white text-[#0F172A] border-[#E2E8F0]'}`}
+          >
+            Sales List
+          </button>
+          <button
+            onClick={() => {
+              if (state.customers.length === 0 || state.products.length === 0) {
+                alert('Please add at least one customer and product first.');
+                return;
+              }
+              setMode('create');
+            }}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer ${mode === 'create' ? 'bg-blue-50 text-[#2563EB] border-blue-200' : 'bg-white text-[#0F172A] border-[#E2E8F0]'}`}
+          >
+            Create Invoice
+          </button>
+          <button
+            onClick={() => {
+              if (state.customers.length === 0) {
+                alert('Please add at least one customer first.');
+                return;
+              }
+              setMode('payment');
+            }}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer ${mode === 'payment' ? 'bg-blue-50 text-[#2563EB] border-blue-200' : 'bg-white text-[#0F172A] border-[#E2E8F0]'}`}
+          >
+            Record Payment
+          </button>
+          <button
+            onClick={() => {
+              if (state.recentSales.length === 0 || state.products.length === 0) {
+                alert('Please ensure there are recorded sales and products first.');
+                return;
+              }
+              setMode('return');
+            }}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer ${mode === 'return' ? 'bg-blue-50 text-[#2563EB] border-blue-200' : 'bg-white text-[#0F172A] border-[#E2E8F0]'}`}
+          >
+            Sales Return
+          </button>
         </div>
       </div>
 
@@ -264,6 +364,210 @@ export const SalesView: React.FC<SalesViewProps> = ({
                 }`}
               >
                 {isSubmitting ? 'Processing Invoice...' : 'Post Invoice & Print'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {mode === 'payment' && (
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl mx-auto space-y-6">
+          <div className="border-b pb-3 border-[#E2E8F0]">
+            <h3 className="text-lg font-bold text-[#0F172A]">Record Customer Payment</h3>
+            <p className="text-xs text-[#64748B]">Receive payment against customer receivables & outstanding balances</p>
+          </div>
+          <form onSubmit={handleSavePayment} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Select Customer</label>
+              <select
+                value={paymentCustomerId}
+                onChange={e => setPaymentCustomerId(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+              >
+                {state.customers.map(c => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} (Outstanding: Rs. {c.outstandingBalance.toLocaleString()})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs flex justify-between items-center">
+              <div>
+                <span className="text-slate-500 block">Current Outstanding Balance</span>
+                <span className="text-base font-bold text-[#0F172A]">
+                  Rs. {selectedCustomerForPayment?.outstandingBalance.toLocaleString() || 0}
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="text-slate-500 block">Account Type</span>
+                <span className="font-semibold text-blue-600">{selectedCustomerForPayment?.accountType}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-[#64748B] mb-1">Payment Amount (Rs.)</label>
+                <input
+                  type="number"
+                  min="1"
+                  step="0.01"
+                  value={paymentAmount}
+                  onChange={e => setPaymentAmount(parseFloat(e.target.value) || 0)}
+                  className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+                  placeholder="0.00"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#64748B] mb-1">Payment Method</label>
+                <select
+                  value={paymentMethod}
+                  onChange={e => setPaymentMethod(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+                >
+                  <option value="Cash">Cash in Hand</option>
+                  <option value="Bank">Bank Transfer</option>
+                  <option value="Cheque">Post-Dated Cheque</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Allocate to Specific Invoice (Optional)</label>
+              <select
+                value={paymentInvoiceId}
+                onChange={e => setPaymentInvoiceId(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+              >
+                <option value="">Apply to Oldest Unpaid Invoice Automatically</option>
+                {customerUnpaidInvoices.map(inv => (
+                  <option key={inv.id} value={inv.id}>
+                    {inv.invoiceNo} - Rs. {inv.totalAmount.toLocaleString()} ({inv.status})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Reference / Receipt Number</label>
+              <input
+                type="text"
+                value={paymentReference}
+                onChange={e => setPaymentReference(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+                placeholder="e.g. REC-9921 or Cheque #4421"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 pt-3">
+              <button
+                type="button"
+                onClick={() => setMode('list')}
+                className="px-4 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] hover:bg-slate-50 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmittingPayment}
+                className="px-5 py-2 bg-[#2563EB] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] cursor-pointer transition-all"
+              >
+                {isSubmittingPayment ? 'Recording Payment...' : 'Save Payment'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {mode === 'return' && (
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl mx-auto space-y-6">
+          <div className="border-b pb-3 border-[#E2E8F0]">
+            <h3 className="text-lg font-bold text-[#0F172A]">Sales Return & Credit Note</h3>
+            <p className="text-xs text-[#64748B]">Process returned merchandise, adjust inventory stock, and issue credit</p>
+          </div>
+          <form onSubmit={handleSaveReturn} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Select Invoice</label>
+              <select
+                value={returnInvoiceId}
+                onChange={e => setReturnInvoiceId(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+              >
+                {state.recentSales.map(inv => (
+                  <option key={inv.id} value={inv.id}>
+                    {inv.invoiceNo} - {inv.customerName} (Rs. {inv.totalAmount.toLocaleString()})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Select Product to Return</label>
+              <select
+                value={returnProductId}
+                onChange={e => setReturnProductId(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+              >
+                {state.products.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} (SKU: {p.sku} - Stock: {p.currentStock})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-[#64748B] mb-1">Return Quantity</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={returnQuantity}
+                  onChange={e => setReturnQuantity(parseInt(e.target.value, 10) || 1)}
+                  className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#64748B] mb-1">Refund / Settlement Method</label>
+                <select
+                  value={returnRefundMethod}
+                  onChange={e => setReturnRefundMethod(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+                >
+                  <option value="credit">Credit to Customer Account</option>
+                  <option value="cash refund">Cash Refund</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-[#64748B] mb-1">Reason for Return</label>
+              <select
+                value={returnReason}
+                onChange={e => setReturnReason(e.target.value)}
+                className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
+              >
+                <option value="Defective Item">Defective Item</option>
+                <option value="Wrong Product Delivered">Wrong Product Delivered</option>
+                <option value="Customer Order Cancelled">Customer Order Cancelled</option>
+                <option value="Damaged in Transit">Damaged in Transit</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-3">
+              <button
+                type="button"
+                onClick={() => setMode('list')}
+                className="px-4 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] hover:bg-slate-50 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmittingReturn}
+                className="px-5 py-2 bg-[#2563EB] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] cursor-pointer transition-all"
+              >
+                {isSubmittingReturn ? 'Processing Return...' : 'Process Sales Return'}
               </button>
             </div>
           </form>

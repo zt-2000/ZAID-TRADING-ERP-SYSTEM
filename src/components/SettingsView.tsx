@@ -1,19 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { ERPStoreState } from '../lib/erpStore';
 import { ScreenId, CompanySettings } from '../types/erp';
-import { runSupabaseDiagnostics, SupabaseDiagnostics } from '../lib/supabase';
+import { runSupabaseDiagnostics, SupabaseDiagnostics, getSupabaseClient } from '../lib/supabase';
 
 interface SettingsViewProps {
   state: ERPStoreState;
   onNavigate: (screen: ScreenId) => void;
   onSaveCompanySettings?: (newSettings: CompanySettings) => void;
+  initialTab?: 'company' | 'users' | 'database';
 }
 
-export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, onSaveCompanySettings }) => {
-  const [activeTab, setActiveTab] = useState<'company' | 'users' | 'database'>('company');
+interface UserRoleItem {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'manager' | 'cashier' | 'clerk';
+  warehouse: string;
+  isActive: boolean;
+}
+
+export const SettingsView: React.FC<SettingsViewProps> = ({
+  state,
+  onNavigate,
+  onSaveCompanySettings,
+  initialTab = 'company'
+}) => {
+  const [activeTab, setActiveTab] = useState<'company' | 'users' | 'database'>(initialTab);
   const [diagnostics, setDiagnostics] = useState<SupabaseDiagnostics | null>(null);
   const [checkingDb, setCheckingDb] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Users state
+  const [usersList, setUsersList] = useState<UserRoleItem[]>([
+    { id: 'usr-1', name: 'Zaid Administrator', email: 'zaidtrading.info@gmail.com', role: 'admin', warehouse: 'Main Warehouse (MW-01)', isActive: true },
+    { id: 'usr-2', name: 'Store Manager', email: 'manager@zaidtrading.lk', role: 'manager', warehouse: 'Main Warehouse (MW-01)', isActive: true },
+    { id: 'usr-3', name: 'Counter Cashier', email: 'cashier@zaidtrading.lk', role: 'cashier', warehouse: 'Peliyagoda Counter', isActive: true },
+    { id: 'usr-4', name: 'Inventory Clerk', email: 'clerk@zaidtrading.lk', role: 'clerk', warehouse: 'Main Warehouse (MW-01)', isActive: true }
+  ]);
 
   // Form state for Company Profile
   const [companyForm, setCompanyForm] = useState<CompanySettings>(state.companySettings || {
@@ -36,6 +59,28 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
     setCheckingDb(true);
     const diag = await runSupabaseDiagnostics();
     setDiagnostics(diag);
+
+    // Try fetching live user roles from Supabase if connected
+    const client = getSupabaseClient();
+    if (client) {
+      try {
+        const { data } = await client.from('user_roles').select('*');
+        if (data && data.length > 0) {
+          const mapped = data.map((u: any) => ({
+            id: u.id,
+            name: u.full_name || 'ERP User',
+            email: u.email || 'user@zaidtrading.lk',
+            role: u.role || 'clerk',
+            warehouse: 'Main Warehouse (MW-01)',
+            isActive: true
+          }));
+          setUsersList(mapped);
+        }
+      } catch {
+        // Fallback to local default users
+      }
+    }
+
     setCheckingDb(false);
   };
 
@@ -52,12 +97,20 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
     setTimeout(() => setSaveSuccess(false), 4000);
   };
 
+  const handleToggleUserActive = (userId: string) => {
+    setUsersList(usersList.map(u => u.id === userId ? { ...u, isActive: !u.isActive } : u));
+  };
+
+  const handleChangeRole = (userId: string, newRole: UserRoleItem['role']) => {
+    setUsersList(usersList.map(u => u.id === userId ? { ...u, role: newRole } : u));
+  };
+
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-[28px] font-bold text-[#0F172A] tracking-tight">System &amp; Company Settings</h1>
-          <p className="text-[14px] text-[#64748B] mt-0.5">Configuration, company profile, user access, and Supabase integration readiness</p>
+          <p className="text-[14px] text-[#64748B] mt-0.5">Configuration, company profile, user access roles, and Supabase integration readiness</p>
         </div>
       </div>
 
@@ -70,7 +123,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
               : 'text-[#64748B] hover:text-[#0F172A]'
           }`}
         >
-          Company Profile
+          Company Profile (Screen 36)
         </button>
         <button
           onClick={() => setActiveTab('users')}
@@ -80,7 +133,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
               : 'text-[#64748B] hover:text-[#0F172A]'
           }`}
         >
-          Users &amp; Access Roles
+          Users &amp; Access Roles (Screen 37)
         </button>
         <button
           onClick={() => setActiveTab('database')}
@@ -119,9 +172,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                 placeholder="e.g. ZAID TRADING (PVT) LTD"
                 className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] font-semibold focus:outline-none focus:border-[#2563EB]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1">
-                This name is displayed across the header, sidebar, dashboard, invoices, and official statements.
-              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -132,7 +182,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   value={companyForm.tradeName}
                   onChange={e => setCompanyForm({ ...companyForm, tradeName: e.target.value })}
                   placeholder="e.g. ZAID Trading Wholesale ERP"
-                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A]"
                 />
               </div>
               <div>
@@ -142,7 +192,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   value={companyForm.taxId}
                   onChange={e => setCompanyForm({ ...companyForm, taxId: e.target.value })}
                   placeholder="102938475-7000"
-                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A]"
                 />
               </div>
             </div>
@@ -164,7 +214,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   value={companyForm.phone}
                   onChange={e => setCompanyForm({ ...companyForm, phone: e.target.value })}
                   placeholder="+94 11 234 5678"
-                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A]"
                 />
               </div>
             </div>
@@ -176,7 +226,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                 value={companyForm.address}
                 onChange={e => setCompanyForm({ ...companyForm, address: e.target.value })}
                 placeholder="No. 45/A, Warehouse Complex, Peliyagoda, Colombo"
-                className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
+                className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A]"
               />
             </div>
 
@@ -197,32 +247,65 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
         <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
           <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-[#0F172A]">Users &amp; Access Roles</h3>
-              <p className="text-xs text-[#64748B]">Role-based access control and branch permissions</p>
+              <h3 className="text-sm font-bold text-[#0F172A]">Users &amp; Access Roles Management (Screen 37)</h3>
+              <p className="text-xs text-[#64748B]">Manage staff permissions, RBAC security roles, and warehouse assignments</p>
             </div>
             <button
               onClick={() => onNavigate('38_login')}
               className="px-3 py-1 text-xs font-medium text-[#2563EB] bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 cursor-pointer"
             >
-              Sign In / Session
+              Sign In Session
             </button>
           </div>
           <table className="w-full text-left text-sm">
             <thead className="bg-[#F8FAFC] text-[11px] uppercase text-[#64748B] border-b">
               <tr>
-                <th className="py-2.5 px-4">User Name</th>
-                <th className="py-2.5 px-4">Email</th>
+                <th className="py-2.5 px-4">User Name &amp; Email</th>
                 <th className="py-2.5 px-4">Assigned Role</th>
                 <th className="py-2.5 px-4">Warehouse Access</th>
                 <th className="py-2.5 px-4 text-center">Status</th>
+                <th className="py-2.5 px-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E2E8F0]">
-              <tr>
-                <td colSpan={5} className="py-8 text-center text-[#64748B] text-xs">
-                  No additional user roles assigned. Manage authenticated accounts in the Supabase Console.
-                </td>
-              </tr>
+              {usersList.map(u => (
+                <tr key={u.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4">
+                    <div className="font-semibold text-[#0F172A]">{u.name}</div>
+                    <div className="text-xs text-[#64748B]">{u.email}</div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <select
+                      value={u.role}
+                      onChange={e => handleChangeRole(u.id, e.target.value as any)}
+                      className="px-2 py-1 border rounded text-xs font-semibold bg-white text-[#0F172A]"
+                    >
+                      <option value="admin">Administrator (Full Access)</option>
+                      <option value="manager">Manager (Operations &amp; Reports)</option>
+                      <option value="cashier">Cashier (POS &amp; Payments)</option>
+                      <option value="clerk">Inventory Clerk (Stock &amp; GRN)</option>
+                    </select>
+                  </td>
+                  <td className="py-3 px-4 text-xs text-slate-600 font-medium">{u.warehouse}</td>
+                  <td className="py-3 px-4 text-center">
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                      u.isActive ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      {u.isActive ? 'Active' : 'Deactivated'}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => handleToggleUserActive(u.id)}
+                      className={`px-2.5 py-1 text-xs rounded border font-medium cursor-pointer ${
+                        u.isActive ? 'text-rose-600 border-rose-200 hover:bg-rose-50' : 'text-emerald-600 border-emerald-200 hover:bg-emerald-50'
+                      }`}
+                    >
+                      {u.isActive ? 'Deactivate' : 'Activate'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -262,9 +345,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   <p className="text-slate-500 font-mono">
                     Host: {diagnostics.urlHost || 'None'}
                   </p>
-                  <p className="text-slate-400 text-[10px]">
-                    Credentials protected (no keys printed).
-                  </p>
                 </div>
 
                 <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
@@ -279,86 +359,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   <p className="text-slate-500">
                     @supabase/supabase-js client instantiated.
                   </p>
-                  <p className="text-slate-400 text-[10px]">
-                    Auth health: {diagnostics.authHealthOk ? 'Reachable (HTTP 200)' : 'Unreachable'}
-                  </p>
                 </div>
-
-                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-slate-700">3. Auth Session</span>
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                      diagnostics.hasActiveSession ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {diagnostics.hasActiveSession ? 'Authenticated' : 'Anonymous / Guest'}
-                    </span>
-                  </div>
-                  <p className="text-slate-500">
-                    {diagnostics.hasActiveSession
-                      ? `Active user: ${diagnostics.sessionUserEmail}`
-                      : 'No authenticated Supabase JWT session detected.'}
-                  </p>
-                  <p className="text-slate-400 text-[10px]">
-                    Client requests run under anon role.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-slate-700">4. Harmless Table Read</span>
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                      diagnostics.tableReadSuccess ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                    }`}>
-                      {diagnostics.tableReadSuccess ? 'Table Exists' : 'HTTP 404 (Not Found)'}
-                    </span>
-                  </div>
-                  <p className="text-slate-500">
-                    Probed: <code className="bg-white px-1 py-0.5 rounded border border-slate-200">public.{diagnostics.testedTableName}</code>
-                  </p>
-                  <p className="text-slate-400 text-[10px]">
-                    {diagnostics.tableReadError || 'Read successful'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#2563EB]">storage</span>
-                  <span className="font-bold text-sm text-[#0F172A]">Active Storage & Persistence Architecture</span>
-                  <span className="ml-auto text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#2563EB] border border-blue-200">
-                    {diagnostics.tableReadSuccess ? 'Cloud Database (Active)' : 'Local Storage Fallback'}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Zaid Trading ERP uses PostgreSQL on Supabase with atomic stock locks, double-entry journal balance triggers, and Row-Level Security (RLS). All catalog products, customer accounts, sales invoices, and stock movements are synchronized in real-time with the cloud database.
-                </p>
-              </div>
-
-              <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3 bg-white">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#2563EB]">cloud_upload</span>
-                    <h4 className="text-sm font-bold text-[#0F172A]">Cloud Sync &amp; Local Backup Tools</h4>
-                  </div>
-                  <button
-                    onClick={() => {
-                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
-                      const downloadAnchor = document.createElement('a');
-                      downloadAnchor.setAttribute("href", dataStr);
-                      downloadAnchor.setAttribute("download", `zaid_erp_backup_${new Date().toISOString().split('T')[0]}.json`);
-                      document.body.appendChild(downloadAnchor);
-                      downloadAnchor.click();
-                      downloadAnchor.remove();
-                    }}
-                    className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg inline-flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">download</span>
-                    <span>Download Local Backup (JSON)</span>
-                  </button>
-                </div>
-                <p className="text-xs text-slate-500">
-                  Local ERP records are preserved safely. You can export a snapshot of your data at any time.
-                </p>
               </div>
             </div>
           ) : (

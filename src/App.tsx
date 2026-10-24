@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder, CompanySettings, ExpenseItem } from './types/erp';
+import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder, PurchaseItem, CompanySettings, ExpenseItem } from './types/erp';
 import { loadERPState, saveERPState, ERPStoreState } from './lib/erpStore';
 import { getSupabaseClient, checkSupabaseConnection } from './lib/supabase';
 import {
@@ -15,6 +15,8 @@ import {
   fetchLivePurchases,
   recordLivePurchaseOrder,
   recordLiveSupplierPayment,
+  recordLiveCustomerPayment,
+  recordLiveSalesReturn,
   fetchLiveExpenses,
   createLiveExpense,
   computeFinancialOverview
@@ -30,6 +32,7 @@ import { CustomersView } from './components/CustomersView';
 import { SuppliersView } from './components/SuppliersView';
 import { AccountingView } from './components/AccountingView';
 import { PaymentsExpensesView } from './components/PaymentsExpensesView';
+import { ReportsView } from './components/ReportsView';
 import { SettingsView } from './components/SettingsView';
 import { LoginView } from './components/LoginView';
 import { GenericStitchScreenView } from './components/GenericStitchScreenView';
@@ -412,6 +415,83 @@ export const App: React.FC = () => {
     showToast(`Purchase order ${newPO.poNumber} saved to local store.`, 'info');
   };
 
+  const handleReceiveStock = async (poId: string, receivedItems: PurchaseItem[]) => {
+    const nextPurchases = erpState.purchases.map(po => {
+      if (po.id === poId) {
+        return { ...po, status: 'Received' as const };
+      }
+      return po;
+    });
+
+    let nextProducts = [...erpState.products];
+    receivedItems.forEach(item => {
+      nextProducts = nextProducts.map(p => {
+        if (p.id === item.productId) {
+          const newStock = p.currentStock + item.quantity;
+          return {
+            ...p,
+            currentStock: newStock,
+            status: (newStock <= p.minStockAlert ? (newStock === 0 ? 'out_of_stock' : 'low_stock') : 'active') as Product['status']
+          };
+        }
+        return p;
+      });
+    });
+
+    const nextState: ERPStoreState = {
+      ...erpState,
+      purchases: nextPurchases,
+      products: nextProducts
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+    showToast(`Goods Receipt Note (GRN) processed. Stock updated.`, 'success');
+  };
+
+  const handlePurchaseReturn = async (poId: string, returnItems: PurchaseItem[], reason: string) => {
+    let nextProducts = [...erpState.products];
+    let totalReturnAmount = 0;
+
+    returnItems.forEach(item => {
+      totalReturnAmount += item.quantity * item.unitCost;
+      nextProducts = nextProducts.map(p => {
+        if (p.id === item.productId) {
+          const newStock = Math.max(0, p.currentStock - item.quantity);
+          return {
+            ...p,
+            currentStock: newStock,
+            status: (newStock <= p.minStockAlert ? (newStock === 0 ? 'out_of_stock' : 'low_stock') : 'active') as Product['status']
+          };
+        }
+        return p;
+      });
+    });
+
+    const nextSuppliers = erpState.suppliers.map(s => {
+      const po = erpState.purchases.find(p => p.id === poId);
+      if (po && s.id === po.supplierId) {
+        return {
+          ...s,
+          outstandingPayable: Math.max(0, s.outstandingPayable - totalReturnAmount)
+        };
+      }
+      return s;
+    });
+
+    const nextState: ERPStoreState = {
+      ...erpState,
+      products: nextProducts,
+      suppliers: nextSuppliers,
+      financials: {
+        ...erpState.financials,
+        supplierPayables: Math.max(0, erpState.financials.supplierPayables - totalReturnAmount)
+      }
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+    showToast(`Purchase return processed. Reason: ${reason}`, 'success');
+  };
+
   const handleAddCustomer = async (newCustomer: Customer) => {
     const client = getSupabaseClient();
     if (cloudStatus.mode === 'cloud_authenticated' && client) {
@@ -503,6 +583,106 @@ export const App: React.FC = () => {
     };
     setErpState(nextState);
     saveERPState(nextState);
+  };
+
+  const handleRecordCustomerPayment = async (paymentData: {
+    customerId: string;
+    invoiceId: string;
+    amount: number;
+    paymentMethod: string;
+    reference: string;
+  }) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        await recordLiveCustomerPayment(
+          client,
+          paymentData.customerId,
+          paymentData.invoiceId || null,
+          paymentData.amount,
+          paymentData.paymentMethod,
+          paymentData.reference
+        );
+        showToast(`Customer payment of Rs. ${paymentData.amount.toLocaleString()} recorded in Supabase.`, 'success');
+        loadCloudData();
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Payment Error: ${err.message}`, 'error');
+        console.error('Failed to record customer payment in Supabase:', err);
+        return;
+      }
+    }
+
+    const targetCustomer = erpState.customers.find(c => c.id === paymentData.customerId);
+    if (!targetCustomer) return;
+
+    const newOutstanding = Math.max(0, targetCustomer.outstandingBalance - paymentData.amount);
+    const nextCustomers = erpState.customers.map(c =>
+      c.id === paymentData.customerId ? { ...c, outstandingBalance: newOutstanding } : c
+    );
+
+    const nextReceivables = Math.max(0, erpState.financials.customerReceivables - paymentData.amount);
+    const nextCash = paymentData.paymentMethod === 'Cash' ? erpState.financials.cashInHand + paymentData.amount : erpState.financials.cashInHand;
+    const nextBank = paymentData.paymentMethod !== 'Cash' ? erpState.financials.bankBalance + paymentData.amount : erpState.financials.bankBalance;
+
+    const nextState: ERPStoreState = {
+      ...erpState,
+      customers: nextCustomers,
+      financials: {
+        ...erpState.financials,
+        customerReceivables: nextReceivables,
+        cashInHand: nextCash,
+        bankBalance: nextBank
+      }
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+    showToast(`Customer payment recorded locally.`, 'info');
+  };
+
+  const handleRecordSalesReturn = async (returnData: {
+    invoiceId: string;
+    productId: string;
+    quantity: number;
+    reason: string;
+    refundMethod: string;
+  }) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        await recordLiveSalesReturn(
+          client,
+          returnData.invoiceId,
+          returnData.productId,
+          returnData.quantity,
+          returnData.reason,
+          returnData.refundMethod
+        );
+        showToast(`Sales return recorded in Supabase. Stock updated.`, 'success');
+        loadCloudData();
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Return Error: ${err.message}`, 'error');
+        console.error('Failed to record sales return in Supabase:', err);
+        return;
+      }
+    }
+
+    const targetProduct = erpState.products.find(p => p.id === returnData.productId);
+    if (!targetProduct) return;
+
+    const newStock = targetProduct.currentStock + returnData.quantity;
+    const nextProducts = erpState.products.map(p =>
+      p.id === returnData.productId ? { ...p, currentStock: newStock } : p
+    );
+
+    const nextState: ERPStoreState = {
+      ...erpState,
+      products: nextProducts
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+    showToast(`Sales return recorded locally. Product stock increased by ${returnData.quantity}.`, 'info');
   };
 
   const handleAddExpense = async (newExpenseData: Omit<ExpenseItem, 'id'>) => {
@@ -687,11 +867,17 @@ export const App: React.FC = () => {
               state={erpState}
               onNavigate={handleNavigate}
               onRecordSale={handleRecordSale}
+              onRecordCustomerPayment={handleRecordCustomerPayment}
+              onRecordSalesReturn={handleRecordSalesReturn}
               initialMode={
                 currentScreen === '07_create_sales_invoice'
                   ? 'create'
                   : currentScreen === '08_invoice_details_print'
                   ? 'print'
+                  : currentScreen === '09_record_customer_payment'
+                  ? 'payment'
+                  : currentScreen === '10_sales_return'
+                  ? 'return'
                   : 'list'
               }
             />
@@ -707,6 +893,14 @@ export const App: React.FC = () => {
               state={erpState}
               onNavigate={handleNavigate}
               onRecordPurchase={handleRecordPurchase}
+              onReceiveStock={handleReceiveStock}
+              onPurchaseReturn={handlePurchaseReturn}
+              initialMode={
+                currentScreen === '12_create_purchase' ? 'create' :
+                currentScreen === '14_receive_stock' ? 'receive' :
+                currentScreen === '13_purchase_details_print' ? 'print' :
+                currentScreen === '16_purchase_return' ? 'return' : 'list'
+              }
             />
           )}
 
@@ -756,6 +950,23 @@ export const App: React.FC = () => {
             <AccountingView
               state={erpState}
               onNavigate={handleNavigate}
+              initialTab={
+                currentScreen === '26_cash_bank_book' ? 'cash_bank' :
+                currentScreen === '27_chart_of_accounts' ? 'chart' :
+                currentScreen === '28_journal_entries' ? 'journals' :
+                currentScreen === '29_general_ledger' ? 'ledger' :
+                currentScreen === '30_profit_loss_report' ? 'profit_loss' :
+                currentScreen === '31_trial_balance' ? 'trial_balance' :
+                currentScreen === '32_balance_sheet' ? 'balance_sheet' : 'overview'
+              }
+            />
+          )}
+
+          {/* Screens 33: Operational Reports */}
+          {currentScreen === '33_operational_reports' && (
+            <ReportsView
+              state={erpState}
+              onNavigate={handleNavigate}
             />
           )}
 
@@ -765,6 +976,7 @@ export const App: React.FC = () => {
               state={erpState}
               onNavigate={handleNavigate}
               onSaveCompanySettings={handleSaveCompanySettings}
+              initialTab={currentScreen === '37_users_roles' ? 'users' : 'company'}
             />
           )}
 
@@ -810,6 +1022,7 @@ export const App: React.FC = () => {
             '30_profit_loss_report',
             '31_trial_balance',
             '32_balance_sheet',
+            '33_operational_reports',
             '34_stock_movement_history',
             '36_company_settings',
             '37_users_roles',
