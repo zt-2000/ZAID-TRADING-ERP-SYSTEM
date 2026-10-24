@@ -1,17 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { ERPStoreState } from '../lib/erpStore';
-import { ScreenId } from '../types/erp';
+import { ScreenId, CompanySettings } from '../types/erp';
 import { runSupabaseDiagnostics, SupabaseDiagnostics } from '../lib/supabase';
 
 interface SettingsViewProps {
   state: ERPStoreState;
   onNavigate: (screen: ScreenId) => void;
+  onSaveCompanySettings?: (newSettings: CompanySettings) => void;
 }
 
-export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate }) => {
+export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, onSaveCompanySettings }) => {
   const [activeTab, setActiveTab] = useState<'company' | 'users' | 'database'>('company');
   const [diagnostics, setDiagnostics] = useState<SupabaseDiagnostics | null>(null);
   const [checkingDb, setCheckingDb] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Form state for Company Profile
+  const [companyForm, setCompanyForm] = useState<CompanySettings>(state.companySettings || {
+    name: 'ZAID TRADING (PVT) LTD',
+    tradeName: 'ZAID Trading Wholesale ERP',
+    currency: 'LKR (Rs.)',
+    taxId: '102938475-7000',
+    address: 'No. 45/A, Warehouse Complex, Peliyagoda, Colombo',
+    phone: '+94 11 234 5678',
+    email: 'info@zaidtrading.lk'
+  });
+
+  useEffect(() => {
+    if (state.companySettings) {
+      setCompanyForm(state.companySettings);
+    }
+  }, [state.companySettings]);
 
   const fetchDiagnostics = async () => {
     setCheckingDb(true);
@@ -23,6 +42,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate })
   useEffect(() => {
     fetchDiagnostics();
   }, []);
+
+  const handleCompanySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSaveCompanySettings) {
+      onSaveCompanySettings(companyForm);
+    }
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 4000);
+  };
 
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text">
@@ -67,49 +95,102 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate })
       </div>
 
       {activeTab === 'company' && (
-        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl space-y-5">
-          <div className="border-b pb-3 border-[#E2E8F0]">
-            <h3 className="text-base font-bold text-[#0F172A]">Company Profile (Screen 36)</h3>
-            <p className="text-xs text-[#64748B]">These details appear on sales invoices and purchase orders</p>
+        <form onSubmit={handleCompanySubmit} className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl space-y-5">
+          <div className="border-b pb-3 border-[#E2E8F0] flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-bold text-[#0F172A]">Company Profile (Screen 36)</h3>
+              <p className="text-xs text-[#64748B]">These details update the dashboard, sidebar, invoices, and reports dynamically</p>
+            </div>
+            {saveSuccess && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                <span>Saved &amp; Updated App-Wide</span>
+              </span>
+            )}
           </div>
           <div className="space-y-4 text-sm">
             <div>
-              <label className="block text-xs font-semibold text-[#64748B] mb-1">Company Trade Name</label>
+              <label className="block text-xs font-semibold text-[#64748B] mb-1">Company Trade Name *</label>
               <input
                 type="text"
-                defaultValue="ZAID TRADING (PVT) LTD"
-                className="w-full px-3 py-2 border rounded-lg text-[#0F172A] font-medium"
+                value={companyForm.name}
+                onChange={e => setCompanyForm({ ...companyForm, name: e.target.value })}
+                required
+                placeholder="e.g. ZAID TRADING (PVT) LTD"
+                className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] font-semibold focus:outline-none focus:border-[#2563EB]"
               />
+              <p className="text-[11px] text-[#64748B] mt-1">
+                This name is displayed across the header, sidebar, dashboard, invoices, and official statements.
+              </p>
             </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#64748B] mb-1">Currency Code</label>
+                <label className="block text-xs font-semibold text-[#64748B] mb-1">System Display Name / Tagline</label>
                 <input
                   type="text"
-                  defaultValue="LKR (Rs.)"
-                  readOnly
-                  className="w-full px-3 py-2 border rounded-lg bg-slate-50 text-[#0F172A]"
+                  value={companyForm.tradeName}
+                  onChange={e => setCompanyForm({ ...companyForm, tradeName: e.target.value })}
+                  placeholder="e.g. ZAID Trading Wholesale ERP"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
                 />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#64748B] mb-1">VAT / TIN Registration</label>
                 <input
                   type="text"
-                  defaultValue="102938475-7000"
-                  className="w-full px-3 py-2 border rounded-lg text-[#0F172A]"
+                  value={companyForm.taxId}
+                  onChange={e => setCompanyForm({ ...companyForm, taxId: e.target.value })}
+                  placeholder="102938475-7000"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
                 />
               </div>
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-[#64748B] mb-1">Currency Code</label>
+                <input
+                  type="text"
+                  value={companyForm.currency}
+                  readOnly
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-[#0F172A] font-medium"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#64748B] mb-1">Phone Contact</label>
+                <input
+                  type="text"
+                  value={companyForm.phone}
+                  onChange={e => setCompanyForm({ ...companyForm, phone: e.target.value })}
+                  placeholder="+94 11 234 5678"
+                  className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="block text-xs font-semibold text-[#64748B] mb-1">Registered Warehouse Address</label>
               <input
                 type="text"
-                defaultValue="No. 45/A, Warehouse Complex, Peliyagoda, Colombo"
-                className="w-full px-3 py-2 border rounded-lg text-[#0F172A]"
+                value={companyForm.address}
+                onChange={e => setCompanyForm({ ...companyForm, address: e.target.value })}
+                placeholder="No. 45/A, Warehouse Complex, Peliyagoda, Colombo"
+                className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#2563EB]"
               />
             </div>
+
+            <div className="pt-3 border-t border-[#E2E8F0] flex items-center justify-end gap-3">
+              <button
+                type="submit"
+                className="px-5 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg font-semibold text-xs transition-colors cursor-pointer inline-flex items-center gap-1.5 shadow-sm"
+              >
+                <span className="material-symbols-outlined text-[18px]">save</span>
+                <span>Save Company Profile</span>
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       )}
 
       {activeTab === 'users' && (

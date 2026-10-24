@@ -38,6 +38,16 @@ export type ScreenId =
   | '37_users_roles'
   | '38_login';
 
+export interface CompanySettings {
+  name: string;
+  tradeName: string;
+  currency: string;
+  taxId: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -49,6 +59,7 @@ export interface Product {
   currentStock: number;
   minStockAlert: number;
   status: 'active' | 'low_stock' | 'out_of_stock';
+  syncStatus?: 'synced' | 'pending_sync';
 }
 
 export interface Customer {
@@ -60,6 +71,7 @@ export interface Customer {
   address: string;
   outstandingBalance: number;
   creditDays: number;
+  syncStatus?: 'synced' | 'pending_sync';
 }
 
 export interface Supplier {
@@ -69,6 +81,7 @@ export interface Supplier {
   email: string;
   address: string;
   outstandingPayable: number;
+  syncStatus?: 'synced' | 'pending_sync';
 }
 
 export interface SaleInvoice {
@@ -82,6 +95,7 @@ export interface SaleInvoice {
   paidAmount: number;
   status: 'Paid' | 'Pending' | 'Overdue';
   itemsCount: number;
+  syncStatus?: 'synced' | 'pending_sync';
 }
 
 export interface PurchaseOrder {
@@ -92,6 +106,7 @@ export interface PurchaseOrder {
   date: string;
   totalAmount: number;
   status: 'Received' | 'Pending' | 'Ordered';
+  syncStatus?: 'synced' | 'pending_sync';
 }
 
 export interface ExpenseItem {

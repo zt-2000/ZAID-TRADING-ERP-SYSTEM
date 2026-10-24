@@ -23,6 +23,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
   const [selectedProductId, setSelectedProductId] = useState(state.products[0]?.id || '');
   const [quantity, setQuantity] = useState(10);
   const [discountPercent, setDiscountPercent] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedProduct = state.products.find(p => p.id === selectedProductId) || state.products[0];
   const selectedCustomer = state.customers.find(c => c.id === selectedCustomerId) || state.customers[0];
@@ -31,24 +32,30 @@ export const SalesView: React.FC<SalesViewProps> = ({
   const discountAmount = (subtotal * discountPercent) / 100;
   const total = subtotal - discountAmount;
 
-  const handleCreateInvoice = (e: React.FormEvent) => {
+  const handleCreateInvoice = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newInv: SaleInvoice = {
-      id: `inv-${Date.now()}`,
-      invoiceNo: `INV-2024-0${Math.floor(892 + Math.random() * 50)}`,
-      customerId: selectedCustomerId,
-      customerName: selectedCustomer.name,
-      customerType: selectedCustomer.accountType,
-      date: 'Today, Just now',
-      totalAmount: total,
-      paidAmount: total,
-      status: 'Paid',
-      itemsCount: quantity
-    };
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const newInv: SaleInvoice = {
+        id: `inv-${Date.now()}`,
+        invoiceNo: `INV-2024-0${Math.floor(892 + Math.random() * 50)}`,
+        customerId: selectedCustomerId,
+        customerName: selectedCustomer.name,
+        customerType: selectedCustomer.accountType,
+        date: 'Today, Just now',
+        totalAmount: total,
+        paidAmount: total,
+        status: 'Paid',
+        itemsCount: quantity
+      };
 
-    onRecordSale(newInv);
-    setSelectedInvoice(newInv);
-    setMode('print');
+      await onRecordSale(newInv);
+      setSelectedInvoice(newInv);
+      setMode('print');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -231,9 +238,12 @@ export const SalesView: React.FC<SalesViewProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 bg-[#2563EB] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] cursor-pointer"
+                disabled={isSubmitting}
+                className={`px-5 py-2 bg-[#2563EB] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] cursor-pointer transition-all ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                Post Invoice & Print
+                {isSubmitting ? 'Processing Invoice...' : 'Post Invoice & Print'}
               </button>
             </div>
           </form>

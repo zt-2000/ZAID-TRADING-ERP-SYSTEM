@@ -1,8 +1,9 @@
-import { Product, Customer, Supplier, SaleInvoice, PurchaseOrder, ExpenseItem, FinancialOverview } from '../types/erp';
+import { Product, Customer, Supplier, SaleInvoice, PurchaseOrder, ExpenseItem, FinancialOverview, CompanySettings } from '../types/erp';
 
 const STORAGE_KEY = 'zaid_erp_data_v1';
 
 export interface ERPStoreState {
+  companySettings: CompanySettings;
   financials: FinancialOverview;
   products: Product[];
   customers: Customer[];
@@ -13,6 +14,15 @@ export interface ERPStoreState {
 }
 
 const defaultState: ERPStoreState = {
+  companySettings: {
+    name: 'ZAID TRADING (PVT) LTD',
+    tradeName: 'ZAID Trading Wholesale ERP',
+    currency: 'LKR (Rs.)',
+    taxId: '102938475-7000',
+    address: 'No. 45/A, Warehouse Complex, Peliyagoda, Colombo',
+    phone: '+94 11 234 5678',
+    email: 'info@zaidtrading.lk'
+  },
   financials: {
     cashInHand: 142500,
     bankBalance: 845200,
@@ -264,7 +274,15 @@ export const loadERPState = (): ERPStoreState => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return {
+      ...defaultState,
+      ...parsed,
+      companySettings: {
+        ...defaultState.companySettings,
+        ...(parsed.companySettings || {})
+      }
+    };
   } catch {
     return defaultState;
   }

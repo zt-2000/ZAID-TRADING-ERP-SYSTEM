@@ -15,9 +15,18 @@ export interface SupabaseDiagnostics {
 
 let supabaseInstance: SupabaseClient | null = null;
 
+export const normalizeSupabaseUrl = (rawUrl: string | null | undefined): string | null => {
+  if (!rawUrl) return null;
+  const trimmed = rawUrl.trim();
+  const match = trimmed.match(/https?:\/\/[a-z0-9_-]+\.supabase\.co/i);
+  if (match) return match[0];
+  return trimmed;
+};
+
 export const getSupabaseConfig = () => {
-  const url = import.meta.env.VITE_SUPABASE_URL || null;
-  const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || null;
+  const rawUrl = import.meta.env.VITE_SUPABASE_URL || null;
+  const url = normalizeSupabaseUrl(rawUrl);
+  const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim() || null;
 
   return {
     url,

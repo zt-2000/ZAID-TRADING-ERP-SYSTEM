@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder } from './types/erp';
+import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder, CompanySettings } from './types/erp';
 import { loadERPState, saveERPState, ERPStoreState } from './lib/erpStore';
 import { getSupabaseClient, checkSupabaseConnection } from './lib/supabase';
 import {
@@ -143,6 +143,7 @@ export const App: React.FC = () => {
         );
 
         const cloudState: ERPStoreState = {
+          companySettings: erpState.companySettings,
           products: nextProducts,
           customers: nextCustomers,
           suppliers: nextSuppliers,
@@ -169,15 +170,64 @@ export const App: React.FC = () => {
       setSupabaseConnected(res.connected);
     });
     loadCloudData();
-  }, []);
+
+    // Subscribe to real-time auth changes (sign-in, token refresh, sign-out)
+    const client = getSupabaseClient();
+    if (client) {
+      const { data: { subscription } } = client.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+          if (session?.user?.email) {
+            setCloudStatus({
+              mode: 'cloud_authenticated',
+              userEmail: session.user.email,
+              message: `Live cloud sync active (${session.user.email})`
+            });
+            loadCloudData();
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setCloudStatus({
+            mode: 'cloud_guest',
+            userEmail: null,
+            message: 'Signed out. Operating in local fallback mode.'
+          });
+          const local = loadERPState();
+          setErpState(local);
+        }
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+  }, [loadCloudData]);
+
+  // Compute pending sync count across local records
+  const pendingSyncCount =
+    erpState.products.filter(p => p.syncStatus === 'pending_sync').length +
+    erpState.recentSales.filter(s => s.syncStatus === 'pending_sync').length +
+    erpState.purchases.filter(po => po.syncStatus === 'pending_sync').length +
+    erpState.customers.filter(c => c.syncStatus === 'pending_sync').length +
+    erpState.suppliers.filter(s => s.syncStatus === 'pending_sync').length;
 
   const handleNavigate = (screen: ScreenId) => {
     setCurrentScreen(screen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSync = () => {
+  const handleSync = async () => {
     if (cloudStatus.mode === 'cloud_authenticated') {
+      const client = getSupabaseClient();
+      if (client && pendingSyncCount > 0) {
+        showToast(`Syncing ${pendingSyncCount} pending local record(s) to Supabase cloud...`, 'info');
+        // Synchronize pending products
+        for (const p of erpState.products.filter(item => item.syncStatus === 'pending_sync')) {
+          try {
+            await createLiveProduct(client, p);
+          } catch (e: any) {
+            console.warn('Sync notice:', e.message);
+          }
+        }
+      }
       loadCloudData();
     } else {
       const updated = loadERPState();
@@ -204,10 +254,11 @@ export const App: React.FC = () => {
       }
     }
 
-    // Local fallback
+    // Local fallback with pending sync flag
     const newProduct: Product = {
       ...newProdData,
-      id: `prod-${Date.now()}`
+      id: `prod-${Date.now()}`,
+      syncStatus: 'pending_sync'
     };
     const nextProducts = [newProduct, ...erpState.products];
     const nextState: ERPStoreState = { ...erpState, products: nextProducts };
@@ -459,6 +510,36 @@ export const App: React.FC = () => {
     saveERPState(nextState);
   };
 
+  const handleSaveCompanySettings = async (newSettings: CompanySettings) => {
+    const nextState: ERPStoreState = {
+      ...erpState,
+      companySettings: newSettings
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        await client.from('company_settings').upsert({
+          id: '00000000-0000-0000-0000-000000000001',
+          company_name: newSettings.name,
+          trade_name: newSettings.tradeName,
+          tax_id: newSettings.taxId,
+          address: newSettings.address,
+          phone: newSettings.phone,
+          email: newSettings.email
+        });
+        showToast(`Company Profile updated & saved to Supabase.`, 'success');
+      } catch (e: any) {
+        console.warn('Company settings cloud save notice:', e.message);
+        showToast(`Company Profile saved locally.`, 'info');
+      }
+    } else {
+      showToast(`Company Profile saved. Updated across the entire app.`, 'success');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased">
       {/* Toast Notification Banner */}
@@ -485,21 +566,24 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* Sidebar Navigation matching Stitch */}
+      {/* Sidebar Navigation matching Stitch & 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
       <Sidebar
         currentScreen={currentScreen}
         onNavigate={handleNavigate}
+        companyName={erpState.companySettings?.name}
         onOpenScreenModal={() => setIsModalOpen(true)}
       />
 
       {/* Main Content Area */}
-      <div className="pl-[240px]">
-        {/* Top Header with accurate connection badge */}
+      <div className="pl-[250px]">
+        {/* Top Header with accurate connection badge & dynamic company name */}
         <Header
           currentScreen={currentScreen}
           onNavigate={handleNavigate}
           supabaseConnected={supabaseConnected}
+          companyName={erpState.companySettings?.name}
           cloudStatus={cloudStatus}
+          pendingSyncCount={pendingSyncCount}
           onOpenScreenModal={() => setIsModalOpen(true)}
         />
 
@@ -626,6 +710,7 @@ export const App: React.FC = () => {
             <SettingsView
               state={erpState}
               onNavigate={handleNavigate}
+              onSaveCompanySettings={handleSaveCompanySettings}
             />
           )}
 
