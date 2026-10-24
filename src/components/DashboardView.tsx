@@ -25,18 +25,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
 
   const activeInvoice = state.recentSales.find(s => s.invoiceNo === selectedInvoiceForModal) || state.recentSales[0];
 
-  // Calculate low stock products count
-  const lowStockCount = state.products.filter(p => p.status === 'low_stock' || p.status === 'out_of_stock').length;
-
-  // Monthly sales bar chart sample data calculated from real sales & defaults
+  // Monthly sales & purchase chart sample data calculated from real figures & defaults
   const chartMonths = [
-    { month: 'Jan', sales: 42000, products: 120 },
-    { month: 'Feb', sales: 58000, products: 165 },
-    { month: 'Mar', sales: 49000, products: 140 },
-    { month: 'Apr', sales: 72000, products: 210 },
-    { month: 'May', sales: 64000, products: 185 },
-    { month: 'Jun', sales: 81000, products: 240 },
-    { month: 'Jul', sales: 95000, products: 290 },
+    { month: 'Jan', sales: 42000, purchases: 18000 },
+    { month: 'Feb', sales: 58000, purchases: 24000 },
+    { month: 'Mar', sales: 49000, purchases: 21000 },
+    { month: 'Apr', sales: 72000, purchases: 31000 },
+    { month: 'May', sales: 64000, purchases: 27000 },
+    { month: 'Jun', sales: 81000, purchases: 38000 },
+    { month: 'Jul', sales: 95000, purchases: 42000 },
   ];
 
   // Compute category statistics from products
@@ -46,16 +43,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
       counts[p.category] = (counts[p.category] || 0) + 1;
     });
     return [
-      { name: 'Dairy & Beverages', count: counts['Dairy & Beverages'] || 14, growth: '+5.34%', percent: 78, color: '#3B82F6' },
-      { name: 'Flour & Bakery', count: counts['Flour & Bakery'] || 8, growth: '+2.30%', percent: 62, color: '#EF4444' },
-      { name: 'Snacks & Biscuits', count: counts['Snacks & Biscuits'] || 12, growth: '+1.80%', percent: 54, color: '#94A3B8' },
-      { name: 'Grains & Rice', count: counts['Grains & Rice'] || 6, growth: '-1.04%', percent: 45, color: '#F59E0B' },
+      { name: 'Dairy & Beverages', count: counts['Dairy & Beverages'] || 14, growth: '+5.34%', color: '#3B82F6' },
+      { name: 'Flour & Bakery', count: counts['Flour & Bakery'] || 8, growth: '+2.30%', color: '#EF4444' },
+      { name: 'Snacks & Biscuits', count: counts['Snacks & Biscuits'] || 12, growth: '+1.80%', color: '#94A3B8' },
+      { name: 'Grains & Rice', count: counts['Grains & Rice'] || 6, growth: '-1.04%', color: '#F59E0B' },
     ];
   }, [state.products]);
 
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text bg-[#F8FAFC]">
-      {/* 1. Header / Welcome Banner matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
+      {/* 1. Top Header / Welcome Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
@@ -87,9 +84,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
         </div>
       </div>
 
-      {/* 2. Top Summary Metric Cards Grid matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
+      {/* 2. Top Summary Metric Cards Grid (Total Sales, Purchases, Receivables, Payables) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* Card 1: Highlight Accent Blue Card (Total Sales) */}
+        {/* Card 1: Total Sales */}
         <div className="bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8] rounded-2xl p-5 text-white shadow-md flex flex-col justify-between relative overflow-hidden group">
           <div className="flex items-start justify-between">
             <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
@@ -112,7 +109,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
           </div>
         </div>
 
-        {/* Card 2: Total Orders / Purchases */}
+        {/* Card 2: Today's Purchases */}
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between hover:border-slate-300 transition-all">
           <div className="flex items-start justify-between">
             <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#3B82F6] flex items-center justify-center shrink-0">
@@ -135,30 +132,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
           </div>
         </div>
 
-        {/* Card 3: Customer Payables */}
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between hover:border-slate-300 transition-all">
-          <div className="flex items-start justify-between">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[22px]">request_quote</span>
-            </div>
-            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +4.12%
-            </span>
-          </div>
-
-          <div className="mt-4">
-            <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">Customer Payables</span>
-            <div className="text-[28px] font-extrabold text-[#0F172A] mt-1 tracking-tight tabular-nums">
-              Rs. {state.financials.supplierPayables.toLocaleString()}
-            </div>
-            <div className="text-[11px] text-[#64748B] mt-1 flex items-center justify-between font-medium">
-              <span>Outstanding payables</span>
-              <span className="font-semibold text-slate-700">2 accounts</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: Customer Receivables */}
+        {/* Card 3: Customer Receivables */}
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between hover:border-slate-300 transition-all">
           <div className="flex items-start justify-between">
             <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#3B82F6] flex items-center justify-center shrink-0">
@@ -180,16 +154,107 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             </div>
           </div>
         </div>
+
+        {/* Card 4: Customer Payables (Placed NEXT TO Customer Receivables) */}
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between hover:border-slate-300 transition-all">
+          <div className="flex items-start justify-between">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[22px]">request_quote</span>
+            </div>
+            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              +4.12%
+            </span>
+          </div>
+
+          <div className="mt-4">
+            <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">Customer Payables</span>
+            <div className="text-[28px] font-extrabold text-[#0F172A] mt-1 tracking-tight tabular-nums">
+              Rs. {state.financials.supplierPayables.toLocaleString()}
+            </div>
+            <div className="text-[11px] text-[#64748B] mt-1 flex items-center justify-between font-medium">
+              <span>Outstanding payables</span>
+              <span className="font-semibold text-slate-700">2 accounts</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* 3. Middle Grid: Sales Activity Chart & Category Statistics (Matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg) */}
+      {/* 3. Accounting & Financial Overview Section (Positioned UNDER Total Sales, Receivables & Payables) */}
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs transition-all hover:border-slate-300">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#E2E8F0]">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+            <span className="material-symbols-outlined text-[#3B82F6] text-[20px]">account_balance</span>
+            <h2 className="text-[15px] font-bold text-[#0F172A] tracking-tight">Financial &amp; Accounting Overview (LKR)</h2>
+          </div>
+          <button
+            onClick={() => onNavigate('25_accounting_overview')}
+            className="text-xs font-bold text-[#3B82F6] hover:text-[#1D4ED8] flex items-center gap-1 cursor-pointer"
+          >
+            <span>Full Accounting &amp; Ledgers</span>
+            <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Cash in Hand</span>
+            <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
+              Rs. {state.financials.cashInHand.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Drawer &amp; Petty Cash</span>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Bank Balance</span>
+            <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
+              Rs. {state.financials.bankBalance.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Commercial Bank</span>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Customer Receivables</span>
+            <div className="text-[17px] font-extrabold text-[#3B82F6] tabular-nums mt-1">
+              Rs. {state.financials.customerReceivables.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-[#3B82F6] mt-0.5 block">14 pending invoices</span>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Customer Payables</span>
+            <div className="text-[17px] font-extrabold text-amber-600 tabular-nums mt-1">
+              Rs. {state.financials.supplierPayables.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-amber-700 mt-0.5 block">2 supplier accounts</span>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Monthly Net Profit</span>
+            <div className="text-[17px] font-extrabold text-emerald-600 tabular-nums mt-1">
+              Rs. {state.financials.monthlyNetProfit.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-emerald-700 mt-0.5 block">+18.4% margin</span>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
+            <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider block">Monthly Expenses</span>
+            <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
+              Rs. {state.financials.monthlyExpenses.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Utilities &amp; Transport</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Middle Grid: Sales & Purchase Activity Chart & Category Statistics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Middle Column 1 & 2: Sales Activity Chart */}
+        {/* Sales and Purchase Chart Card */}
         <div className="lg:col-span-2 bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-2xs flex flex-col justify-between space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-[18px] font-bold text-[#0F172A] tracking-tight">Customer &amp; Sales Activity</h2>
-              <p className="text-xs text-[#64748B]">Monthly sales volume vs sold product units</p>
+              <h2 className="text-[18px] font-bold text-[#0F172A] tracking-tight">Sales and Purchase</h2>
+              <p className="text-xs text-[#64748B]">Monthly sales volume vs purchase volume</p>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B] mr-2">
@@ -199,7 +264,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#CBD5E1]"></span>
-                  <span>Products</span>
+                  <span>Purchase Volume</span>
                 </span>
               </div>
               <select className="px-3 py-1.5 bg-slate-50 border border-[#CBD5E1] rounded-xl text-xs font-semibold text-[#0F172A] focus:outline-none">
@@ -209,12 +274,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             </div>
           </div>
 
-          {/* Interactive Dual Bar Chart Simulation */}
+          {/* Interactive Dual Bar Chart Simulation (Sales vs Purchases) */}
           <div className="relative pt-6 pb-2 px-2 h-64 flex items-end justify-between gap-3 border-b border-slate-100">
             {chartMonths.map((item, index) => {
               const maxVal = 100000;
               const salesHeightPct = Math.round((item.sales / maxVal) * 100);
-              const prodHeightPct = Math.round(((item.products * 300) / maxVal) * 100);
+              const purHeightPct = Math.round((item.purchases / maxVal) * 100);
 
               return (
                 <div
@@ -226,9 +291,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
                   {/* Tooltip on Hover */}
                   {hoveredBarIndex === index && (
                     <div className="absolute top-2 bg-[#0F172A] text-white text-[11px] py-1.5 px-3 rounded-xl shadow-lg z-10 font-mono flex flex-col gap-0.5">
-                      <span className="font-bold text-blue-300">{item.month} Performance</span>
+                      <span className="font-bold text-blue-300">{item.month} Summary</span>
                       <span>Sales: Rs. {item.sales.toLocaleString()}</span>
-                      <span>Products: {item.products} units</span>
+                      <span>Purchases: Rs. {item.purchases.toLocaleString()}</span>
                     </div>
                   )}
 
@@ -238,9 +303,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
                       style={{ height: `${salesHeightPct}%` }}
                       className="w-1/2 max-w-[20px] bg-[#3B82F6] rounded-t-lg transition-all duration-300 group-hover:bg-[#1D4ED8]"
                     ></div>
-                    {/* Secondary Bar (Products) */}
+                    {/* Secondary Bar (Purchases) */}
                     <div
-                      style={{ height: `${prodHeightPct}%` }}
+                      style={{ height: `${purHeightPct}%` }}
                       className="w-1/2 max-w-[20px] bg-[#CBD5E1] rounded-t-lg transition-all duration-300 group-hover:bg-slate-400"
                     ></div>
                   </div>
@@ -250,29 +315,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
               );
             })}
           </div>
-
-          {/* Bottom Financial Metrics Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
-            <div className="p-3 bg-slate-50/70 border border-slate-200/60 rounded-xl">
-              <span className="text-[11px] font-bold text-[#64748B] uppercase">Cash in Hand</span>
-              <p className="text-base font-bold text-[#0F172A] tabular-nums mt-0.5">Rs. {state.financials.cashInHand.toLocaleString()}</p>
-            </div>
-            <div className="p-3 bg-slate-50/70 border border-slate-200/60 rounded-xl">
-              <span className="text-[11px] font-bold text-[#64748B] uppercase">Bank Balance</span>
-              <p className="text-base font-bold text-[#0F172A] tabular-nums mt-0.5">Rs. {state.financials.bankBalance.toLocaleString()}</p>
-            </div>
-            <div className="p-3 bg-slate-50/70 border border-slate-200/60 rounded-xl">
-              <span className="text-[11px] font-bold text-[#64748B] uppercase">Supplier Payables</span>
-              <p className="text-base font-bold text-slate-700 tabular-nums mt-0.5">Rs. {state.financials.supplierPayables.toLocaleString()}</p>
-            </div>
-            <div className="p-3 bg-slate-50/70 border border-slate-200/60 rounded-xl">
-              <span className="text-[11px] font-bold text-[#64748B] uppercase">Monthly Net Profit</span>
-              <p className="text-base font-bold text-emerald-600 tabular-nums mt-0.5">Rs. {state.financials.monthlyNetProfit.toLocaleString()}</p>
-            </div>
-          </div>
         </div>
 
-        {/* Right Column 3: Product Category Statistics matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
+        {/* Product Category Statistics */}
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-2xs flex flex-col justify-between space-y-5">
           <div className="flex items-center justify-between">
             <div>
@@ -320,7 +365,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
         </div>
       </div>
 
-      {/* 4. Bottom Grid: Recent Sales Transactions & Low Stock Alert List */}
+      {/* 5. Bottom Grid: Recent Sales Transactions & Quick Operations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Recent Sales Table */}
         <div className="lg:col-span-2 bg-white border border-[#E2E8F0] rounded-2xl shadow-2xs flex flex-col overflow-hidden">
@@ -398,7 +443,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
           </div>
         </div>
 
-        {/* Right 1 Col: Quick Actions & Reorder List */}
+        {/* Right 1 Col: Quick Operations */}
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between space-y-4">
           <div>
             <div className="border-b pb-3 border-[#E2E8F0] flex items-center justify-between">
