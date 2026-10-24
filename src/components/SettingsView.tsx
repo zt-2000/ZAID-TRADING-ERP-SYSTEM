@@ -271,17 +271,42 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate })
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#2563EB]">storage</span>
-                  <span className="font-bold text-sm text-[#0F172A]">Active Storage Engine</span>
+                  <span className="font-bold text-sm text-[#0F172A]">Active Storage & Persistence Architecture</span>
                   <span className="ml-auto text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#2563EB] border border-blue-200">
-                    {diagnostics.activeStorageEngine}
+                    {diagnostics.tableReadSuccess ? 'Cloud Database (Active)' : 'Local Storage Fallback'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  The application is currently operating safely on the <strong>Local Persistent Storage Engine</strong>. All 38 Stitch screens, products, sales invoices, stock adjustments, customer/supplier ledgers, and accounting balances are managed with full persistence without risk of database crashes or missing table exceptions.
+                  Zaid Trading ERP uses PostgreSQL on Supabase with atomic stock locks, true double-entry journal balance triggers, and Row-Level Security (RLS). When signed in via <strong>Screen 38 (Login)</strong>, all catalog products, customer accounts, sales invoices, and stock movements are synchronized in real-time with the cloud database.
                 </p>
-                <div className="pt-2 text-xs border-t border-blue-200/60 text-slate-600">
-                  <strong>Next Safe Action:</strong> To transition from local storage to live cloud persistence, database schema tables (e.g. <code>products</code>, <code>customers</code>, <code>suppliers</code>, <code>sales_invoices</code>, <code>inventory_movements</code>) need to be migrated in the Supabase project first. Do not modify or delete existing tables or run destructive drops.
+              </div>
+
+              {/* Safe Cloud Data Migration & Backup Utilities */}
+              <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3 bg-white">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#2563EB]">cloud_upload</span>
+                    <h4 className="text-sm font-bold text-[#0F172A]">Cloud Sync &amp; Local Backup Tools</h4>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+                      const downloadAnchor = document.createElement('a');
+                      downloadAnchor.setAttribute("href", dataStr);
+                      downloadAnchor.setAttribute("download", `zaid_erp_backup_${new Date().toISOString().split('T')[0]}.json`);
+                      document.body.appendChild(downloadAnchor);
+                      downloadAnchor.click();
+                      downloadAnchor.remove();
+                    }}
+                    className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">download</span>
+                    <span>Download Local Backup (JSON)</span>
+                  </button>
                 </div>
+                <p className="text-xs text-slate-500">
+                  Local ERP records are never deleted automatically. You can export a snapshot of your local data at any time.
+                </p>
               </div>
             </div>
           ) : (

@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder } from './types/erp';
 import { loadERPState, saveERPState, ERPStoreState } from './lib/erpStore';
-import { checkSupabaseConnection } from './lib/supabase';
+import { getSupabaseClient, checkSupabaseConnection } from './lib/supabase';
+import {
+  fetchLiveProducts,
+  createLiveProduct,
+  adjustLiveStock,
+  fetchLiveCustomers,
+  createLiveCustomer,
+  fetchLiveSuppliers,
+  createLiveSupplier,
+  fetchLiveSalesInvoices,
+  recordLiveSaleInvoice,
+  fetchLivePurchases,
+  recordLivePurchaseOrder,
+  recordLiveSupplierPayment,
+  fetchLiveExpenses,
+  computeFinancialOverview
+} from './lib/supabaseService';
 import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
+import { Header, HeaderCloudStatus } from './components/Header';
 import { DashboardView } from './components/DashboardView';
 import { ProductsView } from './components/ProductsView';
 import { InventoryView } from './components/InventoryView';
@@ -13,6 +29,7 @@ import { CustomersView } from './components/CustomersView';
 import { SuppliersView } from './components/SuppliersView';
 import { AccountingView } from './components/AccountingView';
 import { SettingsView } from './components/SettingsView';
+import { LoginView } from './components/LoginView';
 import { GenericStitchScreenView } from './components/GenericStitchScreenView';
 import { ScreenCatalogModal } from './components/ScreenCatalogModal';
 
@@ -21,11 +38,137 @@ export const App: React.FC = () => {
   const [erpState, setErpState] = useState<ERPStoreState>(loadERPState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [supabaseConnected, setSupabaseConnected] = useState(false);
+  const [isLoadingCloud, setIsLoadingCloud] = useState(false);
+
+  // Status notification banner
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error' | 'info';
+    message: string;
+  } | null>(null);
+
+  // Connection & Cloud Status
+  const [cloudStatus, setCloudStatus] = useState<HeaderCloudStatus>({
+    mode: 'local_fallback',
+    userEmail: null,
+    message: 'Local Offline Storage'
+  });
+
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(prev => (prev?.message === message ? null : prev));
+    }, 5000);
+  }, []);
+
+  // Fetch live cloud data from Supabase
+  const loadCloudData = useCallback(async () => {
+    const client = getSupabaseClient();
+    if (!client) {
+      setCloudStatus({
+        mode: 'local_fallback',
+        userEmail: null,
+        message: 'Supabase client not initialized'
+      });
+      return;
+    }
+
+    setIsLoadingCloud(true);
+    try {
+      // Check auth session
+      const { data: sessionData } = await client.auth.getSession();
+      const session = sessionData?.session;
+
+      if (!session) {
+        setCloudStatus({
+          mode: 'cloud_guest',
+          userEmail: null,
+          message: 'Supabase reachable. Sign in to enable live RLS sync.'
+        });
+        setSupabaseConnected(true);
+        setIsLoadingCloud(false);
+        return;
+      }
+
+      setCloudStatus({
+        mode: 'cloud_authenticated',
+        userEmail: session.user.email,
+        message: `Live cloud sync active (${session.user.email})`
+      });
+      setSupabaseConnected(true);
+
+      // Parallel fetch live database records
+      const [prods, custs, supps, sales, purchases, expenses] = await Promise.all([
+        fetchLiveProducts(client).catch(err => {
+          console.warn('Live products fetch notice:', err.message);
+          return null;
+        }),
+        fetchLiveCustomers(client).catch(err => {
+          console.warn('Live customers fetch notice:', err.message);
+          return null;
+        }),
+        fetchLiveSuppliers(client).catch(err => {
+          console.warn('Live suppliers fetch notice:', err.message);
+          return null;
+        }),
+        fetchLiveSalesInvoices(client).catch(err => {
+          console.warn('Live sales fetch notice:', err.message);
+          return null;
+        }),
+        fetchLivePurchases(client).catch(err => {
+          console.warn('Live purchases fetch notice:', err.message);
+          return null;
+        }),
+        fetchLiveExpenses(client).catch(err => {
+          console.warn('Live expenses fetch notice:', err.message);
+          return null;
+        })
+      ]);
+
+      // If database returned records, update state
+      if (prods && custs && supps && sales && purchases && expenses) {
+        const nextProducts = prods.length > 0 ? prods : erpState.products;
+        const nextCustomers = custs.length > 0 ? custs : erpState.customers;
+        const nextSuppliers = supps.length > 0 ? supps : erpState.suppliers;
+        const nextSales = sales.length > 0 ? sales : erpState.recentSales;
+        const nextPurchases = purchases.length > 0 ? purchases : erpState.purchases;
+        const nextExpenses = expenses.length > 0 ? expenses : erpState.expenses;
+
+        const nextFinancials = computeFinancialOverview(
+          nextProducts,
+          nextCustomers,
+          nextSuppliers,
+          nextSales,
+          nextPurchases,
+          nextExpenses
+        );
+
+        const cloudState: ERPStoreState = {
+          products: nextProducts,
+          customers: nextCustomers,
+          suppliers: nextSuppliers,
+          recentSales: nextSales,
+          purchases: nextPurchases,
+          expenses: nextExpenses,
+          financials: nextFinancials
+        };
+
+        setErpState(cloudState);
+        saveERPState(cloudState);
+        showToast('Connected to Supabase. Loaded live cloud ERP records.', 'success');
+      }
+    } catch (err: any) {
+      console.warn('Cloud sync fallback to local store:', err.message);
+      showToast(`Cloud connection notice: ${err.message}. Operating in local fallback mode.`, 'info');
+    } finally {
+      setIsLoadingCloud(false);
+    }
+  }, [erpState, showToast]);
 
   useEffect(() => {
     checkSupabaseConnection().then(res => {
       setSupabaseConnected(res.connected);
     });
+    loadCloudData();
   }, []);
 
   const handleNavigate = (screen: ScreenId) => {
@@ -34,49 +177,135 @@ export const App: React.FC = () => {
   };
 
   const handleSync = () => {
-    const updated = loadERPState();
-    setErpState(updated);
+    if (cloudStatus.mode === 'cloud_authenticated') {
+      loadCloudData();
+    } else {
+      const updated = loadERPState();
+      setErpState(updated);
+      showToast('Refreshed ERP records from local storage.', 'info');
+    }
   };
 
-  const handleAddProduct = (newProdData: Omit<Product, 'id'>) => {
+  const handleAddProduct = async (newProdData: Omit<Product, 'id'>) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const created = await createLiveProduct(client, newProdData);
+        const nextProducts = [created, ...erpState.products];
+        const nextState = { ...erpState, products: nextProducts };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Product "${created.name}" saved to Supabase cloud database.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Error: ${err.message}`, 'error');
+        console.error('Failed to save product to Supabase:', err);
+        return;
+      }
+    }
+
+    // Local fallback
     const newProduct: Product = {
       ...newProdData,
       id: `prod-${Date.now()}`
     };
     const nextProducts = [newProduct, ...erpState.products];
-    const nextState: ERPStoreState = {
-      ...erpState,
-      products: nextProducts
-    };
+    const nextState: ERPStoreState = { ...erpState, products: nextProducts };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Product "${newProduct.name}" saved locally (sign in to sync with cloud).`, 'info');
   };
 
-  const handleUpdateProductStock = (productId: string, newStock: number) => {
+  const handleUpdateProductStock = async (productId: string, newStock: number) => {
+    const client = getSupabaseClient();
+    const targetProduct = erpState.products.find(p => p.id === productId);
+    const diff = targetProduct ? newStock - targetProduct.currentStock : 0;
+
+    if (cloudStatus.mode === 'cloud_authenticated' && client && diff !== 0) {
+      try {
+        const updatedBalance = await adjustLiveStock(
+          client,
+          productId,
+          diff,
+          'Stock Count Correction'
+        );
+        const nextProducts = erpState.products.map(p =>
+          p.id === productId
+            ? {
+                ...p,
+                currentStock: updatedBalance,
+                status: (updatedBalance <= p.minStockAlert
+                  ? updatedBalance === 0
+                    ? 'out_of_stock'
+                    : 'low_stock'
+                  : 'active') as Product['status']
+              }
+            : p
+        );
+        const nextState = { ...erpState, products: nextProducts };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Stock updated in Supabase. New balance: ${updatedBalance}`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Stock Error: ${err.message}`, 'error');
+        console.error('Failed to update stock in Supabase:', err);
+        return;
+      }
+    }
+
+    // Local fallback
     const nextProducts = erpState.products.map(p => {
       if (p.id === productId) {
         return {
           ...p,
           currentStock: newStock,
-          status: (newStock <= p.minStockAlert ? (newStock === 0 ? 'out_of_stock' : 'low_stock') : 'active') as Product['status']
+          status: (newStock <= p.minStockAlert
+            ? newStock === 0
+              ? 'out_of_stock'
+              : 'low_stock'
+            : 'active') as Product['status']
         };
       }
       return p;
     });
 
-    const nextState: ERPStoreState = {
-      ...erpState,
-      products: nextProducts
-    };
+    const nextState: ERPStoreState = { ...erpState, products: nextProducts };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Stock updated in local store.`, 'info');
   };
 
-  const handleRecordSale = (newInvoice: SaleInvoice) => {
+  const handleRecordSale = async (newInvoice: SaleInvoice) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const saved = await recordLiveSaleInvoice(client, newInvoice);
+        const nextSales = [saved, ...erpState.recentSales];
+        const nextFinancials = computeFinancialOverview(
+          erpState.products,
+          erpState.customers,
+          erpState.suppliers,
+          nextSales,
+          erpState.purchases,
+          erpState.expenses
+        );
+        const nextState = { ...erpState, recentSales: nextSales, financials: nextFinancials };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Sales invoice ${saved.invoiceNo} saved to Supabase cloud.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Sales Error: ${err.message}`, 'error');
+        console.error('Failed to save sale to Supabase:', err);
+        return;
+      }
+    }
+
+    // Local fallback
     const nextSales = [newInvoice, ...erpState.recentSales];
     const nextTodaySales = erpState.financials.todaySales + newInvoice.totalAmount;
     const nextBankBalance = erpState.financials.bankBalance + newInvoice.totalAmount;
-    const nextCashInHand = erpState.financials.cashInHand;
 
     const nextState: ERPStoreState = {
       ...erpState,
@@ -84,15 +313,41 @@ export const App: React.FC = () => {
       financials: {
         ...erpState.financials,
         todaySales: nextTodaySales,
-        bankBalance: nextBankBalance,
-        cashInHand: nextCashInHand
+        bankBalance: nextBankBalance
       }
     };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Sales invoice ${newInvoice.invoiceNo} saved to local store.`, 'info');
   };
 
-  const handleRecordPurchase = (newPO: PurchaseOrder) => {
+  const handleRecordPurchase = async (newPO: PurchaseOrder) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const saved = await recordLivePurchaseOrder(client, newPO);
+        const nextPurchases = [saved, ...erpState.purchases];
+        const nextFinancials = computeFinancialOverview(
+          erpState.products,
+          erpState.customers,
+          erpState.suppliers,
+          erpState.recentSales,
+          nextPurchases,
+          erpState.expenses
+        );
+        const nextState = { ...erpState, purchases: nextPurchases, financials: nextFinancials };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Purchase order ${saved.poNumber} saved to Supabase cloud.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Purchase Error: ${err.message}`, 'error');
+        console.error('Failed to save purchase to Supabase:', err);
+        return;
+      }
+    }
+
+    // Local fallback
     const nextPurchases = [newPO, ...erpState.purchases];
     const nextTodayPurchases = erpState.financials.todayPurchases + newPO.totalAmount;
     const nextBankBalance = Math.max(0, erpState.financials.bankBalance - newPO.totalAmount);
@@ -108,27 +363,76 @@ export const App: React.FC = () => {
     };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Purchase order ${newPO.poNumber} saved to local store.`, 'info');
   };
 
-  const handleAddCustomer = (newCustomer: Customer) => {
+  const handleAddCustomer = async (newCustomer: Customer) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const saved = await createLiveCustomer(client, newCustomer);
+        const nextCustomers = [saved, ...erpState.customers];
+        const nextState = { ...erpState, customers: nextCustomers };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Customer "${saved.name}" saved to Supabase cloud database.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Customer Error: ${err.message}`, 'error');
+        console.error('Failed to save customer to Supabase:', err);
+        return;
+      }
+    }
+
     const nextState: ERPStoreState = {
       ...erpState,
       customers: [newCustomer, ...erpState.customers]
     };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Customer "${newCustomer.name}" saved locally.`, 'info');
   };
 
-  const handleAddSupplier = (newSupplier: Supplier) => {
+  const handleAddSupplier = async (newSupplier: Supplier) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const saved = await createLiveSupplier(client, newSupplier);
+        const nextSuppliers = [saved, ...erpState.suppliers];
+        const nextState = { ...erpState, suppliers: nextSuppliers };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Supplier "${saved.name}" saved to Supabase cloud database.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Supplier Error: ${err.message}`, 'error');
+        console.error('Failed to save supplier to Supabase:', err);
+        return;
+      }
+    }
+
     const nextState: ERPStoreState = {
       ...erpState,
       suppliers: [newSupplier, ...erpState.suppliers]
     };
     setErpState(nextState);
     saveERPState(nextState);
+    showToast(`Supplier "${newSupplier.name}" saved locally.`, 'info');
   };
 
-  const handlePaySupplier = (supplierId: string, amount: number) => {
+  const handlePaySupplier = async (supplierId: string, amount: number) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        await recordLiveSupplierPayment(client, supplierId, amount);
+        showToast(`Supplier payment of Rs. ${amount.toLocaleString()} recorded in Supabase.`, 'success');
+      } catch (err: any) {
+        showToast(`Supabase Payment Error: ${err.message}`, 'error');
+        console.error('Failed to record supplier payment in Supabase:', err);
+        return;
+      }
+    }
+
     const nextSuppliers = erpState.suppliers.map(s => {
       if (s.id === supplierId) {
         return {
@@ -157,6 +461,30 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased">
+      {/* Toast Notification Banner */}
+      {notification && (
+        <div
+          className={`fixed bottom-5 right-5 z-50 max-w-md px-4 py-3 rounded-xl shadow-lg border text-sm flex items-center gap-3 transition-all animate-bounce ${
+            notification.type === 'success'
+              ? 'bg-emerald-50 text-emerald-900 border-emerald-300'
+              : notification.type === 'error'
+              ? 'bg-red-50 text-red-900 border-red-300'
+              : 'bg-blue-50 text-blue-900 border-blue-300'
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px] shrink-0">
+            {notification.type === 'success' ? 'check_circle' : notification.type === 'error' ? 'error' : 'info'}
+          </span>
+          <span className="font-medium text-xs leading-relaxed flex-1">{notification.message}</span>
+          <button
+            onClick={() => setNotification(null)}
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[16px]">close</span>
+          </button>
+        </div>
+      )}
+
       {/* Sidebar Navigation matching Stitch */}
       <Sidebar
         currentScreen={currentScreen}
@@ -166,16 +494,24 @@ export const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="pl-[240px]">
-        {/* Top Header */}
+        {/* Top Header with accurate connection badge */}
         <Header
           currentScreen={currentScreen}
           onNavigate={handleNavigate}
           supabaseConnected={supabaseConnected}
+          cloudStatus={cloudStatus}
           onOpenScreenModal={() => setIsModalOpen(true)}
         />
 
         {/* Content Container */}
         <main className="w-full pt-16 min-h-screen">
+          {isLoadingCloud && (
+            <div className="w-full bg-blue-50 text-blue-700 text-xs py-1.5 px-6 flex items-center justify-center gap-2 border-b border-blue-100">
+              <span className="material-symbols-outlined text-[16px] animate-spin">sync</span>
+              <span>Synchronizing ERP records with Supabase cloud database...</span>
+            </div>
+          )}
+
           {/* Screen 01: Dashboard */}
           {currentScreen === '01_dashboard' && (
             <DashboardView
@@ -293,6 +629,14 @@ export const App: React.FC = () => {
             />
           )}
 
+          {/* Screen 38: Live Supabase Login & Authentication */}
+          {currentScreen === '38_login' && (
+            <LoginView
+              onNavigate={handleNavigate}
+              onAuthSuccess={loadCloudData}
+            />
+          )}
+
           {/* Any other screens in the 38-screen inventory */}
           {![
             '01_dashboard',
@@ -327,7 +671,8 @@ export const App: React.FC = () => {
             '32_balance_sheet',
             '34_stock_movement_history',
             '36_company_settings',
-            '37_users_roles'
+            '37_users_roles',
+            '38_login'
           ].includes(currentScreen) && (
             <GenericStitchScreenView
               screenId={currentScreen}

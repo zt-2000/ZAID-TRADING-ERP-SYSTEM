@@ -1,10 +1,17 @@
 import React from 'react';
 import { ScreenId } from '../types/erp';
 
+export interface HeaderCloudStatus {
+  mode: 'cloud_authenticated' | 'cloud_guest' | 'local_fallback';
+  userEmail?: string | null;
+  message?: string;
+}
+
 interface HeaderProps {
   currentScreen: ScreenId;
   onNavigate: (screen: ScreenId) => void;
   supabaseConnected: boolean;
+  cloudStatus?: HeaderCloudStatus;
   onOpenScreenModal: () => void;
 }
 
@@ -12,9 +19,11 @@ export const Header: React.FC<HeaderProps> = ({
   currentScreen,
   onNavigate,
   supabaseConnected,
+  cloudStatus,
   onOpenScreenModal
 }) => {
   const todayStr = 'Thursday, Oct 24, 2024';
+  const mode = cloudStatus?.mode || (supabaseConnected ? 'cloud_authenticated' : 'local_fallback');
 
   return (
     <header className="fixed top-0 left-[240px] right-0 h-16 bg-white border-b border-[#E2E8F0] z-40 flex items-center justify-between px-8 select-none shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
@@ -37,18 +46,34 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Screens (38)</span>
         </button>
 
-        {/* Verified Database Status Indicator (Never falsely claimed) */}
+        {/* Distinguished Database & Cloud Persistence Status Badge */}
         <button
-          onClick={() => onNavigate('36_company_settings')}
-          title="Click to view Supabase Readiness Diagnostics"
+          onClick={() => onNavigate(mode === 'cloud_guest' ? '38_login' : '36_company_settings')}
+          title="Click to view Supabase Connection & Diagnostics"
           className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-medium cursor-pointer transition-colors ${
-            supabaseConnected
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+            mode === 'cloud_authenticated'
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+              : mode === 'cloud_guest'
+              ? 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
               : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
           }`}
         >
-          <span className={`w-1.5 h-1.5 rounded-full ${supabaseConnected ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
-          <span>{supabaseConnected ? 'Supabase: Live' : 'ERP Local State (Diagnostics)'}</span>
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              mode === 'cloud_authenticated'
+                ? 'bg-emerald-500'
+                : mode === 'cloud_guest'
+                ? 'bg-amber-500 animate-pulse'
+                : 'bg-slate-400'
+            }`}
+          ></span>
+          <span>
+            {mode === 'cloud_authenticated'
+              ? `Cloud Sync: Live (${cloudStatus?.userEmail ? cloudStatus.userEmail.split('@')[0] : 'User'})`
+              : mode === 'cloud_guest'
+              ? 'Cloud: Ready (Sign In to Sync)'
+              : 'Local Offline Storage'}
+          </span>
         </button>
 
         {/* Warehouse Context: Main Warehouse (MW-01) */}
