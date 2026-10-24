@@ -1,0 +1,296 @@
+import React, { useState, useEffect } from 'react';
+import { ERPStoreState } from '../lib/erpStore';
+import { ScreenId } from '../types/erp';
+import { runSupabaseDiagnostics, SupabaseDiagnostics } from '../lib/supabase';
+
+interface SettingsViewProps {
+  state: ERPStoreState;
+  onNavigate: (screen: ScreenId) => void;
+}
+
+export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate }) => {
+  const [activeTab, setActiveTab] = useState<'company' | 'users' | 'database'>('company');
+  const [diagnostics, setDiagnostics] = useState<SupabaseDiagnostics | null>(null);
+  const [checkingDb, setCheckingDb] = useState(false);
+
+  const fetchDiagnostics = async () => {
+    setCheckingDb(true);
+    const diag = await runSupabaseDiagnostics();
+    setDiagnostics(diag);
+    setCheckingDb(false);
+  };
+
+  useEffect(() => {
+    fetchDiagnostics();
+  }, []);
+
+  return (
+    <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-[28px] font-bold text-[#0F172A] tracking-tight">System &amp; Company Settings</h1>
+          <p className="text-[14px] text-[#64748B] mt-0.5">Configuration, company profile, user access, and Supabase integration readiness</p>
+        </div>
+      </div>
+
+      <div className="flex border-b border-[#E2E8F0] gap-4">
+        <button
+          onClick={() => setActiveTab('company')}
+          className={`pb-2 text-sm font-semibold transition-colors cursor-pointer ${
+            activeTab === 'company'
+              ? 'border-b-2 border-[#2563EB] text-[#2563EB]'
+              : 'text-[#64748B] hover:text-[#0F172A]'
+          }`}
+        >
+          Company Profile (Screen 36)
+        </button>
+        <button
+          onClick={() => setActiveTab('users')}
+          className={`pb-2 text-sm font-semibold transition-colors cursor-pointer ${
+            activeTab === 'users'
+              ? 'border-b-2 border-[#2563EB] text-[#2563EB]'
+              : 'text-[#64748B] hover:text-[#0F172A]'
+          }`}
+        >
+          Users &amp; Access Roles (Screen 37)
+        </button>
+        <button
+          onClick={() => setActiveTab('database')}
+          className={`pb-2 text-sm font-semibold transition-colors cursor-pointer ${
+            activeTab === 'database'
+              ? 'border-b-2 border-[#2563EB] text-[#2563EB]'
+              : 'text-[#64748B] hover:text-[#0F172A]'
+          }`}
+        >
+          Supabase Readiness &amp; Diagnostics
+        </button>
+      </div>
+
+      {activeTab === 'company' && (
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl space-y-5">
+          <div className="border-b pb-3 border-[#E2E8F0]">
+            <h3 className="text-base font-bold text-[#0F172A]">Company Profile (Screen 36)</h3>
+            <p className="text-xs text-[#64748B]">These details appear on sales invoices and purchase orders</p>
+          </div>
+          <div className="space-y-4 text-sm">
+            <div>
+              <label className="block text-xs font-semibold text-[#64748B] mb-1">Company Trade Name</label>
+              <input
+                type="text"
+                defaultValue="ZAID TRADING (PVT) LTD"
+                className="w-full px-3 py-2 border rounded-lg text-[#0F172A] font-medium"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-[#64748B] mb-1">Currency Code</label>
+                <input
+                  type="text"
+                  defaultValue="LKR (Rs.)"
+                  readOnly
+                  className="w-full px-3 py-2 border rounded-lg bg-slate-50 text-[#0F172A]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#64748B] mb-1">VAT / TIN Registration</label>
+                <input
+                  type="text"
+                  defaultValue="102938475-7000"
+                  className="w-full px-3 py-2 border rounded-lg text-[#0F172A]"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-[#64748B] mb-1">Registered Warehouse Address</label>
+              <input
+                type="text"
+                defaultValue="No. 45/A, Warehouse Complex, Peliyagoda, Colombo"
+                className="w-full px-3 py-2 border rounded-lg text-[#0F172A]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'users' && (
+        <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+          <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-bold text-[#0F172A]">Users &amp; Access Roles (Screen 37)</h3>
+              <p className="text-xs text-[#64748B]">Role-based access control and branch permissions</p>
+            </div>
+            <button
+              onClick={() => onNavigate('38_login')}
+              className="px-3 py-1 text-xs font-medium text-[#2563EB] bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 cursor-pointer"
+            >
+              Test Login Session (Screen 38)
+            </button>
+          </div>
+          <table className="w-full text-left text-sm">
+            <thead className="bg-[#F8FAFC] text-[11px] uppercase text-[#64748B] border-b">
+              <tr>
+                <th className="py-2.5 px-4">User Name</th>
+                <th className="py-2.5 px-4">Email</th>
+                <th className="py-2.5 px-4">Assigned Role</th>
+                <th className="py-2.5 px-4">Warehouse Access</th>
+                <th className="py-2.5 px-4 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#E2E8F0]">
+              <tr>
+                <td className="py-3 px-4 font-semibold text-[#0F172A]">Kasun Perera</td>
+                <td className="py-3 px-4 text-xs text-[#64748B]">kasun@zaidtrading.lk</td>
+                <td className="py-3 px-4 font-medium text-blue-700">Store Manager</td>
+                <td className="py-3 px-4 text-xs">Main Warehouse (MW-01)</td>
+                <td className="py-3 px-4 text-center">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4 font-semibold text-[#0F172A]">Mohamed Zaid</td>
+                <td className="py-3 px-4 text-xs text-[#64748B]">zaid@zaidtrading.lk</td>
+                <td className="py-3 px-4 font-medium text-purple-700">Administrator</td>
+                <td className="py-3 px-4 text-xs">All Nodes &amp; Financials</td>
+                <td className="py-3 px-4 text-center">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4 font-semibold text-[#0F172A]">Nimal Fernando</td>
+                <td className="py-3 px-4 text-xs text-[#64748B]">nimal@zaidtrading.lk</td>
+                <td className="py-3 px-4 font-medium text-slate-700">Cashier</td>
+                <td className="py-3 px-4 text-xs">Sales Invoicing Only</td>
+                <td className="py-3 px-4 text-center">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {activeTab === 'database' && (
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-3xl space-y-6">
+          <div className="flex items-center justify-between border-b pb-4 border-[#E2E8F0]">
+            <div>
+              <h3 className="text-base font-bold text-[#0F172A]">Supabase Integration Readiness &amp; Diagnostics</h3>
+              <p className="text-xs text-[#64748B]">Safe non-destructive audit of cloud connection and data storage</p>
+            </div>
+            <button
+              onClick={fetchDiagnostics}
+              disabled={checkingDb}
+              className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-[#0F172A] rounded-lg text-xs font-semibold cursor-pointer inline-flex items-center gap-1.5"
+            >
+              <span className={`material-symbols-outlined text-[16px] ${checkingDb ? 'animate-spin' : ''}`}>
+                refresh
+              </span>
+              <span>{checkingDb ? 'Testing...' : 'Re-run Diagnostics'}</span>
+            </button>
+          </div>
+
+          {diagnostics ? (
+            <div className="space-y-4">
+              {/* Diagnostic Checklist */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                {/* Item 1: Config */}
+                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">1. Environment Configuration</span>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                      diagnostics.publicConfigPresent ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                    }`}>
+                      {diagnostics.publicConfigPresent ? 'Present' : 'Missing'}
+                    </span>
+                  </div>
+                  <p className="text-slate-500 font-mono">
+                    Host: {diagnostics.urlHost || 'None'}
+                  </p>
+                  <p className="text-slate-400 text-[10px]">
+                    Credentials protected (no keys printed).
+                  </p>
+                </div>
+
+                {/* Item 2: Client Initialized */}
+                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">2. Supabase SDK Client</span>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                      diagnostics.clientInitialized ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                    }`}>
+                      {diagnostics.clientInitialized ? 'Initialized' : 'Failed'}
+                    </span>
+                  </div>
+                  <p className="text-slate-500">
+                    @supabase/supabase-js client instantiated.
+                  </p>
+                  <p className="text-slate-400 text-[10px]">
+                    Auth health: {diagnostics.authHealthOk ? 'Reachable (HTTP 200)' : 'Unreachable'}
+                  </p>
+                </div>
+
+                {/* Item 3: Session */}
+                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">3. Auth Session</span>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                      diagnostics.hasActiveSession ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'
+                    }`}>
+                      {diagnostics.hasActiveSession ? 'Authenticated' : 'Anonymous / Guest'}
+                    </span>
+                  </div>
+                  <p className="text-slate-500">
+                    {diagnostics.hasActiveSession
+                      ? `Active user: ${diagnostics.sessionUserEmail}`
+                      : 'No authenticated Supabase JWT session detected.'}
+                  </p>
+                  <p className="text-slate-400 text-[10px]">
+                    Client requests run under anon role.
+                  </p>
+                </div>
+
+                {/* Item 4: Table Read & Schema */}
+                <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">4. Harmless Table Read</span>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                      diagnostics.tableReadSuccess ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                    }`}>
+                      {diagnostics.tableReadSuccess ? 'Table Exists' : 'HTTP 404 (Not Found)'}
+                    </span>
+                  </div>
+                  <p className="text-slate-500">
+                    Probed: <code className="bg-white px-1 py-0.5 rounded border border-slate-200">public.{diagnostics.testedTableName}</code>
+                  </p>
+                  <p className="text-slate-400 text-[10px]">
+                    {diagnostics.tableReadError || 'Read successful'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Active Storage Engine Banner */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#2563EB]">storage</span>
+                  <span className="font-bold text-sm text-[#0F172A]">Active Storage Engine</span>
+                  <span className="ml-auto text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#2563EB] border border-blue-200">
+                    {diagnostics.activeStorageEngine}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  The application is currently operating safely on the <strong>Local Persistent Storage Engine</strong>. All 38 Stitch screens, products, sales invoices, stock adjustments, customer/supplier ledgers, and accounting balances are managed with full persistence without risk of database crashes or missing table exceptions.
+                </p>
+                <div className="pt-2 text-xs border-t border-blue-200/60 text-slate-600">
+                  <strong>Next Safe Action:</strong> To transition from local storage to live cloud persistence, database schema tables (e.g. <code>products</code>, <code>customers</code>, <code>suppliers</code>, <code>sales_invoices</code>, <code>inventory_movements</code>) need to be migrated in the Supabase project first. Do not modify or delete existing tables or run destructive drops.
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="py-8 text-center text-xs text-[#64748B]">
+              Loading diagnostics...
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};

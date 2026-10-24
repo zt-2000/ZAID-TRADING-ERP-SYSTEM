@@ -1,0 +1,8 @@
+{
+  "name": "Zaid Trading Wholesale ERP",
+  "description": "Enterprise Wholesale Distribution and ERP Suite for Zaid Trading, featuring multi-warehouse inventory management, sales invoicing, purchase orders, customer & supplier ledgers, and financial accounting.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
