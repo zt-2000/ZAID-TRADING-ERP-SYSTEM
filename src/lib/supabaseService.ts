@@ -24,15 +24,11 @@ export interface MigrationResult {
   errors: string[];
 }
 
-// Memory caches for lookup tables to prevent redundant queries
 let cacheMWWarehouseId: string | null = null;
-const cacheCategories = new Map<string, string>(); // name -> id
-const cacheUOMs = new Map<string, string>(); // code/name -> id
-const cachePaymentMethods = new Map<string, string>(); // code -> id
+const cacheCategories = new Map<string, string>();
+const cacheUOMs = new Map<string, string>();
+const cachePaymentMethods = new Map<string, string>();
 
-/**
- * Resolves the default warehouse (MW-01) UUID.
- */
 export async function getDefaultWarehouseId(client: SupabaseClient): Promise<string> {
   if (cacheMWWarehouseId) return cacheMWWarehouseId;
 
@@ -54,15 +50,12 @@ export async function getDefaultWarehouseId(client: SupabaseClient): Promise<str
       return anyWh.id;
     }
   } catch {
-    // Ignore and return fallback id
+    // Ignore
   }
 
   return '00000000-0000-0000-0000-000000000001';
 }
 
-/**
- * Resolves or creates a category ID.
- */
 export async function getCategoryId(client: SupabaseClient, categoryName: string): Promise<string | null> {
   if (cacheCategories.has(categoryName)) return cacheCategories.get(categoryName)!;
 
@@ -95,9 +88,6 @@ export async function getCategoryId(client: SupabaseClient, categoryName: string
   return null;
 }
 
-/**
- * Resolves a UOM ID.
- */
 export async function getUomId(client: SupabaseClient, uomCodeOrName: string): Promise<string | null> {
   if (cacheUOMs.has(uomCodeOrName)) return cacheUOMs.get(uomCodeOrName)!;
 
@@ -113,15 +103,12 @@ export async function getUomId(client: SupabaseClient, uomCodeOrName: string): P
       return data.id;
     }
   } catch {
-    // Table may not exist in pre-migration database
+    // ignore
   }
 
   return null;
 }
 
-/**
- * Resolves payment method ID.
- */
 export async function getPaymentMethodId(client: SupabaseClient, code: string = 'CASH'): Promise<string | null> {
   if (cachePaymentMethods.has(code)) return cachePaymentMethods.get(code)!;
 
@@ -143,9 +130,6 @@ export async function getPaymentMethodId(client: SupabaseClient, code: string = 
   return null;
 }
 
-/**
- * Loads all live products from Supabase joined with their inventory stock in MW-01.
- */
 export async function fetchLiveProducts(client: SupabaseClient): Promise<Product[]> {
   const warehouseId = await getDefaultWarehouseId(client);
 
@@ -158,7 +142,6 @@ export async function fetchLiveProducts(client: SupabaseClient): Promise<Product
     throw new Error(`Failed to load products: ${prodErr.message}`);
   }
 
-  // Fetch warehouse inventory mapping
   const inventoryMap = new Map<string, number>();
   try {
     const { data: invRows } = await client.from('warehouse_inventory').select('*');
@@ -172,7 +155,6 @@ export async function fetchLiveProducts(client: SupabaseClient): Promise<Product
     // ignore
   }
 
-  // Fetch category lookup
   const categoryMap = new Map<string, string>();
   try {
     const { data: catRows } = await client.from('product_categories').select('id, name');
@@ -208,9 +190,6 @@ export async function fetchLiveProducts(client: SupabaseClient): Promise<Product
   });
 }
 
-/**
- * Inserts a new product into Supabase and initializes stock via atomic inventory movement.
- */
 export async function createLiveProduct(
   client: SupabaseClient,
   productData: Omit<Product, 'id'>
@@ -218,7 +197,6 @@ export async function createLiveProduct(
   const warehouseId = await getDefaultWarehouseId(client);
   const categoryId = await getCategoryId(client, productData.category);
 
-  // Construct defensive insert payload supporting both live and proposed schemas
   const payload: any = {
     sku: productData.sku,
     name: productData.name,
@@ -241,7 +219,6 @@ export async function createLiveProduct(
     throw new Error(`Failed to insert product: ${insertErr?.message || 'Database error'}`);
   }
 
-  // Record initial stock if present
   if (productData.currentStock > 0 && warehouseId) {
     try {
       await client.from('inventory_movements').insert({
@@ -273,9 +250,6 @@ export async function createLiveProduct(
   };
 }
 
-/**
- * Adjusts product stock via an atomic stock movement in Supabase.
- */
 export async function adjustLiveStock(
   client: SupabaseClient,
   productId: string,
@@ -286,7 +260,6 @@ export async function adjustLiveStock(
   const warehouseId = await getDefaultWarehouseId(client);
   const refNo = referenceNo || `ADJ-${Date.now().toString().slice(-6)}`;
 
-  // Insert inventory movement which triggers database locking and stock mutation
   const { data, error } = await client
     .from('inventory_movements')
     .insert({
@@ -294,7 +267,7 @@ export async function adjustLiveStock(
       product_id: productId,
       movement_type: 'STOCK_ADJUSTMENT',
       quantity_change: quantityChange,
-      balance_after: 0, // Computed by DB trigger
+      balance_after: 0,
       reference_no: refNo,
       reason
     })
@@ -305,7 +278,6 @@ export async function adjustLiveStock(
     throw new Error(`Stock adjustment failed: ${error.message}`);
   }
 
-  // Also log into stock_adjustments table for audit trail
   await client.from('stock_adjustments').insert({
     adjustment_no: refNo,
     warehouse_id: warehouseId,
@@ -327,9 +299,6 @@ export async function adjustLiveStock(
   return Number(data?.balance_after ?? 0);
 }
 
-/**
- * Fetches customers from Supabase with their outstanding balances.
- */
 export async function fetchLiveCustomers(client: SupabaseClient): Promise<Customer[]> {
   const { data, error } = await client
     .from('customers')
@@ -352,7 +321,6 @@ export async function fetchLiveCustomers(client: SupabaseClient): Promise<Custom
   }
 
   return (data || []).map((c: any) => {
-    // Calculate outstanding receivables from unpaid invoices
     const unpaid = (c.sales_invoices || []).reduce((acc: number, inv: any) => {
       if (inv.status !== 'Void') {
         return acc + Math.max(0, Number(inv.total_amount || 0) - Number(inv.paid_amount || 0));
@@ -373,9 +341,6 @@ export async function fetchLiveCustomers(client: SupabaseClient): Promise<Custom
   });
 }
 
-/**
- * Inserts a customer into Supabase.
- */
 export async function createLiveCustomer(
   client: SupabaseClient,
   customer: Customer
@@ -409,9 +374,6 @@ export async function createLiveCustomer(
   };
 }
 
-/**
- * Fetches suppliers from Supabase with their payables.
- */
 export async function fetchLiveSuppliers(client: SupabaseClient): Promise<Supplier[]> {
   const { data, error } = await client
     .from('suppliers')
@@ -449,9 +411,6 @@ export async function fetchLiveSuppliers(client: SupabaseClient): Promise<Suppli
   });
 }
 
-/**
- * Inserts a supplier into Supabase.
- */
 export async function createLiveSupplier(
   client: SupabaseClient,
   supplier: Supplier
@@ -481,9 +440,6 @@ export async function createLiveSupplier(
   };
 }
 
-/**
- * Fetches sales invoices from Supabase.
- */
 export async function fetchLiveSalesInvoices(client: SupabaseClient): Promise<SaleInvoice[]> {
   const { data, error } = await client
     .from('sales_invoices')
@@ -494,7 +450,6 @@ export async function fetchLiveSalesInvoices(client: SupabaseClient): Promise<Sa
     throw new Error(`Failed to load sales invoices: ${error.message}`);
   }
 
-  // Fetch customer names lookup
   const custMap = new Map<string, { name: string; type: string }>();
   try {
     const { data: custs } = await client.from('customers').select('id, name, account_type');
@@ -513,7 +468,7 @@ export async function fetchLiveSalesInvoices(client: SupabaseClient): Promise<Sa
       customerId: inv.customer_id,
       customerName: cust?.name || 'Walk-in Customer',
       customerType: cust?.type || 'Regular',
-      date: inv.invoice_date,
+      date: inv.invoice_date || inv.created_at || new Date().toISOString(),
       totalAmount: Number(inv.total_amount ?? inv.total ?? 0),
       paidAmount: Number(inv.paid_amount ?? (inv.status === 'Paid' ? (inv.total_amount ?? inv.total) : 0)),
       status: (inv.status || 'Pending') as SaleInvoice['status'],
@@ -523,9 +478,6 @@ export async function fetchLiveSalesInvoices(client: SupabaseClient): Promise<Sa
   });
 }
 
-/**
- * Records a sales invoice with atomic inventory deduction in Supabase.
- */
 export async function recordLiveSaleInvoice(
   client: SupabaseClient,
   invoice: SaleInvoice,
@@ -533,11 +485,18 @@ export async function recordLiveSaleInvoice(
 ): Promise<SaleInvoice> {
   const warehouseId = await getDefaultWarehouseId(client);
 
-  // 1. Create sales invoice payload
+  let invoiceNo = invoice.invoiceNo;
+  try {
+    const { data: seqNo } = await client.rpc('generate_invoice_no');
+    if (seqNo) invoiceNo = seqNo;
+  } catch {
+    // fallback if rpc not present
+  }
+
   const invoicePayload: any = {
-    invoice_no: invoice.invoiceNo,
+    invoice_no: invoiceNo,
     customer_id: invoice.customerId,
-    invoice_date: new Date().toISOString().split('T')[0],
+    invoice_date: new Date().toISOString(),
     subtotal: invoice.totalAmount,
     total: invoice.totalAmount,
     total_amount: invoice.totalAmount,
@@ -556,11 +515,10 @@ export async function recordLiveSaleInvoice(
   if (!invErr1 && res1) {
     newInv = res1;
   } else {
-    // Fallback with minimal columns
     const minimalPayload = {
-      invoice_no: invoice.invoiceNo,
+      invoice_no: invoiceNo,
       customer_id: invoice.customerId,
-      invoice_date: new Date().toISOString().split('T')[0],
+      invoice_date: new Date().toISOString(),
       total: invoice.totalAmount,
       status: invoice.status
     };
@@ -576,7 +534,6 @@ export async function recordLiveSaleInvoice(
     newInv = res2;
   }
 
-  // 2. If line items provided, insert them and log stock movements
   if (lineItems && lineItems.length > 0) {
     const itemsToInsert = lineItems.map(item => ({
       invoice_id: newInv.id,
@@ -591,7 +548,6 @@ export async function recordLiveSaleInvoice(
       console.warn('Items insert notice:', itemsErr.message);
     }
 
-    // Atomic inventory deduction for each line
     for (const item of lineItems) {
       try {
         await client.from('inventory_movements').insert({
@@ -609,36 +565,34 @@ export async function recordLiveSaleInvoice(
     }
   }
 
-  // 3. If invoice was marked as paid upfront, attempt recording payment if table exists
   if (invoice.paidAmount > 0) {
     try {
       const payMethodId = await getPaymentMethodId(client, 'CASH');
       await client.from('payments').insert({
-        payment_no: `PAY-${invoice.invoiceNo}`,
+        payment_no: `PAY-${invoiceNo}`,
         party_type: 'CUSTOMER',
         customer_id: invoice.customerId,
         sales_invoice_id: newInv.id,
         payment_method_id: payMethodId,
         amount: invoice.paidAmount,
-        notes: `Upfront settlement for ${newInv.invoice_no}`
+        notes: `Upfront settlement for ${invoiceNo}`
       });
     } catch {
-      // payments table may not exist in pre-migration database
+      // payments table may not exist
     }
   }
 
   return {
     ...invoice,
     id: newInv.id,
+    invoiceNo: newInv.invoice_no || invoiceNo,
+    date: newInv.invoice_date || new Date().toISOString(),
     paidAmount: Number(newInv.paid_amount ?? newInv.total ?? invoice.paidAmount),
     status: newInv.status as SaleInvoice['status'],
     syncStatus: 'synced'
   };
 }
 
-/**
- * Fetches purchases from Supabase.
- */
 export async function fetchLivePurchases(client: SupabaseClient): Promise<PurchaseOrder[]> {
   const { data, error } = await client
     .from('purchase_orders')
@@ -662,27 +616,32 @@ export async function fetchLivePurchases(client: SupabaseClient): Promise<Purcha
     poNumber: po.po_no || po.po_number || `PO-${po.id.slice(0, 6)}`,
     supplierId: po.supplier_id,
     supplierName: supplierMap.get(po.supplier_id) || 'Vendor',
-    date: po.order_date || 'Today',
+    date: po.order_date || po.created_at || new Date().toISOString(),
     totalAmount: Number(po.total || po.total_amount || 0),
     status: (po.status || 'Received') as PurchaseOrder['status'],
     syncStatus: 'synced'
   }));
 }
 
-/**
- * Records a purchase order in Supabase.
- */
 export async function recordLivePurchaseOrder(
   client: SupabaseClient,
   po: PurchaseOrder
 ): Promise<PurchaseOrder> {
   const warehouseId = await getDefaultWarehouseId(client);
 
+  let poNumber = po.poNumber;
+  try {
+    const { data: seqNo } = await client.rpc('generate_po_no');
+    if (seqNo) poNumber = seqNo;
+  } catch {
+    // fallback if rpc not present
+  }
+
   const payload: any = {
-    po_no: po.poNumber,
-    po_number: po.poNumber,
+    po_no: poNumber,
+    po_number: poNumber,
     supplier_id: po.supplierId,
-    order_date: new Date().toISOString().split('T')[0],
+    order_date: new Date().toISOString(),
     total: po.totalAmount,
     total_amount: po.totalAmount,
     status: po.status
@@ -701,7 +660,7 @@ export async function recordLivePurchaseOrder(
   } else {
     const minPayload = {
       supplier_id: po.supplierId,
-      order_date: new Date().toISOString().split('T')[0],
+      order_date: new Date().toISOString(),
       total: po.totalAmount,
       status: po.status
     };
@@ -720,14 +679,12 @@ export async function recordLivePurchaseOrder(
   return {
     ...po,
     id: newPo.id,
-    poNumber: newPo.po_no || newPo.po_number || po.poNumber,
+    poNumber: newPo.po_no || newPo.po_number || poNumber,
+    date: newPo.order_date || new Date().toISOString(),
     syncStatus: 'synced'
   };
 }
 
-/**
- * Records a supplier payment in Supabase.
- */
 export async function recordLiveSupplierPayment(
   client: SupabaseClient,
   supplierId: string,
@@ -750,9 +707,6 @@ export async function recordLiveSupplierPayment(
   }
 }
 
-/**
- * Fetches expenses from Supabase.
- */
 export async function fetchLiveExpenses(client: SupabaseClient): Promise<ExpenseItem[]> {
   const { data, error } = await client
     .from('expenses')
@@ -781,9 +735,43 @@ export async function fetchLiveExpenses(client: SupabaseClient): Promise<Expense
   }));
 }
 
-/**
- * Computes live financial metrics from Supabase data.
- */
+export async function createLiveExpense(
+  client: SupabaseClient,
+  expense: Omit<ExpenseItem, 'id'>
+): Promise<ExpenseItem> {
+  const warehouseId = await getDefaultWarehouseId(client);
+  const payMethodId = await getPaymentMethodId(client, expense.paidVia === 'Bank' ? 'BANK_TRANSFER' : 'CASH');
+
+  const payload: any = {
+    expense_no: `EXP-${Date.now().toString().slice(-6)}`,
+    category: expense.category,
+    description: expense.description,
+    amount: expense.amount,
+    expense_date: expense.date || new Date().toISOString()
+  };
+  if (warehouseId) payload.warehouse_id = warehouseId;
+  if (payMethodId) payload.payment_method_id = payMethodId;
+
+  const { data, error } = await client
+    .from('expenses')
+    .insert(payload)
+    .select('*')
+    .single();
+
+  if (error || !data) {
+    throw new Error(`Failed to create expense: ${error?.message || 'Database error'}`);
+  }
+
+  return {
+    id: data.id,
+    category: data.category,
+    description: data.description,
+    amount: Number(data.amount || 0),
+    date: data.expense_date || expense.date,
+    paidVia: expense.paidVia
+  };
+}
+
 export function computeFinancialOverview(
   products: Product[],
   customers: Customer[],
@@ -796,35 +784,69 @@ export function computeFinancialOverview(
   const supplierPayables = suppliers.reduce((sum, s) => sum + (s.outstandingPayable || 0), 0);
 
   const todayStr = new Date().toISOString().split('T')[0];
+  const currentMonthPrefix = todayStr.slice(0, 7);
+
+  const isToday = (dateStr?: string) => {
+    if (!dateStr) return false;
+    if (dateStr.includes('Today') || dateStr.includes('Just now')) return true;
+    if (dateStr.startsWith(todayStr)) return true;
+    try {
+      return new Date(dateStr).toISOString().split('T')[0] === todayStr;
+    } catch {
+      return false;
+    }
+  };
+
+  const isCurrentMonth = (dateStr?: string) => {
+    if (!dateStr) return false;
+    if (dateStr.includes('Today') || dateStr.includes('Just now') || dateStr.includes('Current')) return true;
+    if (dateStr.startsWith(currentMonthPrefix)) return true;
+    try {
+      return new Date(dateStr).toISOString().startsWith(currentMonthPrefix);
+    } catch {
+      return false;
+    }
+  };
+
   const todaySales = sales
-    .filter(s => s.date === todayStr || s.date.includes('Today'))
+    .filter(s => isToday(s.date))
     .reduce((sum, s) => sum + s.totalAmount, 0);
 
   const todayPurchases = purchases
-    .filter(p => p.date === todayStr || p.date.includes('Today'))
+    .filter(p => isToday(p.date))
     .reduce((sum, p) => sum + p.totalAmount, 0);
 
   const lowStockCount = products.filter(p => p.status === 'low_stock' || p.status === 'out_of_stock').length;
 
-  const totalSalesRevenue = sales.reduce((sum, s) => sum + s.totalAmount, 0);
+  const monthlySales = sales
+    .filter(s => isCurrentMonth(s.date))
+    .reduce((sum, s) => sum + s.totalAmount, 0);
+
+  const monthlyExpenses = expenses
+    .filter(e => isCurrentMonth(e.date))
+    .reduce((sum, e) => sum + e.amount, 0);
+
+  const monthlyPurchases = purchases
+    .filter(p => isCurrentMonth(p.date))
+    .reduce((sum, p) => sum + p.totalAmount, 0);
+
+  const totalPaidSales = sales.reduce((sum, s) => sum + (s.paidAmount || 0), 0);
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const totalPurchasesCost = purchases.reduce((sum, p) => sum + p.totalAmount, 0);
 
   return {
-    cashInHand: 142500, // Drawer float
-    bankBalance: 845200 + (todaySales * 0.7) - (todayPurchases * 0.4),
+    cashInHand: 0,
+    bankBalance: Math.max(0, totalPaidSales - totalExpenses - totalPurchasesCost),
     customerReceivables,
     supplierPayables,
-    todaySales: todaySales || 125000,
-    todayPurchases: todayPurchases || 48000,
+    todaySales,
+    todayPurchases,
     lowStockCount,
-    monthlyNetProfit: Math.max(120000, totalSalesRevenue * 0.25 - totalExpenses),
-    monthlyExpenses: totalExpenses || 94500
+    monthlyNetProfit: monthlySales - monthlyExpenses - monthlyPurchases,
+    monthlyExpenses
   };
 }
 
-/**
- * Safely migrates local storage demo data to Supabase without destroying existing cloud data.
- */
 export async function migrateLocalStateToSupabase(
   client: SupabaseClient,
   localState: ERPStoreState
@@ -842,7 +864,6 @@ export async function migrateLocalStateToSupabase(
   try {
     const warehouseId = await getDefaultWarehouseId(client);
 
-    // 1. Migrate Products
     for (const p of localState.products) {
       try {
         const catId = await getCategoryId(client, p.category);
@@ -880,7 +901,6 @@ export async function migrateLocalStateToSupabase(
       }
     }
 
-    // 2. Migrate Customers
     for (const c of localState.customers) {
       try {
         const { error } = await client.from('customers').insert({
@@ -897,7 +917,6 @@ export async function migrateLocalStateToSupabase(
       }
     }
 
-    // 3. Migrate Suppliers
     for (const s of localState.suppliers) {
       try {
         const { error } = await client.from('suppliers').insert({

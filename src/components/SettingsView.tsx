@@ -70,7 +70,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
               : 'text-[#64748B] hover:text-[#0F172A]'
           }`}
         >
-          Company Profile (Screen 36)
+          Company Profile
         </button>
         <button
           onClick={() => setActiveTab('users')}
@@ -80,7 +80,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
               : 'text-[#64748B] hover:text-[#0F172A]'
           }`}
         >
-          Users &amp; Access Roles (Screen 37)
+          Users &amp; Access Roles
         </button>
         <button
           onClick={() => setActiveTab('database')}
@@ -98,7 +98,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
         <form onSubmit={handleCompanySubmit} className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-2xl space-y-5">
           <div className="border-b pb-3 border-[#E2E8F0] flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-[#0F172A]">Company Profile (Screen 36)</h3>
+              <h3 className="text-base font-bold text-[#0F172A]">Company Profile</h3>
               <p className="text-xs text-[#64748B]">These details update the dashboard, sidebar, invoices, and reports dynamically</p>
             </div>
             {saveSuccess && (
@@ -197,14 +197,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
         <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
           <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-[#0F172A]">Users &amp; Access Roles (Screen 37)</h3>
+              <h3 className="text-sm font-bold text-[#0F172A]">Users &amp; Access Roles</h3>
               <p className="text-xs text-[#64748B]">Role-based access control and branch permissions</p>
             </div>
             <button
               onClick={() => onNavigate('38_login')}
               className="px-3 py-1 text-xs font-medium text-[#2563EB] bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 cursor-pointer"
             >
-              Test Login Session (Screen 38)
+              Sign In / Session
             </button>
           </div>
           <table className="w-full text-left text-sm">
@@ -219,30 +219,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
             </thead>
             <tbody className="divide-y divide-[#E2E8F0]">
               <tr>
-                <td className="py-3 px-4 font-semibold text-[#0F172A]">Kasun Perera</td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">kasun@zaidtrading.lk</td>
-                <td className="py-3 px-4 font-medium text-blue-700">Store Manager</td>
-                <td className="py-3 px-4 text-xs">Main Warehouse (MW-01)</td>
-                <td className="py-3 px-4 text-center">
-                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#0F172A]">Mohamed Zaid</td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">zaid@zaidtrading.lk</td>
-                <td className="py-3 px-4 font-medium text-purple-700">Administrator</td>
-                <td className="py-3 px-4 text-xs">All Nodes &amp; Financials</td>
-                <td className="py-3 px-4 text-center">
-                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#0F172A]">Nimal Fernando</td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">nimal@zaidtrading.lk</td>
-                <td className="py-3 px-4 font-medium text-slate-700">Cashier</td>
-                <td className="py-3 px-4 text-xs">Sales Invoicing Only</td>
-                <td className="py-3 px-4 text-center">
-                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
+                <td colSpan={5} className="py-8 text-center text-[#64748B] text-xs">
+                  No additional user roles assigned. Manage authenticated accounts in the Supabase Console.
                 </td>
               </tr>
             </tbody>
@@ -271,9 +249,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
 
           {diagnostics ? (
             <div className="space-y-4">
-              {/* Diagnostic Checklist */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                {/* Item 1: Config */}
                 <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-slate-700">1. Environment Configuration</span>
@@ -291,7 +267,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   </p>
                 </div>
 
-                {/* Item 2: Client Initialized */}
                 <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-slate-700">2. Supabase SDK Client</span>
@@ -309,7 +284,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   </p>
                 </div>
 
-                {/* Item 3: Session */}
                 <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-slate-700">3. Auth Session</span>
@@ -329,7 +303,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   </p>
                 </div>
 
-                {/* Item 4: Table Read & Schema */}
                 <div className="p-3.5 rounded-lg border bg-slate-50 border-slate-200 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-slate-700">4. Harmless Table Read</span>
@@ -348,7 +321,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                 </div>
               </div>
 
-              {/* Active Storage Engine Banner */}
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#2563EB]">storage</span>
@@ -358,11 +330,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Zaid Trading ERP uses PostgreSQL on Supabase with atomic stock locks, true double-entry journal balance triggers, and Row-Level Security (RLS). When signed in via <strong>Screen 38 (Login)</strong>, all catalog products, customer accounts, sales invoices, and stock movements are synchronized in real-time with the cloud database.
+                  Zaid Trading ERP uses PostgreSQL on Supabase with atomic stock locks, double-entry journal balance triggers, and Row-Level Security (RLS). All catalog products, customer accounts, sales invoices, and stock movements are synchronized in real-time with the cloud database.
                 </p>
               </div>
 
-              {/* Safe Cloud Data Migration & Backup Utilities */}
               <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3 bg-white">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -386,7 +357,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ state, onNavigate, o
                   </button>
                 </div>
                 <p className="text-xs text-slate-500">
-                  Local ERP records are never deleted automatically. You can export a snapshot of your local data at any time.
+                  Local ERP records are preserved safely. You can export a snapshot of your data at any time.
                 </p>
               </div>
             </div>

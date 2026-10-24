@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ERPStoreState } from '../lib/erpStore';
+import { ERPStoreState, generateNextPoNo, formatDate } from '../lib/erpStore';
 import { PurchaseOrder, ScreenId } from '../types/erp';
 
 interface PurchasesViewProps {
@@ -17,13 +17,24 @@ export const PurchasesView: React.FC<PurchasesViewProps> = ({ state, onNavigate,
 
   const handleCreatePO = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedSupplier || state.suppliers.length === 0) {
+      alert('Please add at least one supplier first.');
+      return;
+    }
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      alert('Please enter a valid bill amount.');
+      return;
+    }
+
+    const nextPoNo = generateNextPoNo(state.purchases);
     const newPO: PurchaseOrder = {
       id: `po-${Date.now()}`,
-      poNumber: `PO-2024-0${Math.floor(313 + Math.random() * 20)}`,
-      supplierId: selectedSupplierId,
+      poNumber: nextPoNo,
+      supplierId: selectedSupplierId || selectedSupplier.id,
       supplierName: selectedSupplier.name,
-      date: 'Today, Just now',
-      totalAmount: parseFloat(amount) || 50000,
+      date: new Date().toISOString(),
+      totalAmount: parsedAmount,
       status: 'Received'
     };
     onRecordPurchase(newPO);
@@ -43,21 +54,27 @@ export const PurchasesView: React.FC<PurchasesViewProps> = ({ state, onNavigate,
             onClick={() => onNavigate('14_receive_stock')}
             className="px-3.5 py-2 bg-white border border-[#E2E8F0] hover:bg-slate-50 text-[#0F172A] text-sm font-medium rounded-xl shadow-sm cursor-pointer"
           >
-            Receive Stock / GRN (Screen 14)
+            Receive Stock / GRN
           </button>
           <button
-            onClick={() => setShowCreate(true)}
+            onClick={() => {
+              if (state.suppliers.length === 0) {
+                alert('Please add at least one supplier first.');
+                return;
+              }
+              setShowCreate(true);
+            }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-medium rounded-xl shadow-sm cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">add_shopping_cart</span>
-            <span>New Purchase Order (Screen 12)</span>
+            <span>New Purchase Order</span>
           </button>
         </div>
       </div>
 
       <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
-          <h3 className="text-sm font-bold text-[#0F172A]">Purchase Orders Log (Screen 11)</h3>
+          <h3 className="text-sm font-bold text-[#0F172A]">Purchase Orders Log</h3>
           <span className="text-xs text-[#64748B]">{state.purchases.length} Records</span>
         </div>
         <table className="w-full text-left border-collapse">
@@ -72,29 +89,37 @@ export const PurchasesView: React.FC<PurchasesViewProps> = ({ state, onNavigate,
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E2E8F0] text-sm">
-            {state.purchases.map(po => (
-              <tr key={po.id} className="hover:bg-slate-50 transition-colors">
-                <td className="py-3 px-4 font-semibold text-[#0F172A] tabular-nums">{po.poNumber}</td>
-                <td className="py-3 px-4 font-medium text-[#0F172A]">{po.supplierName}</td>
-                <td className="py-3 px-4 text-[#64748B] text-xs">{po.date}</td>
-                <td className="py-3 px-4 font-semibold text-right tabular-nums text-[#0F172A]">
-                  Rs. {po.totalAmount.toLocaleString()}
-                </td>
-                <td className="py-3 px-4 text-center">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    {po.status}
-                  </span>
-                </td>
-                <td className="py-3 px-4 text-right">
-                  <button
-                    onClick={() => onNavigate('13_purchase_details_print')}
-                    className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
-                  >
-                    Details (Screen 13)
-                  </button>
+            {state.purchases.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="py-8 text-center text-[#64748B] text-xs">
+                  No purchase orders recorded yet.
                 </td>
               </tr>
-            ))}
+            ) : (
+              state.purchases.map(po => (
+                <tr key={po.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-[#0F172A] tabular-nums">{po.poNumber}</td>
+                  <td className="py-3 px-4 font-medium text-[#0F172A]">{po.supplierName}</td>
+                  <td className="py-3 px-4 text-[#64748B] text-xs">{formatDate(po.date)}</td>
+                  <td className="py-3 px-4 font-semibold text-right tabular-nums text-[#0F172A]">
+                    Rs. {po.totalAmount.toLocaleString()}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {po.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => onNavigate('13_purchase_details_print')}
+                      className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
+                    >
+                      Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -103,7 +128,7 @@ export const PurchasesView: React.FC<PurchasesViewProps> = ({ state, onNavigate,
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
-              <h3 className="text-base font-bold text-[#0F172A]">Create Purchase Order (Screen 12)</h3>
+              <h3 className="text-base font-bold text-[#0F172A]">Create Purchase Order</h3>
               <button onClick={() => setShowCreate(false)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
               </button>

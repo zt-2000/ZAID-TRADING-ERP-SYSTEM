@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ERPStoreState } from '../lib/erpStore';
+import { ERPStoreState, generateNextInvoiceNo, formatDate } from '../lib/erpStore';
 import { SaleInvoice, ScreenId } from '../types/erp';
 
 interface SalesViewProps {
@@ -16,7 +16,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
   initialMode = 'list'
 }) => {
   const [mode, setMode] = useState<'list' | 'create' | 'print'>(initialMode);
-  const [selectedInvoice, setSelectedInvoice] = useState<SaleInvoice>(state.recentSales[0]);
+  const [selectedInvoice, setSelectedInvoice] = useState<SaleInvoice | null>(state.recentSales[0] || null);
 
   // Create form state
   const [selectedCustomerId, setSelectedCustomerId] = useState(state.customers[0]?.id || '');
@@ -35,15 +35,21 @@ export const SalesView: React.FC<SalesViewProps> = ({
   const handleCreateInvoice = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+    if (!selectedCustomer || !selectedProduct) {
+      alert('Please add at least one customer and one product before creating an invoice.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
+      const nextInvNo = generateNextInvoiceNo(state.recentSales);
       const newInv: SaleInvoice = {
         id: `inv-${Date.now()}`,
-        invoiceNo: `INV-2024-0${Math.floor(892 + Math.random() * 50)}`,
-        customerId: selectedCustomerId,
+        invoiceNo: nextInvNo,
+        customerId: selectedCustomerId || selectedCustomer.id,
         customerName: selectedCustomer.name,
         customerType: selectedCustomer.accountType,
-        date: 'Today, Just now',
+        date: new Date().toISOString(),
         totalAmount: total,
         paidAmount: total,
         status: 'Paid',
@@ -77,11 +83,17 @@ export const SalesView: React.FC<SalesViewProps> = ({
           )}
           {mode !== 'create' && (
             <button
-              onClick={() => setMode('create')}
+              onClick={() => {
+                if (state.customers.length === 0 || state.products.length === 0) {
+                  alert('Please add at least one customer and product first.');
+                  return;
+                }
+                setMode('create');
+              }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-medium rounded-xl shadow-sm cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">add</span>
-              <span>Create Invoice (Screen 07)</span>
+              <span>Create Invoice</span>
             </button>
           )}
         </div>
@@ -90,7 +102,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
       {mode === 'list' && (
         <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
           <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
-            <h3 className="text-sm font-bold text-[#0F172A]">Sales Invoices (Screen 06)</h3>
+            <h3 className="text-sm font-bold text-[#0F172A]">Sales Invoices</h3>
             <span className="text-xs text-[#64748B]">{state.recentSales.length} Total Records</span>
           </div>
           <table className="w-full text-left border-collapse">
@@ -105,44 +117,52 @@ export const SalesView: React.FC<SalesViewProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E2E8F0] text-sm">
-              {state.recentSales.map(inv => (
-                <tr key={inv.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-4 font-semibold text-[#0F172A] tabular-nums">{inv.invoiceNo}</td>
-                  <td className="py-3 px-4">
-                    <div className="font-medium text-[#0F172A]">{inv.customerName}</div>
-                    <div className="text-xs text-[#64748B]">{inv.customerType}</div>
-                  </td>
-                  <td className="py-3 px-4 text-[#64748B] text-xs">{inv.date}</td>
-                  <td className="py-3 px-4 font-semibold text-right tabular-nums text-[#0F172A]">
-                    Rs. {inv.totalAmount.toLocaleString()}
-                  </td>
-                  <td className="py-3 px-4 text-center">
-                    <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-                        inv.status === 'Paid'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : inv.status === 'Pending'
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-rose-50 text-rose-700 border border-rose-200'
-                      }`}
-                    >
-                      {inv.status}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 text-right">
-                    <button
-                      onClick={() => {
-                        setSelectedInvoice(inv);
-                        setMode('print');
-                      }}
-                      className="px-2.5 py-1 text-xs font-medium text-[#2563EB] hover:bg-blue-50 rounded border border-blue-200 cursor-pointer inline-flex items-center gap-1"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">receipt</span>
-                      <span>Print</span>
-                    </button>
+              {state.recentSales.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-[#64748B] text-xs">
+                    No sales invoices recorded yet.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                state.recentSales.map(inv => (
+                  <tr key={inv.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-semibold text-[#0F172A] tabular-nums">{inv.invoiceNo}</td>
+                    <td className="py-3 px-4">
+                      <div className="font-medium text-[#0F172A]">{inv.customerName}</div>
+                      <div className="text-xs text-[#64748B]">{inv.customerType}</div>
+                    </td>
+                    <td className="py-3 px-4 text-[#64748B] text-xs">{formatDate(inv.date)}</td>
+                    <td className="py-3 px-4 font-semibold text-right tabular-nums text-[#0F172A]">
+                      Rs. {inv.totalAmount.toLocaleString()}
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
+                          inv.status === 'Paid'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : inv.status === 'Pending'
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                            : 'bg-rose-50 text-rose-700 border border-rose-200'
+                        }`}
+                      >
+                        {inv.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right">
+                      <button
+                        onClick={() => {
+                          setSelectedInvoice(inv);
+                          setMode('print');
+                        }}
+                        className="px-2.5 py-1 text-xs font-medium text-[#2563EB] hover:bg-blue-50 rounded border border-blue-200 cursor-pointer inline-flex items-center gap-1"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">receipt</span>
+                        <span>Print</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -151,7 +171,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
       {mode === 'create' && (
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm max-w-3xl mx-auto space-y-6">
           <div className="border-b pb-3 border-[#E2E8F0]">
-            <h3 className="text-lg font-bold text-[#0F172A]">Create Wholesale Invoice (Screen 07)</h3>
+            <h3 className="text-lg font-bold text-[#0F172A]">Create Wholesale Invoice</h3>
             <p className="text-xs text-[#64748B]">Issue official tax invoice to buyer</p>
           </div>
           <form onSubmit={handleCreateInvoice} className="space-y-4">
@@ -208,7 +228,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
               </div>
 
               <div className="flex justify-between items-center pt-2 text-xs text-[#64748B]">
-                <span>Unit Price: Rs. {selectedProduct?.sellingPrice}</span>
+                <span>Unit Price: Rs. {selectedProduct?.sellingPrice || 0}</span>
                 <span>Subtotal: Rs. {subtotal.toLocaleString()}</span>
               </div>
             </div>
@@ -254,16 +274,16 @@ export const SalesView: React.FC<SalesViewProps> = ({
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-8 shadow-sm max-w-2xl mx-auto space-y-6">
           <div className="flex items-start justify-between border-b pb-4 border-[#E2E8F0]">
             <div>
-              <h2 className="text-xl font-bold text-[#0F172A]">ZAID TRADING (PVT) LTD</h2>
-              <p className="text-xs text-[#64748B]">Wholesale FMCG & General Merchandise</p>
-              <p className="text-xs text-[#64748B]">Main Warehouse, Colombo 15, Sri Lanka</p>
+              <h2 className="text-xl font-bold text-[#0F172A]">{state.companySettings.name || 'Company Profile'}</h2>
+              <p className="text-xs text-[#64748B]">{state.companySettings.tradeName || 'Wholesale Trading'}</p>
+              <p className="text-xs text-[#64748B]">{state.companySettings.address || ''}</p>
             </div>
             <div className="text-right">
               <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold rounded-full">
                 OFFICIAL INVOICE
               </span>
               <p className="text-xs font-mono font-bold mt-2 text-[#0F172A]">{selectedInvoice.invoiceNo}</p>
-              <p className="text-[11px] text-[#64748B]">{selectedInvoice.date}</p>
+              <p className="text-[11px] text-[#64748B]">{formatDate(selectedInvoice.date)}</p>
             </div>
           </div>
 
@@ -300,7 +320,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
           </table>
 
           <div className="border-t border-[#E2E8F0] pt-4 flex justify-between items-center">
-            <span className="text-xs text-[#64748B]">Authorized Signatory: Kasun Perera</span>
+            <span className="text-xs text-[#64748B]">Authorized Signature: ___________________</span>
             <div className="text-right">
               <span className="text-xs text-[#64748B] block">Grand Total</span>
               <span className="text-xl font-bold text-[#0F172A] tabular-nums">
@@ -321,7 +341,7 @@ export const SalesView: React.FC<SalesViewProps> = ({
               className="px-4 py-2 bg-[#2563EB] text-white rounded-lg text-xs font-semibold hover:bg-[#1D4ED8] cursor-pointer inline-flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">print</span>
-              <span>Print Invoice (Screen 08)</span>
+              <span>Print Invoice</span>
             </button>
           </div>
         </div>

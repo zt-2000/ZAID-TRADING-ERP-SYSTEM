@@ -5,14 +5,12 @@ interface SidebarProps {
   currentScreen: ScreenId;
   onNavigate: (screen: ScreenId) => void;
   companyName?: string;
-  onOpenScreenModal?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   currentScreen,
   onNavigate,
-  companyName = 'ZAID TRADING (PVT) LTD',
-  onOpenScreenModal
+  companyName = 'ZAID TRADING (PVT) LTD'
 }) => {
   const menuNavItems: { id: ScreenId; label: string; icon: string; category: string }[] = [
     { id: '01_dashboard', label: 'Dashboard', icon: 'grid_view', category: 'dashboard' },
@@ -78,8 +76,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Grouped Navigation List matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
-        <nav className="px-3 py-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-140px)] text-xs">
+        {/* Grouped Navigation List */}
+        <nav className="px-3 py-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-80px)] text-xs">
           {/* Section 1: MENU */}
           <div className="flex flex-col gap-1">
             <span className="px-3 text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase mb-1">
@@ -132,7 +130,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             })}
           </div>
 
-          {/* Section 3: TOOLS / SETTINGS */}
+          {/* Section 3: SETTINGS */}
           <div className="flex flex-col gap-1">
             <span className="px-3 text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase mb-1">
               SETTINGS &amp; TOOLS
@@ -155,26 +153,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </nav>
       </div>
-
-      {/* Footer / 38-Screen Index Picker */}
-      <div className="p-3 border-t border-[#E2E8F0] flex flex-col gap-1.5 bg-[#F8FAFC]">
-        {onOpenScreenModal && (
-          <button
-            onClick={onOpenScreenModal}
-            className="flex items-center justify-between px-3 py-2 rounded-xl text-[12px] font-medium text-[#2563EB] bg-[#EFF6FF] hover:bg-blue-100 transition-colors cursor-pointer border border-blue-200 shadow-xs"
-            title="Browse all 38 Stitch screens"
-          >
-            <span className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[16px]">grid_view</span>
-              <span className="font-semibold">38 Stitch Screens</span>
-            </span>
-            <span className="text-[10px] font-bold bg-white px-1.5 py-0.5 rounded text-[#2563EB] border border-blue-200">
-              AUDIT
-            </span>
-          </button>
-        )}
-      </div>
     </aside>
   );
 };
-

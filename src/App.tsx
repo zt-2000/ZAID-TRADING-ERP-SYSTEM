@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder, CompanySettings } from './types/erp';
+import { ScreenId, Product, Customer, Supplier, SaleInvoice, PurchaseOrder, CompanySettings, ExpenseItem } from './types/erp';
 import { loadERPState, saveERPState, ERPStoreState } from './lib/erpStore';
 import { getSupabaseClient, checkSupabaseConnection } from './lib/supabase';
 import {
@@ -16,6 +16,7 @@ import {
   recordLivePurchaseOrder,
   recordLiveSupplierPayment,
   fetchLiveExpenses,
+  createLiveExpense,
   computeFinancialOverview
 } from './lib/supabaseService';
 import { Sidebar } from './components/Sidebar';
@@ -28,15 +29,14 @@ import { PurchasesView } from './components/PurchasesView';
 import { CustomersView } from './components/CustomersView';
 import { SuppliersView } from './components/SuppliersView';
 import { AccountingView } from './components/AccountingView';
+import { PaymentsExpensesView } from './components/PaymentsExpensesView';
 import { SettingsView } from './components/SettingsView';
 import { LoginView } from './components/LoginView';
 import { GenericStitchScreenView } from './components/GenericStitchScreenView';
-import { ScreenCatalogModal } from './components/ScreenCatalogModal';
 
 export const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<ScreenId>('01_dashboard');
   const [erpState, setErpState] = useState<ERPStoreState>(loadERPState);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [supabaseConnected, setSupabaseConnected] = useState(false);
   const [isLoadingCloud, setIsLoadingCloud] = useState(false);
 
@@ -124,37 +124,32 @@ export const App: React.FC = () => {
         })
       ]);
 
-      // If database returned records, update state
-      if (prods && custs && supps && sales && purchases && expenses) {
-        const nextProducts = prods.length > 0 ? prods : erpState.products;
-        const nextCustomers = custs.length > 0 ? custs : erpState.customers;
-        const nextSuppliers = supps.length > 0 ? supps : erpState.suppliers;
-        const nextSales = sales.length > 0 ? sales : erpState.recentSales;
-        const nextPurchases = purchases.length > 0 ? purchases : erpState.purchases;
-        const nextExpenses = expenses.length > 0 ? expenses : erpState.expenses;
+      // If database returned valid responses, update state using exactly what DB returned
+      if (prods !== null && custs !== null && supps !== null && sales !== null && purchases !== null && expenses !== null) {
+        setErpState(prev => {
+          const nextFinancials = computeFinancialOverview(
+            prods,
+            custs,
+            supps,
+            sales,
+            purchases,
+            expenses
+          );
 
-        const nextFinancials = computeFinancialOverview(
-          nextProducts,
-          nextCustomers,
-          nextSuppliers,
-          nextSales,
-          nextPurchases,
-          nextExpenses
-        );
+          const cloudState: ERPStoreState = {
+            companySettings: prev.companySettings,
+            products: prods,
+            customers: custs,
+            suppliers: supps,
+            recentSales: sales,
+            purchases: purchases,
+            expenses: expenses,
+            financials: nextFinancials
+          };
 
-        const cloudState: ERPStoreState = {
-          companySettings: erpState.companySettings,
-          products: nextProducts,
-          customers: nextCustomers,
-          suppliers: nextSuppliers,
-          recentSales: nextSales,
-          purchases: nextPurchases,
-          expenses: nextExpenses,
-          financials: nextFinancials
-        };
-
-        setErpState(cloudState);
-        saveERPState(cloudState);
+          saveERPState(cloudState);
+          return cloudState;
+        });
         showToast('Connected to Supabase. Loaded live cloud ERP records.', 'success');
       }
     } catch (err: any) {
@@ -163,7 +158,7 @@ export const App: React.FC = () => {
     } finally {
       setIsLoadingCloud(false);
     }
-  }, [erpState, showToast]);
+  }, [showToast]);
 
   useEffect(() => {
     checkSupabaseConnection().then(res => {
@@ -510,6 +505,57 @@ export const App: React.FC = () => {
     saveERPState(nextState);
   };
 
+  const handleAddExpense = async (newExpenseData: Omit<ExpenseItem, 'id'>) => {
+    const client = getSupabaseClient();
+    if (cloudStatus.mode === 'cloud_authenticated' && client) {
+      try {
+        const saved = await createLiveExpense(client, newExpenseData);
+        const nextExpenses = [saved, ...erpState.expenses];
+        const nextFinancials = computeFinancialOverview(
+          erpState.products,
+          erpState.customers,
+          erpState.suppliers,
+          erpState.recentSales,
+          erpState.purchases,
+          nextExpenses
+        );
+        const nextState = { ...erpState, expenses: nextExpenses, financials: nextFinancials };
+        setErpState(nextState);
+        saveERPState(nextState);
+        showToast(`Expense "${saved.description}" saved to Supabase cloud database.`, 'success');
+        return;
+      } catch (err: any) {
+        showToast(`Supabase Expense Error: ${err.message}`, 'error');
+        console.error('Failed to save expense to Supabase:', err);
+        return;
+      }
+    }
+
+    const newExpense: ExpenseItem = {
+      ...newExpenseData,
+      id: `exp-${Date.now()}`
+    };
+    const nextExpenses = [newExpense, ...erpState.expenses];
+    const nextMonthlyExpenses = erpState.financials.monthlyExpenses + newExpense.amount;
+    const nextBank = newExpense.paidVia === 'Bank' ? Math.max(0, erpState.financials.bankBalance - newExpense.amount) : erpState.financials.bankBalance;
+    const nextCash = newExpense.paidVia === 'Cash' ? Math.max(0, erpState.financials.cashInHand - newExpense.amount) : erpState.financials.cashInHand;
+
+    const nextState: ERPStoreState = {
+      ...erpState,
+      expenses: nextExpenses,
+      financials: {
+        ...erpState.financials,
+        cashInHand: nextCash,
+        bankBalance: nextBank,
+        monthlyExpenses: nextMonthlyExpenses,
+        monthlyNetProfit: erpState.financials.monthlyNetProfit - newExpense.amount
+      }
+    };
+    setErpState(nextState);
+    saveERPState(nextState);
+    showToast(`Expense "${newExpense.description}" saved locally.`, 'info');
+  };
+
   const handleSaveCompanySettings = async (newSettings: CompanySettings) => {
     const nextState: ERPStoreState = {
       ...erpState,
@@ -566,12 +612,11 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* Sidebar Navigation matching Stitch & 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
+      {/* Sidebar Navigation */}
       <Sidebar
         currentScreen={currentScreen}
         onNavigate={handleNavigate}
         companyName={erpState.companySettings?.name}
-        onOpenScreenModal={() => setIsModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -584,7 +629,6 @@ export const App: React.FC = () => {
           companyName={erpState.companySettings?.name}
           cloudStatus={cloudStatus}
           pendingSyncCount={pendingSyncCount}
-          onOpenScreenModal={() => setIsModalOpen(true)}
         />
 
         {/* Content Container */}
@@ -690,6 +734,16 @@ export const App: React.FC = () => {
             />
           )}
 
+          {/* Screens 23, 24: Payments & Expenses */}
+          {(currentScreen === '23_payments_expenses' || currentScreen === '24_add_expense') && (
+            <PaymentsExpensesView
+              state={erpState}
+              onNavigate={handleNavigate}
+              onAddExpense={handleAddExpense}
+              initialMode={currentScreen === '24_add_expense' ? 'create' : 'list'}
+            />
+          )}
+
           {/* Screens 25, 26, 27, 28, 29, 30, 31, 32: Accounting */}
           {(currentScreen === '25_accounting_overview' ||
             currentScreen === '26_cash_bank_book' ||
@@ -746,6 +800,8 @@ export const App: React.FC = () => {
             '20_suppliers_management',
             '21_add_edit_supplier',
             '22_supplier_details_statement',
+            '23_payments_expenses',
+            '24_add_expense',
             '25_accounting_overview',
             '26_cash_bank_book',
             '27_chart_of_accounts',
@@ -766,14 +822,6 @@ export const App: React.FC = () => {
           )}
         </main>
       </div>
-
-      {/* 38-Screen Catalog Modal */}
-      <ScreenCatalogModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        currentScreen={currentScreen}
-        onSelectScreen={handleNavigate}
-      />
     </div>
   );
 };

@@ -21,7 +21,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
   const [payAmount, setPayAmount] = useState('');
   const [payMethod, setPayMethod] = useState<'Commercial Bank' | 'Cash in Hand'>('Commercial Bank');
 
-  // Form states for Add Supplier (Screen 21)
+  // Form states for Add Supplier
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -63,7 +63,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text">
-      {/* Top Header & Actions (Matches Stitch Screen 20 lines 6-28) */}
+      {/* Top Header & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-6">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2.5">
@@ -88,12 +88,12 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             className="inline-flex items-center gap-2 px-4 h-[38px] rounded-[10px] bg-[#2563EB] text-white hover:bg-[#1D4ED8] text-sm font-medium shadow-sm cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
-            <span>Add Supplier (Screen 21)</span>
+            <span>Add Supplier</span>
           </button>
         </div>
       </div>
 
-      {/* KPI Metric Cards Grid (Matches Stitch Screen 20 lines 30-75) */}
+      {/* KPI Metric Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1: Total Suppliers */}
         <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm flex flex-col justify-between">
@@ -152,7 +152,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
       {/* Suppliers Table */}
       <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
-          <h3 className="text-sm font-bold text-[#0F172A]">Registered Vendors (Screen 20)</h3>
+          <h3 className="text-sm font-bold text-[#0F172A]">Registered Vendors</h3>
           <span className="text-xs text-[#64748B]">{state.suppliers.length} Records</span>
         </div>
         <table className="w-full text-left border-collapse text-sm">
@@ -167,48 +167,56 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E2E8F0]">
-            {state.suppliers.map(s => (
-              <tr key={s.id} className="hover:bg-slate-50 transition-colors">
-                <td className="py-3 px-4 font-semibold text-[#0F172A]">{s.name}</td>
-                <td className="py-3 px-4 text-xs font-mono">{s.phone}</td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">{s.email || '—'}</td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">{s.address}</td>
-                <td className="py-3 px-4 text-right font-bold tabular-nums text-slate-800">
-                  Rs. {s.outstandingPayable.toLocaleString()}
-                </td>
-                <td className="py-3 px-4 text-right space-x-2">
-                  <button
-                    onClick={() => setSelectedSupplier(s)}
-                    className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
-                  >
-                    Statement (Screen 22)
-                  </button>
-                  {s.outstandingPayable > 0 && (
-                    <button
-                      onClick={() => {
-                        setShowPayModal(s);
-                        setPayAmount(String(s.outstandingPayable));
-                      }}
-                      className="px-2.5 py-1 text-xs bg-[#2563EB] text-white hover:bg-[#1D4ED8] rounded cursor-pointer"
-                    >
-                      Pay (Screen 15)
-                    </button>
-                  )}
+            {state.suppliers.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="py-8 text-center text-[#64748B] text-xs">
+                  No supplier accounts registered yet.
                 </td>
               </tr>
-            ))}
+            ) : (
+              state.suppliers.map(s => (
+                <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-[#0F172A]">{s.name}</td>
+                  <td className="py-3 px-4 text-xs font-mono">{s.phone}</td>
+                  <td className="py-3 px-4 text-xs text-[#64748B]">{s.email || '—'}</td>
+                  <td className="py-3 px-4 text-xs text-[#64748B]">{s.address}</td>
+                  <td className="py-3 px-4 text-right font-bold tabular-nums text-slate-800">
+                    Rs. {s.outstandingPayable.toLocaleString()}
+                  </td>
+                  <td className="py-3 px-4 text-right space-x-2">
+                    <button
+                      onClick={() => setSelectedSupplier(s)}
+                      className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
+                    >
+                      Statement
+                    </button>
+                    {s.outstandingPayable > 0 && (
+                      <button
+                        onClick={() => {
+                          setShowPayModal(s);
+                          setPayAmount(String(s.outstandingPayable));
+                        }}
+                        className="px-2.5 py-1 text-xs bg-[#2563EB] text-white hover:bg-[#1D4ED8] rounded cursor-pointer"
+                      >
+                        Pay
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Supplier Statement Modal (Screen 22) */}
+      {/* Supplier Statement Modal */}
       {selectedSupplier && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-lg w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
               <div>
                 <h3 className="text-base font-bold text-[#0F172A]">{selectedSupplier.name}</h3>
-                <p className="text-xs text-[#64748B]">Supplier Statement &amp; AP Ledger (Screen 22)</p>
+                <p className="text-xs text-[#64748B]">Supplier Statement &amp; AP Ledger</p>
               </div>
               <button onClick={() => setSelectedSupplier(null)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
@@ -250,19 +258,19 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                 }}
                 className="px-4 py-1.5 bg-[#2563EB] text-white rounded-lg text-xs font-semibold hover:bg-[#1D4ED8] cursor-pointer"
               >
-                Record Payment (Screen 15)
+                Record Payment
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Pay Supplier Modal (Screen 15) */}
+      {/* Pay Supplier Modal */}
       {showPayModal && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
-              <h3 className="text-base font-bold text-[#0F172A]">Record Supplier Payment (Screen 15)</h3>
+              <h3 className="text-base font-bold text-[#0F172A]">Record Supplier Payment</h3>
               <button onClick={() => setShowPayModal(null)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
               </button>
@@ -289,7 +297,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   onChange={e => setPayMethod(e.target.value as any)}
                   className="w-full px-3 py-2 border rounded-lg text-sm text-[#0F172A]"
                 >
-                  <option value="Commercial Bank">Commercial Bank Account (#8921)</option>
+                  <option value="Commercial Bank">Commercial Bank Account</option>
                   <option value="Cash in Hand">Cash in Hand / Drawer</option>
                 </select>
               </div>
@@ -313,12 +321,12 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         </div>
       )}
 
-      {/* Add Supplier Modal (Screen 21) */}
+      {/* Add Supplier Modal */}
       {showAdd && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
-              <h3 className="text-base font-bold text-[#0F172A]">Add Supplier (Screen 21)</h3>
+              <h3 className="text-base font-bold text-[#0F172A]">Add Supplier</h3>
               <button onClick={() => setShowAdd(false)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
               </button>

@@ -52,13 +52,13 @@ export const CustomersView: React.FC<CustomersViewProps> = ({ state, onNavigate,
           className="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-medium rounded-xl shadow-sm cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
-          <span>Add Customer (Screen 18)</span>
+          <span>Add Customer</span>
         </button>
       </div>
 
       <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
-          <h3 className="text-sm font-bold text-[#0F172A]">Active Customer Directory (Screen 17)</h3>
+          <h3 className="text-sm font-bold text-[#0F172A]">Active Customer Directory</h3>
           <span className="text-xs text-[#64748B]">{state.customers.length} Accounts Registered</span>
         </div>
         <table className="w-full text-left border-collapse">
@@ -73,47 +73,55 @@ export const CustomersView: React.FC<CustomersViewProps> = ({ state, onNavigate,
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E2E8F0] text-sm">
-            {state.customers.map(c => (
-              <tr key={c.id} className="hover:bg-slate-50 transition-colors">
-                <td className="py-3 px-4">
-                  <div className="font-semibold text-[#0F172A]">{c.name}</div>
-                  <div className="text-xs text-[#64748B]">{c.address}</div>
-                </td>
-                <td className="py-3 px-4">
-                  <span className="px-2 py-0.5 text-xs font-semibold rounded bg-blue-50 text-[#2563EB] border border-blue-100">
-                    {c.accountType}
-                  </span>
-                </td>
-                <td className="py-3 px-4 text-xs text-[#64748B]">
-                  <div>{c.phone}</div>
-                  <div>{c.email}</div>
-                </td>
-                <td className="py-3 px-4 text-xs font-medium text-slate-700">{c.creditDays} Days Net</td>
-                <td className="py-3 px-4 text-right font-semibold tabular-nums text-[#D97706]">
-                  Rs. {c.outstandingBalance.toLocaleString()}
-                </td>
-                <td className="py-3 px-4 text-right">
-                  <button
-                    onClick={() => setSelectedCustomer(c)}
-                    className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
-                  >
-                    View Ledger (Screen 19)
-                  </button>
+            {state.customers.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="py-8 text-center text-[#64748B] text-xs">
+                  No customer accounts registered yet.
                 </td>
               </tr>
-            ))}
+            ) : (
+              state.customers.map(c => (
+                <tr key={c.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="py-3 px-4">
+                    <div className="font-semibold text-[#0F172A]">{c.name}</div>
+                    <div className="text-xs text-[#64748B]">{c.address}</div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 text-xs font-semibold rounded bg-blue-50 text-[#2563EB] border border-blue-100">
+                      {c.accountType}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-xs text-[#64748B]">
+                    <div>{c.phone}</div>
+                    <div>{c.email}</div>
+                  </td>
+                  <td className="py-3 px-4 text-xs font-medium text-slate-700">{c.creditDays} Days Net</td>
+                  <td className="py-3 px-4 text-right font-semibold tabular-nums text-[#D97706]">
+                    Rs. {c.outstandingBalance.toLocaleString()}
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => setSelectedCustomer(c)}
+                      className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
+                    >
+                      View Ledger
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Customer Statement Modal (Screen 19) */}
+      {/* Customer Statement Modal */}
       {selectedCustomer && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-lg w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
               <div>
                 <h3 className="text-base font-bold text-[#0F172A]">{selectedCustomer.name}</h3>
-                <p className="text-xs text-[#64748B]">Customer Statement (Screen 19)</p>
+                <p className="text-xs text-[#64748B]">Customer Statement</p>
               </div>
               <button onClick={() => setSelectedCustomer(null)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
@@ -146,19 +154,19 @@ export const CustomersView: React.FC<CustomersViewProps> = ({ state, onNavigate,
                 onClick={() => onNavigate('09_record_customer_payment')}
                 className="px-4 py-1.5 bg-[#2563EB] text-white rounded-lg text-xs font-semibold hover:bg-[#1D4ED8] cursor-pointer"
               >
-                Record Payment (Screen 09)
+                Record Payment
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Add Customer Modal (Screen 18) */}
+      {/* Add Customer Modal */}
       {showAdd && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
-              <h3 className="text-base font-bold text-[#0F172A]">Add Customer (Screen 18)</h3>
+              <h3 className="text-base font-bold text-[#0F172A]">Add Customer</h3>
               <button onClick={() => setShowAdd(false)} className="text-slate-400 hover:text-[#0F172A] cursor-pointer">
                 <span className="material-symbols-outlined">close</span>
               </button>

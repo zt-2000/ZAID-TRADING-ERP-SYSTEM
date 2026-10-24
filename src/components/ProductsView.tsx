@@ -19,7 +19,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showAddModal, setShowAddModal] = useState(initialShowAddModal);
 
-  // Form states for Add Product (Screen 03)
+  // Form states for Add Product
   const [name, setName] = useState('');
   const [sku, setSku] = useState('');
   const [category, setCategory] = useState('Dairy & Beverages');
@@ -98,7 +98,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
         </div>
       </div>
 
-      {/* KPI Cards (Matches Stitch Screen 02) */}
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex items-start justify-between">
           <div className="flex flex-col">
@@ -181,54 +181,62 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E2E8F0]">
-              {filtered.map(product => {
-                const isLow = product.currentStock <= product.minStockAlert;
-                return (
-                  <tr key={product.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="font-medium text-[14px] text-[#0F172A]">{product.name}</div>
-                      <div className="text-xs text-[#64748B]">Unit: {product.unit}</div>
-                    </td>
-                    <td className="py-3 px-4 text-[13px] font-mono text-slate-600">{product.sku}</td>
-                    <td className="py-3 px-4 text-[13px] text-[#64748B]">{product.category}</td>
-                    <td className="py-3 px-4 text-[13px] text-right font-medium tabular-nums">
-                      Rs. {product.costPrice.toFixed(2)}
-                    </td>
-                    <td className="py-3 px-4 text-[13px] text-right font-semibold text-[#0F172A] tabular-nums">
-                      Rs. {product.sellingPrice.toFixed(2)}
-                    </td>
-                    <td className="py-3 px-4 text-right tabular-nums">
-                      <span className={`font-semibold ${isLow ? 'text-rose-600 font-bold' : 'text-slate-800'}`}>
-                        {product.currentStock} {product.unit}s
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-                          isLow
-                            ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                            : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        }`}
-                      >
-                        {isLow ? 'Low Stock' : 'Active'}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-[#64748B] text-xs">
+                    No products found.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map(product => {
+                  const isLow = product.currentStock <= product.minStockAlert;
+                  return (
+                    <tr key={product.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-4">
+                        <div className="font-medium text-[14px] text-[#0F172A]">{product.name}</div>
+                        <div className="text-xs text-[#64748B]">Unit: {product.unit}</div>
+                      </td>
+                      <td className="py-3 px-4 text-[13px] font-mono text-slate-600">{product.sku}</td>
+                      <td className="py-3 px-4 text-[13px] text-[#64748B]">{product.category}</td>
+                      <td className="py-3 px-4 text-[13px] text-right font-medium tabular-nums">
+                        Rs. {product.costPrice.toFixed(2)}
+                      </td>
+                      <td className="py-3 px-4 text-[13px] text-right font-semibold text-[#0F172A] tabular-nums">
+                        Rs. {product.sellingPrice.toFixed(2)}
+                      </td>
+                      <td className="py-3 px-4 text-right tabular-nums">
+                        <span className={`font-semibold ${isLow ? 'text-rose-600 font-bold' : 'text-slate-800'}`}>
+                          {product.currentStock} {product.unit}s
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            isLow
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                              : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          }`}
+                        >
+                          {isLow ? 'Low Stock' : 'Active'}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* Add Product Modal (Screen 03) */}
+      {/* Add Product Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[1px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl border border-[#E2E8F0] max-w-lg w-full p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#2563EB]">add_circle</span>
-                <h3 className="text-lg font-bold text-[#0F172A]">Add New Product (Screen 03)</h3>
+                <h3 className="text-lg font-bold text-[#0F172A]">Add New Product</h3>
               </div>
               <button
                 onClick={() => setShowAddModal(false)}

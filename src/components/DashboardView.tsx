@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ERPStoreState } from '../lib/erpStore';
+import { ERPStoreState, formatDate } from '../lib/erpStore';
 import { ScreenId } from '../types/erp';
 
 interface DashboardViewProps {
@@ -11,7 +11,6 @@ interface DashboardViewProps {
 export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate, onSync }) => {
   const [syncing, setSyncing] = useState(false);
   const [selectedInvoiceForModal, setSelectedInvoiceForModal] = useState<string | null>(null);
-  const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
 
   const companyName = state.companySettings?.name || 'ZAID TRADING (PVT) LTD';
 
@@ -25,41 +24,83 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
 
   const activeInvoice = state.recentSales.find(s => s.invoiceNo === selectedInvoiceForModal) || state.recentSales[0];
 
-  // Monthly sales & purchase chart sample data calculated from real figures & defaults
-  const chartMonths = [
-    { month: 'Jan', sales: 42000, purchases: 18000 },
-    { month: 'Feb', sales: 58000, purchases: 24000 },
-    { month: 'Mar', sales: 49000, purchases: 21000 },
-    { month: 'Apr', sales: 72000, purchases: 31000 },
-    { month: 'May', sales: 64000, purchases: 27000 },
-    { month: 'Jun', sales: 81000, purchases: 38000 },
-    { month: 'Jul', sales: 95000, purchases: 42000 },
-  ];
+  const totalProductsSold = state.recentSales.reduce((sum, s) => sum + (s.itemsCount || 1), 0);
+  const totalPendingInvoices = state.recentSales.filter(s => s.status === 'Pending' || s.status === 'Overdue').length;
+  const totalSupplierAccounts = state.suppliers.length;
 
-  // Compute category statistics from products
   const categoryStats = React.useMemo(() => {
     const counts: Record<string, number> = {};
     state.products.forEach(p => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
+      const cat = p.category || 'General';
+      counts[cat] = (counts[cat] || 0) + 1;
     });
-    return [
-      { name: 'Dairy & Beverages', count: counts['Dairy & Beverages'] || 14, growth: '+5.34%', color: '#3B82F6' },
-      { name: 'Flour & Bakery', count: counts['Flour & Bakery'] || 8, growth: '+2.30%', color: '#EF4444' },
-      { name: 'Snacks & Biscuits', count: counts['Snacks & Biscuits'] || 12, growth: '+1.80%', color: '#94A3B8' },
-      { name: 'Grains & Rice', count: counts['Grains & Rice'] || 6, growth: '-1.04%', color: '#F59E0B' },
-    ];
+    const entries = Object.entries(counts);
+    const colors = ['#3B82F6', '#EF4444', '#94A3B8', '#F59E0B', '#10B981'];
+    return entries.map(([name, count], index) => ({
+      name,
+      count,
+      color: colors[index % colors.length]
+    }));
   }, [state.products]);
+
+  // Last 7 months chart data computation
+  const monthlyChartData = React.useMemo(() => {
+    const result: Array<{ label: string; key: string; sales: number; purchases: number }> = [];
+    const now = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const key = `${year}-${month}`;
+      const label = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      result.push({ label, key, sales: 0, purchases: 0 });
+    }
+
+    const matchMonth = (dateStr?: string) => {
+      if (!dateStr) return '';
+      if (dateStr.includes('Today') || dateStr.includes('Just now')) {
+        return new Date().toISOString().slice(0, 7);
+      }
+      if (dateStr.length >= 7) {
+        return dateStr.slice(0, 7);
+      }
+      try {
+        return new Date(dateStr).toISOString().slice(0, 7);
+      } catch {
+        return '';
+      }
+    };
+
+    state.recentSales.forEach(s => {
+      const mKey = matchMonth(s.date);
+      const found = result.find(r => r.key === mKey);
+      if (found) {
+        found.sales += s.totalAmount;
+      }
+    });
+
+    state.purchases.forEach(p => {
+      const mKey = matchMonth(p.date);
+      const found = result.find(r => r.key === mKey);
+      if (found) {
+        found.purchases += p.totalAmount;
+      }
+    });
+
+    return result;
+  }, [state.recentSales, state.purchases]);
+
+  const hasAnyChartData = monthlyChartData.some(m => m.sales > 0 || m.purchases > 0);
+  const maxChartValue = Math.max(1, ...monthlyChartData.map(m => Math.max(m.sales, m.purchases)));
 
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text bg-[#F8FAFC]">
-      {/* 1. Top Header / Welcome Banner */}
+      {/* Top Header / Welcome Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-[26px] font-extrabold text-[#0F172A] tracking-tight leading-tight">
-              Sales Report &amp; Dashboard
-            </h1>
-          </div>
+          <h1 className="text-[26px] font-extrabold text-[#0F172A] tracking-tight leading-tight">
+            Sales Report &amp; Dashboard
+          </h1>
           <p className="text-[13px] font-medium text-[#64748B] mt-0.5">
             Trading Operations for <span className="font-bold text-[#0F172A]">{companyName}</span> · Main Warehouse (MW-01)
           </p>
@@ -84,27 +125,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
         </div>
       </div>
 
-      {/* 2. Top Summary Metric Cards Grid (Total Sales, Purchases, Receivables, Payables) */}
+      {/* Top Summary Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* Card 1: Total Sales */}
+        {/* Card 1: Today's Sales */}
         <div className="bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8] rounded-2xl p-5 text-white shadow-md flex flex-col justify-between relative overflow-hidden group">
           <div className="flex items-start justify-between">
             <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[22px] text-white">payments</span>
             </div>
-            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#22C55E] text-white shadow-xs">
-              +2.08%
+            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 text-white shadow-xs">
+              LKR
             </span>
           </div>
 
           <div className="mt-4">
-            <span className="text-xs font-medium text-blue-100 uppercase tracking-wider block">Total Sales (Today)</span>
+            <span className="text-xs font-medium text-blue-100 uppercase tracking-wider block">Today's Sales</span>
             <div className="text-[28px] font-extrabold mt-1 tracking-tight tabular-nums">
               Rs. {state.financials.todaySales.toLocaleString()}
             </div>
             <div className="text-[11px] text-blue-100/90 mt-1 flex items-center justify-between">
-              <span>Products vs last month</span>
-              <span className="font-semibold text-white">LKR</span>
+              <span>Recorded today</span>
+              <span className="font-semibold text-white">{state.recentSales.length} Invoices</span>
             </div>
           </div>
         </div>
@@ -115,8 +156,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#3B82F6] flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[22px]">shopping_bag</span>
             </div>
-            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +12.4%
+            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+              LKR
             </span>
           </div>
 
@@ -126,7 +167,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
               Rs. {state.financials.todayPurchases.toLocaleString()}
             </div>
             <div className="text-[11px] text-[#64748B] mt-1 flex items-center justify-between">
-              <span>Orders vs last month</span>
+              <span>Purchase Orders</span>
               <span className="font-medium text-slate-700">{state.purchases.length} POs</span>
             </div>
           </div>
@@ -138,8 +179,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#3B82F6] flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[22px]">account_balance_wallet</span>
             </div>
-            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +12.1%
+            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">
+              LKR
             </span>
           </div>
 
@@ -150,19 +191,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             </div>
             <div className="text-[11px] text-[#64748B] mt-1 flex items-center justify-between">
               <span>Outstanding balance</span>
-              <span className="font-semibold text-amber-700">14 pending</span>
+              <span className="font-semibold text-amber-700">{totalPendingInvoices} pending</span>
             </div>
           </div>
         </div>
 
-        {/* Card 4: Customer Payables (Placed NEXT TO Customer Receivables) */}
+        {/* Card 4: Customer Payables */}
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs flex flex-col justify-between hover:border-slate-300 transition-all">
           <div className="flex items-start justify-between">
             <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[22px]">request_quote</span>
             </div>
-            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +4.12%
+            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">
+              LKR
             </span>
           </div>
 
@@ -173,13 +214,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             </div>
             <div className="text-[11px] text-[#64748B] mt-1 flex items-center justify-between font-medium">
               <span>Outstanding payables</span>
-              <span className="font-semibold text-slate-700">2 accounts</span>
+              <span className="font-semibold text-slate-700">{totalSupplierAccounts} accounts</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Accounting & Financial Overview Section (Positioned UNDER Total Sales, Receivables & Payables) */}
+      {/* Accounting & Financial Overview Section */}
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs transition-all hover:border-slate-300">
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#E2E8F0]">
           <div className="flex items-center gap-2.5">
@@ -202,7 +243,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
               Rs. {state.financials.cashInHand.toLocaleString()}
             </div>
-            <span className="text-[11px] text-[#64748B] mt-0.5 block">Drawer &amp; Petty Cash</span>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Drawer Float</span>
           </div>
 
           <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
@@ -210,7 +251,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
               Rs. {state.financials.bankBalance.toLocaleString()}
             </div>
-            <span className="text-[11px] text-[#64748B] mt-0.5 block">Commercial Bank</span>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Bank Account</span>
           </div>
 
           <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
@@ -218,7 +259,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-[#3B82F6] tabular-nums mt-1">
               Rs. {state.financials.customerReceivables.toLocaleString()}
             </div>
-            <span className="text-[11px] text-[#3B82F6] mt-0.5 block">14 pending invoices</span>
+            <span className="text-[11px] text-[#3B82F6] mt-0.5 block">{totalPendingInvoices} pending invoices</span>
           </div>
 
           <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
@@ -226,7 +267,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-amber-600 tabular-nums mt-1">
               Rs. {state.financials.supplierPayables.toLocaleString()}
             </div>
-            <span className="text-[11px] text-amber-700 mt-0.5 block">2 supplier accounts</span>
+            <span className="text-[11px] text-amber-700 mt-0.5 block">{totalSupplierAccounts} supplier accounts</span>
           </div>
 
           <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
@@ -234,7 +275,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-emerald-600 tabular-nums mt-1">
               Rs. {state.financials.monthlyNetProfit.toLocaleString()}
             </div>
-            <span className="text-[11px] text-emerald-700 mt-0.5 block">+18.4% margin</span>
+            <span className="text-[11px] text-emerald-700 mt-0.5 block">Calculated</span>
           </div>
 
           <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
@@ -242,79 +283,73 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
             <div className="text-[17px] font-extrabold text-[#0F172A] tabular-nums mt-1">
               Rs. {state.financials.monthlyExpenses.toLocaleString()}
             </div>
-            <span className="text-[11px] text-[#64748B] mt-0.5 block">Utilities &amp; Transport</span>
+            <span className="text-[11px] text-[#64748B] mt-0.5 block">Total Expenses</span>
           </div>
         </div>
       </div>
 
-      {/* 4. Middle Grid: Sales & Purchase Activity Chart & Category Statistics */}
+      {/* Middle Grid: Sales & Purchase Activity Chart & Category Statistics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sales and Purchase Chart Card */}
         <div className="lg:col-span-2 bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-2xs flex flex-col justify-between space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-[18px] font-bold text-[#0F172A] tracking-tight">Sales and Purchase</h2>
-              <p className="text-xs text-[#64748B]">Monthly sales volume vs purchase volume</p>
+              <p className="text-xs text-[#64748B]">Real-time sales &amp; purchase order comparison for the last 7 months</p>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B] mr-2">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
-                  <span>Sales Volume</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#CBD5E1]"></span>
-                  <span>Purchase Volume</span>
-                </span>
-              </div>
-              <select className="px-3 py-1.5 bg-slate-50 border border-[#CBD5E1] rounded-xl text-xs font-semibold text-[#0F172A] focus:outline-none">
-                <option>This year</option>
-                <option>This month</option>
-              </select>
+            <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B]">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+                <span>Sales Volume</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#CBD5E1]"></span>
+                <span>Purchase Volume</span>
+              </span>
             </div>
           </div>
 
-          {/* Interactive Dual Bar Chart Simulation (Sales vs Purchases) */}
-          <div className="relative pt-6 pb-2 px-2 h-64 flex items-end justify-between gap-3 border-b border-slate-100">
-            {chartMonths.map((item, index) => {
-              const maxVal = 100000;
-              const salesHeightPct = Math.round((item.sales / maxVal) * 100);
-              const purHeightPct = Math.round((item.purchases / maxVal) * 100);
-
-              return (
-                <div
-                  key={item.month}
-                  className="flex-1 flex flex-col items-center gap-2 h-full justify-end group cursor-pointer"
-                  onMouseEnter={() => setHoveredBarIndex(index)}
-                  onMouseLeave={() => setHoveredBarIndex(null)}
-                >
-                  {/* Tooltip on Hover */}
-                  {hoveredBarIndex === index && (
-                    <div className="absolute top-2 bg-[#0F172A] text-white text-[11px] py-1.5 px-3 rounded-xl shadow-lg z-10 font-mono flex flex-col gap-0.5">
-                      <span className="font-bold text-blue-300">{item.month} Summary</span>
-                      <span>Sales: Rs. {item.sales.toLocaleString()}</span>
-                      <span>Purchases: Rs. {item.purchases.toLocaleString()}</span>
+          {hasAnyChartData ? (
+            <div className="space-y-4 pt-2">
+              <div className="flex items-end justify-between gap-2 h-48 pt-6 px-2 border-b border-slate-100">
+                {monthlyChartData.map((item, idx) => {
+                  const salesHeight = Math.max(6, Math.round((item.sales / maxChartValue) * 140));
+                  const purHeight = Math.max(6, Math.round((item.purchases / maxChartValue) * 140));
+                  return (
+                    <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+                      <div className="w-full flex items-end justify-center gap-1 h-36">
+                        {/* Sales Bar */}
+                        <div
+                          className="w-3.5 bg-[#3B82F6] rounded-t-md transition-all group-hover:brightness-110 relative"
+                          style={{ height: `${salesHeight}px` }}
+                          title={`Sales: Rs. ${item.sales.toLocaleString()}`}
+                        ></div>
+                        {/* Purchase Bar */}
+                        <div
+                          className="w-3.5 bg-[#CBD5E1] rounded-t-md transition-all group-hover:brightness-95 relative"
+                          style={{ height: `${purHeight}px` }}
+                          title={`Purchases: Rs. ${item.purchases.toLocaleString()}`}
+                        ></div>
+                      </div>
+                      <span className="text-[10px] font-bold text-[#64748B] truncate max-w-[60px] text-center" title={item.label}>
+                        {item.label.split(' ')[0]}
+                      </span>
                     </div>
-                  )}
-
-                  <div className="w-full flex items-end justify-center gap-1.5 h-full">
-                    {/* Primary Bar (Sales) */}
-                    <div
-                      style={{ height: `${salesHeightPct}%` }}
-                      className="w-1/2 max-w-[20px] bg-[#3B82F6] rounded-t-lg transition-all duration-300 group-hover:bg-[#1D4ED8]"
-                    ></div>
-                    {/* Secondary Bar (Purchases) */}
-                    <div
-                      style={{ height: `${purHeightPct}%` }}
-                      className="w-1/2 max-w-[20px] bg-[#CBD5E1] rounded-t-lg transition-all duration-300 group-hover:bg-slate-400"
-                    ></div>
-                  </div>
-
-                  <span className="text-[12px] font-semibold text-[#64748B]">{item.month}</span>
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-slate-500 px-2">
+                <span>Last 7 Months Comparison</span>
+                <span className="font-semibold text-slate-700">Peak: Rs. {maxChartValue.toLocaleString()}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="py-8 text-center text-xs text-[#64748B] bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+              <span className="material-symbols-outlined text-[32px] text-slate-400 block">bar_chart</span>
+              <p className="font-semibold text-slate-700">No data yet</p>
+              <p className="text-[11px]">As you record sales invoices and purchase orders, financial activity trends will be displayed here.</p>
+            </div>
+          )}
         </div>
 
         {/* Product Category Statistics */}
@@ -322,50 +357,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-[18px] font-bold text-[#0F172A] tracking-tight">Product Statistic</h2>
-              <p className="text-xs text-[#64748B]">Track sales by product category</p>
+              <p className="text-xs text-[#64748B]">Catalog overview by category</p>
             </div>
-            <select className="px-2.5 py-1 bg-slate-50 border border-[#CBD5E1] rounded-lg text-xs font-bold text-[#0F172A]">
-              <option>Today</option>
-              <option>This Week</option>
-            </select>
           </div>
 
-          {/* Central Radial Progress Representation */}
           <div className="relative py-4 flex flex-col items-center justify-center">
-            <div className="w-36 h-36 rounded-full border-[10px] border-blue-500 border-t-red-500 border-r-slate-300 flex items-center justify-center shadow-inner">
+            <div className="w-36 h-36 rounded-full border-[10px] border-blue-500 flex items-center justify-center shadow-inner">
               <div className="text-center">
-                <span className="text-2xl font-black text-[#0F172A] tabular-nums block">9,829</span>
-                <span className="text-[11px] font-semibold text-[#64748B] block">Products Sales</span>
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full inline-block mt-0.5">
-                  +5.34%
-                </span>
+                <span className="text-2xl font-black text-[#0F172A] tabular-nums block">{totalProductsSold}</span>
+                <span className="text-[11px] font-semibold text-[#64748B] block">Total Items Sold</span>
               </div>
             </div>
           </div>
 
-          {/* Category Breakdown Table */}
           <div className="space-y-3 pt-2 border-t border-slate-100">
-            {categoryStats.map(cat => (
-              <div key={cat.name} className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cat.color }}></span>
-                  <span className="font-semibold text-[#0F172A]">{cat.name}</span>
+            {categoryStats.length > 0 ? (
+              categoryStats.map(cat => (
+                <div key={cat.name} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cat.color }}></span>
+                    <span className="font-semibold text-[#0F172A]">{cat.name}</span>
+                  </div>
+                  <span className="font-bold text-[#0F172A] tabular-nums">{cat.count} product{cat.count > 1 ? 's' : ''}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-[#0F172A] tabular-nums">{cat.count.toLocaleString()}</span>
-                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                    cat.growth.startsWith('+') ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
-                  }`}>
-                    {cat.growth}
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-xs text-slate-500 text-center py-2">No product categories registered yet.</p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* 5. Bottom Grid: Recent Sales Transactions & Quick Operations */}
+      {/* Bottom Grid: Recent Sales Transactions & Quick Operations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Recent Sales Table */}
         <div className="lg:col-span-2 bg-white border border-[#E2E8F0] rounded-2xl shadow-2xs flex flex-col overflow-hidden">
@@ -389,55 +412,63 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
                 <tr className="bg-slate-50 border-b border-[#E2E8F0]">
                   <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase">Invoice No</th>
                   <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase">Customer</th>
-                  <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase">Date &amp; Time</th>
+                  <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase">Date</th>
                   <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase text-right">Amount (LKR)</th>
                   <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase text-center">Status</th>
                   <th className="py-3 px-4 text-[11px] font-bold text-[#64748B] tracking-wider uppercase text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E2E8F0] text-xs">
-                {state.recentSales.slice(0, 5).map(sale => (
-                  <tr key={sale.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-[#0F172A] tabular-nums">
-                      <button
-                        onClick={() => setSelectedInvoiceForModal(sale.invoiceNo)}
-                        className="hover:text-[#3B82F6] cursor-pointer text-left"
-                      >
-                        {sale.invoiceNo}
-                      </button>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <div className="font-bold text-[#0F172A]">{sale.customerName}</div>
-                      <div className="text-[11px] text-[#64748B]">{sale.customerType}</div>
-                    </td>
-                    <td className="py-3.5 px-4 text-[#64748B]">{sale.date}</td>
-                    <td className="py-3.5 px-4 font-extrabold text-[#0F172A] text-right tabular-nums">
-                      Rs. {sale.totalAmount.toLocaleString()}
-                    </td>
-                    <td className="py-3.5 px-4 text-center">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
-                          sale.status === 'Paid'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : sale.status === 'Pending'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-rose-50 text-rose-700 border border-rose-200'
-                        }`}
-                      >
-                        {sale.status}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <button
-                        onClick={() => setSelectedInvoiceForModal(sale.invoiceNo)}
-                        className="p-1 text-slate-400 hover:text-[#0F172A] rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
-                        title="Print / View Invoice"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">receipt</span>
-                      </button>
+                {state.recentSales.length > 0 ? (
+                  state.recentSales.slice(0, 5).map(sale => (
+                    <tr key={sale.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-[#0F172A] tabular-nums">
+                        <button
+                          onClick={() => setSelectedInvoiceForModal(sale.invoiceNo)}
+                          className="hover:text-[#3B82F6] cursor-pointer text-left"
+                        >
+                          {sale.invoiceNo}
+                        </button>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <div className="font-bold text-[#0F172A]">{sale.customerName}</div>
+                        <div className="text-[11px] text-[#64748B]">{sale.customerType}</div>
+                      </td>
+                      <td className="py-3.5 px-4 text-[#64748B]">{formatDate(sale.date)}</td>
+                      <td className="py-3.5 px-4 font-extrabold text-[#0F172A] text-right tabular-nums">
+                        Rs. {sale.totalAmount.toLocaleString()}
+                      </td>
+                      <td className="py-3.5 px-4 text-center">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+                            sale.status === 'Paid'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : sale.status === 'Pending'
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                              : 'bg-rose-50 text-rose-700 border border-rose-200'
+                          }`}
+                        >
+                          {sale.status}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <button
+                          onClick={() => setSelectedInvoiceForModal(sale.invoiceNo)}
+                          className="p-1 text-slate-400 hover:text-[#0F172A] rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                          title="Print / View Invoice"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">receipt</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-xs text-[#64748B]">
+                      No recent sales transactions found.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -495,7 +526,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ state, onNavigate,
       </div>
 
       {/* Invoice Details Print Preview Modal */}
-      {selectedInvoiceForModal && (
+      {selectedInvoiceForModal && activeInvoice && (
         <div className="fixed inset-0 bg-[#0F172A]/40 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl border border-[#CBD5E1] max-w-lg w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between border-b pb-3 border-[#E2E8F0]">

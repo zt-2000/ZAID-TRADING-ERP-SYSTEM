@@ -94,16 +94,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onAuthSuccess 
     }
   };
 
-  const setDemoCredentials = (roleEmail: string, name: string) => {
-    setEmail(roleEmail);
-    setPassword('ZaidTrading2024!');
-    setFullName(name);
-    setErrorMsg(null);
-  };
-
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col justify-between p-4 sm:p-6 md:p-8 bg-[#F8FAFC]">
-      {/* Top Simple Brand Utility Bar (Matches Stitch Screen 38) */}
+      {/* Top Header */}
       <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-2">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-[#2563EB] flex items-center justify-center text-white shadow-sm">
@@ -111,7 +104,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onAuthSuccess 
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-bold tracking-tight text-[#0F172A] leading-tight">Zaid Trading ERP</span>
-            <span className="text-[11px] text-[#64748B] font-medium leading-none">Distribution Suite (Screen 38)</span>
+            <span className="text-[11px] text-[#64748B] font-medium leading-none">Distribution Suite</span>
           </div>
         </div>
         
@@ -128,9 +121,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onAuthSuccess 
       {/* Center Card Area */}
       <main className="w-full flex-1 flex items-center justify-center py-8">
         <div className="w-full max-w-[440px]">
-          {/* Card Container */}
           <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm p-7 sm:p-8">
-            {/* Brand Header */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 text-[#2563EB] border border-blue-100 mb-3.5">
                 <span className="material-symbols-outlined text-[24px]">verified_user</span>
@@ -219,7 +210,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onAuthSuccess 
                     <label className="text-xs font-semibold text-[#0F172A]">Password</label>
                     <button
                       type="button"
-                      onClick={() => setErrorMsg('Please contact Mohamed Zaid (Admin) for password reset in the Supabase console.')}
+                      onClick={() => setErrorMsg('Please contact Admin for password reset.')}
                       className="text-[11px] text-[#2563EB] hover:underline"
                     >
                       Forgot?
@@ -278,46 +269,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onAuthSuccess 
                 </div>
               </form>
             )}
-
-            {/* Quick Demo Staff Credentials Selector */}
-            <div className="mt-6 pt-5 border-t border-[#E2E8F0]">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B] mb-2 text-center">
-                Demo Quick-Fill Staff Credentials
-              </div>
-              <div className="grid grid-cols-3 gap-1.5 text-[11px]">
-                <button
-                  type="button"
-                  onClick={() => setDemoCredentials('kasun@zaidtrading.lk', 'Kasun Perera')}
-                  className="p-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-center cursor-pointer"
-                >
-                  <div className="font-semibold text-slate-800">Kasun P.</div>
-                  <div className="text-[10px] text-blue-600">Manager</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDemoCredentials('zaid@zaidtrading.lk', 'Mohamed Zaid')}
-                  className="p-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-center cursor-pointer"
-                >
-                  <div className="font-semibold text-slate-800">M. Zaid</div>
-                  <div className="text-[10px] text-purple-600">Admin</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDemoCredentials('nimal@zaidtrading.lk', 'Nimal Fernando')}
-                  className="p-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-center cursor-pointer"
-                >
-                  <div className="font-semibold text-slate-800">Nimal F.</div>
-                  <div className="text-[10px] text-slate-600">Cashier</div>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="w-full max-w-7xl mx-auto py-3 text-center text-xs text-[#64748B]">
-        Zaid Trading (Pvt) Ltd ERP &copy; 2024. Colombo, Sri Lanka.
+        Zaid Trading ERP &copy; 2024. Colombo, Sri Lanka.
       </footer>
     </div>
   );

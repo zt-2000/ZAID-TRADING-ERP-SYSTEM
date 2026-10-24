@@ -14,7 +14,6 @@ interface HeaderProps {
   companyName?: string;
   cloudStatus?: HeaderCloudStatus;
   pendingSyncCount?: number;
-  onOpenScreenModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -23,8 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   supabaseConnected,
   companyName = 'ZAID TRADING (PVT) LTD',
   cloudStatus,
-  pendingSyncCount = 0,
-  onOpenScreenModal
+  pendingSyncCount = 0
 }) => {
   const todayFormatted = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -34,6 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
   });
 
   const mode = cloudStatus?.mode || (supabaseConnected ? 'cloud_authenticated' : 'local_fallback');
+  const userDisplayName = cloudStatus?.userEmail ? cloudStatus.userEmail.split('@')[0] : 'User';
+  const userInitials = userDisplayName.slice(0, 2).toUpperCase();
 
   return (
     <header className="fixed top-0 left-[250px] right-0 h-16 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0] z-40 flex items-center justify-between px-6 select-none shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right: Actions, Cloud Status, Search, Notification & Profile */}
       <div className="flex items-center gap-3">
-        {/* Search Icon Button (matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg) */}
+        {/* Search Icon Button */}
         <button
           onClick={() => onNavigate('02_products_management')}
           className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200/80 text-[#475569] flex items-center justify-center transition-colors cursor-pointer"
@@ -75,27 +75,16 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="material-symbols-outlined text-[18px]">search</span>
         </button>
 
-        {/* Notification Bell Button with Notification Dot */}
+        {/* Notification Bell Button */}
         <div className="relative">
           <button
             onClick={() => onNavigate('04_inventory_management')}
             className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200/80 text-[#475569] flex items-center justify-center transition-colors cursor-pointer"
-            title="Notifications & Low Stock Alerts"
+            title="Notifications & Stock Alerts"
           >
             <span className="material-symbols-outlined text-[18px]">notifications</span>
           </button>
-          <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white"></span>
         </div>
-
-        {/* 38-Screen Switcher Button */}
-        <button
-          onClick={onOpenScreenModal}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#0F172A] border border-[#CBD5E1] transition-all cursor-pointer"
-          title="Inspect Stitch screens 01 to 38"
-        >
-          <span className="material-symbols-outlined text-[16px] text-[#2563EB]">layers</span>
-          <span>Screens (38)</span>
-        </button>
 
         {/* Cloud Persistence Badge */}
         <button
@@ -120,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
           ></span>
           <span>
             {mode === 'cloud_authenticated'
-              ? `Cloud Sync: Live (${cloudStatus?.userEmail ? cloudStatus.userEmail.split('@')[0] : 'User'})`
+              ? `Cloud Sync: Live (${userDisplayName})`
               : mode === 'cloud_guest'
               ? 'Cloud: Ready (Sign In)'
               : 'Local Fallback'}
@@ -129,14 +118,14 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="h-6 w-px bg-[#E2E8F0]"></div>
 
-        {/* Profile Avatar & Details matching 0326a925dd0e9a63f270e4fb23547a87_a43867bd.jpg */}
+        {/* Profile Avatar & Details */}
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-full bg-[#3B82F6] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
-            KP
+            {userInitials}
           </div>
           <div className="hidden sm:flex flex-col text-left leading-tight">
-            <span className="text-[13px] text-[#0F172A] font-bold">Kasun Perera</span>
-            <span className="text-[11px] text-[#64748B]">Store Manager</span>
+            <span className="text-[13px] text-[#0F172A] font-bold capitalize">{userDisplayName}</span>
+            <span className="text-[11px] text-[#64748B]">System User</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ERPStoreState } from '../lib/erpStore';
-import { ScreenId, Product } from '../types/erp';
+import { ScreenId } from '../types/erp';
 
 interface InventoryMovement {
   id: string;
@@ -31,7 +31,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const [selectedStockFilter, setSelectedStockFilter] = useState<'ALL' | 'LOW' | 'OUT'>('ALL');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Stock Adjustment Form states (Screen 05)
+  // Stock Adjustment Form states
   const [adjustProductId, setAdjustProductId] = useState(state.products[0]?.id || '');
   const [adjustType, setAdjustType] = useState<'increase' | 'decrease'>('increase');
   const [adjustQty, setAdjustQty] = useState(5);
@@ -39,53 +39,8 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const [adjustNotes, setAdjustNotes] = useState('');
   const [adjustmentSubmitted, setAdjustmentSubmitted] = useState(false);
 
-  // Initial movements history (Screen 34)
-  const [movements, setMovements] = useState<InventoryMovement[]>([
-    {
-      id: 'mov-1',
-      date: 'Today, 11:42 AM',
-      referenceNo: 'INV-2024-0891',
-      type: 'Sale',
-      productName: 'Anchor Full Cream Milk Powder 400g',
-      sku: 'MLK-400',
-      change: -14,
-      balanceAfter: 12,
-      reason: 'Wholesale Invoice to Lanka Distributors'
-    },
-    {
-      id: 'mov-2',
-      date: 'Today, 10:15 AM',
-      referenceNo: 'INV-2024-0890',
-      type: 'Sale',
-      productName: 'Prima Special Wheat Flour 1kg',
-      sku: 'FLR-001',
-      change: -6,
-      balanceAfter: 18,
-      reason: 'Regular Buyer: Silva Supermart'
-    },
-    {
-      id: 'mov-3',
-      date: 'Today, 08:30 AM',
-      referenceNo: 'PO-2024-0312',
-      type: 'Purchase',
-      productName: 'Fortune White Rice 5kg',
-      sku: 'RIC-005',
-      change: +50,
-      balanceAfter: 140,
-      reason: 'GRN from Ceylon Grain Mills PLC'
-    },
-    {
-      id: 'mov-4',
-      date: 'Yesterday, 04:30 PM',
-      referenceNo: 'ADJ-2024-0891',
-      type: 'Adjustment',
-      productName: 'Munchee Super Cream Cracker 500g',
-      sku: 'BKT-500',
-      change: -2,
-      balanceAfter: 8,
-      reason: 'Damaged in warehouse transit'
-    }
-  ]);
+  // Movements history ledger
+  const [movements, setMovements] = useState<InventoryMovement[]>([]);
 
   const selectedProductForAdjustment = state.products.find(p => p.id === adjustProductId) || state.products[0];
   const calculatedNewStock = selectedProductForAdjustment
@@ -96,14 +51,17 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
 
   const handleApplyAdjustment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedProductForAdjustment) return;
+    if (!selectedProductForAdjustment) {
+      alert('Please select a valid product to adjust.');
+      return;
+    }
 
     onUpdateProductStock(selectedProductForAdjustment.id, calculatedNewStock);
 
     const newMov: InventoryMovement = {
       id: `mov-${Date.now()}`,
       date: 'Today, Just now',
-      referenceNo: `#ADJ-2024-0892`,
+      referenceNo: `#ADJ-2024-0${Math.floor(892 + Math.random() * 50)}`,
       type: 'Adjustment',
       productName: selectedProductForAdjustment.name,
       sku: selectedProductForAdjustment.sku,
@@ -130,7 +88,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
 
   return (
     <div className="flex flex-col w-full p-6 space-y-6 max-w-[1600px] mx-auto select-text">
-      {/* Page Header (Matches Stitch Screen 04 lines 8-30) */}
+      {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-3">
@@ -160,21 +118,21 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
             }`}
           >
             <span className="material-symbols-outlined text-[18px]">history</span>
-            <span>Stock History (Screen 34)</span>
+            <span>Stock History</span>
           </button>
           <button
             onClick={() => setViewMode('adjustment')}
             className="inline-flex items-center gap-2 h-[38px] px-4 rounded-[10px] bg-[#2563EB] text-white text-sm font-medium hover:bg-[#1D4ED8] active:bg-[#1E40AF] transition-colors shadow-sm cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
-            <span>Stock Adjustment (Screen 05)</span>
+            <span>Stock Adjustment</span>
           </button>
         </div>
       </div>
 
       {viewMode === 'list' && (
         <>
-          {/* Inventory Summary Cards (Matches Stitch Screen 04 lines 31-70) */}
+          {/* Inventory Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Card 1: Total Products */}
             <div className="bg-white p-6 rounded-[10px] border border-[#E2E8F0] shadow-sm flex items-center justify-between">
@@ -259,7 +217,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
             </div>
           </div>
 
-          {/* Inventory Table (Screen 04) */}
+          {/* Inventory Table */}
           <div className="bg-white border border-[#E2E8F0] rounded-[10px] shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
@@ -276,53 +234,61 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E2E8F0] text-sm">
-                  {filteredProducts.map(product => {
-                    const isLow = product.currentStock <= product.minStockAlert;
-                    const valuation = product.costPrice * product.currentStock;
-                    return (
-                      <tr key={product.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="py-3 px-4">
-                          <div className="font-semibold text-[#0F172A]">{product.name}</div>
-                          <div className="text-xs text-[#64748B] font-mono">SKU: {product.sku}</div>
-                        </td>
-                        <td className="py-3 px-4 text-xs text-[#64748B]">{product.category}</td>
-                        <td className="py-3 px-4 text-xs font-medium text-slate-700">Main Warehouse</td>
-                        <td className="py-3 px-4 text-right font-bold tabular-nums">
-                          <span className={isLow ? 'text-rose-600' : 'text-[#0F172A]'}>
-                            {product.currentStock} {product.unit}s
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-right text-xs text-[#64748B] tabular-nums">
-                          {product.minStockAlert} {product.unit}s
-                        </td>
-                        <td className="py-3 px-4 text-right font-medium tabular-nums text-[#0F172A]">
-                          Rs. {valuation.toLocaleString()}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <span
-                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-                              isLow
-                                ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                                : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            }`}
-                          >
-                            {isLow ? 'Low Stock' : 'In Stock'}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-right">
-                          <button
-                            onClick={() => {
-                              setAdjustProductId(product.id);
-                              setViewMode('adjustment');
-                            }}
-                            className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
-                          >
-                            Adjust
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {filteredProducts.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="py-8 text-center text-[#64748B] text-xs">
+                        No inventory products found.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredProducts.map(product => {
+                      const isLow = product.currentStock <= product.minStockAlert;
+                      const valuation = product.costPrice * product.currentStock;
+                      return (
+                        <tr key={product.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-3 px-4">
+                            <div className="font-semibold text-[#0F172A]">{product.name}</div>
+                            <div className="text-xs text-[#64748B] font-mono">SKU: {product.sku}</div>
+                          </td>
+                          <td className="py-3 px-4 text-xs text-[#64748B]">{product.category}</td>
+                          <td className="py-3 px-4 text-xs font-medium text-slate-700">Main Warehouse</td>
+                          <td className="py-3 px-4 text-right font-bold tabular-nums">
+                            <span className={isLow ? 'text-rose-600' : 'text-[#0F172A]'}>
+                              {product.currentStock} {product.unit}s
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right text-xs text-[#64748B] tabular-nums">
+                            {product.minStockAlert} {product.unit}s
+                          </td>
+                          <td className="py-3 px-4 text-right font-medium tabular-nums text-[#0F172A]">
+                            Rs. {valuation.toLocaleString()}
+                          </td>
+                          <td className="py-3 px-4 text-center">
+                            <span
+                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
+                                isLow
+                                  ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              }`}
+                            >
+                              {isLow ? 'Low Stock' : 'In Stock'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              onClick={() => {
+                                setAdjustProductId(product.id);
+                                setViewMode('adjustment');
+                              }}
+                              className="px-2.5 py-1 text-xs text-[#2563EB] hover:bg-blue-50 border border-blue-200 rounded cursor-pointer"
+                            >
+                              Adjust
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
@@ -330,13 +296,13 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         </>
       )}
 
-      {/* Screen 05: Stock Adjustment Form */}
+      {/* Stock Adjustment Form */}
       {viewMode === 'adjustment' && (
         <div className="w-full max-w-[820px] mx-auto bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-6 sm:p-8 flex flex-col gap-6">
           <div className="flex items-center justify-between border-b pb-4 border-[#E2E8F0]">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-[20px] font-bold text-[#0F172A]">Stock Adjustment (Screen 05)</h2>
+                <h2 className="text-[20px] font-bold text-[#0F172A]">Stock Adjustment</h2>
                 <span className="px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-[#2563EB]">
                   Main Warehouse (MW-01)
                 </span>
@@ -368,7 +334,6 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               </select>
             </div>
 
-            {/* Read-only Meta Panel matching Screen 05 lines 60-89 */}
             {selectedProductForAdjustment && (
               <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                 <div>
@@ -459,7 +424,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                 <label className="block text-xs font-semibold text-[#64748B] uppercase mb-1">Internal Reference / Notes</label>
                 <input
                   type="text"
-                  placeholder="e.g. Physical inventory audit by Kasun"
+                  placeholder="e.g. Physical inventory audit"
                   value={adjustNotes}
                   onChange={e => setAdjustNotes(e.target.value)}
                   className="w-full px-3.5 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A]"
@@ -500,12 +465,12 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         </div>
       )}
 
-      {/* Screen 34: Stock Movement History */}
+      {/* Stock Movement History */}
       {viewMode === 'history' && (
         <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
           <div className="p-4 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-[#0F172A]">Stock Movement History (Screen 34)</h3>
+              <h3 className="text-sm font-bold text-[#0F172A]">Stock Movement History</h3>
               <p className="text-xs text-[#64748B]">Audited real-time journal of warehouse changes</p>
             </div>
             <span className="text-xs font-medium text-slate-500">Main Warehouse (MW-01)</span>
@@ -523,38 +488,46 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E2E8F0]">
-              {movements.map(m => (
-                <tr key={m.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-4 text-[#64748B]">{m.date}</td>
-                  <td className="py-3 px-4 font-mono font-semibold text-[#0F172A]">{m.referenceNo}</td>
-                  <td className="py-3 px-4">
-                    <span
-                      className={`px-2 py-0.5 rounded-full font-semibold ${
-                        m.type === 'Purchase'
-                          ? 'bg-blue-50 text-blue-700'
-                          : m.type === 'Sale'
-                          ? 'bg-purple-50 text-purple-700'
-                          : 'bg-amber-50 text-amber-700'
-                      }`}
-                    >
-                      {m.type}
-                    </span>
+              {movements.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-[#64748B] text-xs">
+                    No stock movements recorded yet.
                   </td>
-                  <td className="py-3 px-4">
-                    <div className="font-medium text-[#0F172A]">{m.productName}</div>
-                    <div className="text-[10px] text-[#64748B] font-mono">{m.sku}</div>
-                  </td>
-                  <td className="py-3 px-4 text-right font-bold tabular-nums">
-                    <span className={m.change > 0 ? 'text-emerald-600' : 'text-rose-600'}>
-                      {m.change > 0 ? `+${m.change}` : m.change}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 text-right font-bold tabular-nums text-[#0F172A]">
-                    {m.balanceAfter}
-                  </td>
-                  <td className="py-3 px-4 text-[#64748B]">{m.reason}</td>
                 </tr>
-              ))}
+              ) : (
+                movements.map(m => (
+                  <tr key={m.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 text-[#64748B]">{m.date}</td>
+                    <td className="py-3 px-4 font-mono font-semibold text-[#0F172A]">{m.referenceNo}</td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={`px-2 py-0.5 rounded-full font-semibold ${
+                          m.type === 'Purchase'
+                            ? 'bg-blue-50 text-blue-700'
+                            : m.type === 'Sale'
+                            ? 'bg-purple-50 text-purple-700'
+                            : 'bg-amber-50 text-amber-700'
+                        }`}
+                      >
+                        {m.type}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="font-medium text-[#0F172A]">{m.productName}</div>
+                      <div className="text-[10px] text-[#64748B] font-mono">{m.sku}</div>
+                    </td>
+                    <td className="py-3 px-4 text-right font-bold tabular-nums">
+                      <span className={m.change > 0 ? 'text-emerald-600' : 'text-rose-600'}>
+                        {m.change > 0 ? `+${m.change}` : m.change}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right font-bold tabular-nums text-[#0F172A]">
+                      {m.balanceAfter}
+                    </td>
+                    <td className="py-3 px-4 text-[#64748B]">{m.reason}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
